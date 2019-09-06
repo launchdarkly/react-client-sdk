@@ -1,0 +1,17 @@
+repo:
+  public: react-client-sdk
+  private: react-client-sdk-private
+
+publications:
+  - url: https://www.npmjs.com/package/launchdarkly-react-client-sdk
+    description: npm
+
+template:
+  name: npm
+
+documentation:
+  githubPages: true
+  title: LaunchDarkly React SDK
+
+sdk:
+  displayName: "React"

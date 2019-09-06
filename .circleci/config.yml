@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:11.10.1
+    steps:
+      - checkout
+
+      - run: npm install
+      - run: npm run lint
+      - run: npm run build
+      - run:
+          command: npm test
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+      - run: npm run check-typescript
+      - store_test_results:
+          path: reports/junit/
+      - store_artifacts:
+          path: reports/junit/
