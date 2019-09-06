@@ -7,7 +7,7 @@ import initLDClient from './initLDClient';
 import { camelCaseKeys } from './utils';
 
 /**
- * This is an async function which initialises LaunchDarkly's js client and awaits it so
+ * This is an async function which initializes LaunchDarkly's JS client and awaits it so
  * all flags and the ldClient are ready before the consumer app is rendered.
  *
  * It accepts a config object which is used to initialise launchdarkly-js-client-sdk.
@@ -15,7 +15,7 @@ import { camelCaseKeys } from './utils';
  * - saves all flags and the ldClient instance in the context api
  * - subscribes to flag changes and propagate them through the context api
  *
- * @param config - The configuration used to initialize LaunchDarkly's js client
+ * @param config - The configuration used to initialize LaunchDarkly's JS client
  */
 export default async function asyncCreateLDProvider(config: ProviderConfig) {
   const { clientSideID, user, flags, options, reactOptions: userReactOptions } = config;
