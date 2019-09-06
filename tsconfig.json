@@ -2,7 +2,7 @@
   "compilerOptions": {
     "outDir": "lib",
     "target": "es5",
-    "lib": ["es6", "esnext"],
+    "lib": ["es6", "esnext", "dom"],
     "module": "commonjs",
     "declaration": true,
     "sourceMap": true,
@@ -12,6 +12,9 @@
     "jsx": "react",
     "esModuleInterop": true
   },
+  "files": [
+    "./node_modules/@testing-library/jest-dom/extend-expect.d.ts"
+  ],
   "include": ["src"],
   "exclude": [
     "node_modules",
