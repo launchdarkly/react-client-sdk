@@ -17,14 +17,19 @@ export interface LDReactOptions {
    *
    * For more information, see the React SDK Reference Guide on
    * [flag keys](https://docs.launchdarkly.com/docs/react-sdk-reference#section-flag-keys).
+   *
+   * @see https://docs.launchdarkly.com/docs/react-sdk-reference#section-flag-keys
    */
   useCamelCaseFlagKeys?: boolean;
 }
 
+/**
+ * Contains default values for the `reactOptions` object.
+ */
 export const defaultReactOptions = { useCamelCaseFlagKeys: true };
 
 /**
- * Configuration object used to initialise LaunchDarkly's js client.
+ * Configuration object used to initialise LaunchDarkly's JS client.
  */
 export interface ProviderConfig {
   /**
@@ -57,7 +62,7 @@ export interface ProviderConfig {
   reactOptions?: LDReactOptions;
 
   /**
-   * If specified, launchdarkly-react-client-sdk will only request and listen to these flags.
+   * If specified, `launchdarkly-react-client-sdk` will only request and listen to these flags.
    * Otherwise, all flags will be requested and listened to.
    */
   flags?: LDFlagSet;
@@ -65,6 +70,8 @@ export interface ProviderConfig {
 
 /**
  * The return type of withLDProvider HOC. Exported for testing purposes only.
+ *
+ * @ignore
  */
 export interface EnhancedComponent extends React.Component {
   subscribeToChanges(ldClient: LDClient): void;

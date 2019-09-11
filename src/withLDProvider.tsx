@@ -7,14 +7,16 @@ import initLDClient from './initLDClient';
 import { camelCaseKeys } from './utils';
 
 /**
- * withLDProvider is a function which accepts a config object which is used to initialise launchdarkly-js-client-sdk.
+ * `withLDProvider` is a function which accepts a config object which is used to
+ * initialize `launchdarkly-js-client-sdk`.
  * It returns a function which accepts your root React component and returns a HOC.
  * This HOC does three things:
- * - It initializes the ldClient instance by calling launchdarkly-js-client-sdk initialize on componentDidMount
- * - It saves all flags and the ldClient instance in the context api
- * - It subscribes to flag changes and propagate them through the context api
+ * - It initializes the ldClient instance by calling `launchdarkly-js-client-sdk` initialize on `componentDidMount`
+ * - It saves all flags and the ldClient instance in the context API
+ * - It subscribes to flag changes and propagate them through the context API
  *
- * @param config - The configuration used to initialize LaunchDarkly's js client
+ * @param config - The configuration used to initialize LaunchDarkly's JS SDK
+ * @return A function which accepts your root React component and returns a HOC
  */
 export function withLDProvider(config: ProviderConfig) {
   return function withLDPoviderHoc<P>(WrappedComponent: React.ComponentType<P>) {
