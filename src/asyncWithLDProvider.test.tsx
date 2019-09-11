@@ -6,7 +6,7 @@ import { LDFlagChangeset, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
 import { defaultReactOptions, LDReactOptions, ProviderConfig } from './types';
 import { Consumer } from './context';
-import asyncCreateLDProvider from './asyncCreateLDProvider';
+import asyncWithLDProvider from './asyncWithLDProvider';
 
 const clientSideID = 'deadbeef';
 const user: LDUser = { key: 'yus', name: 'yus ng' };
@@ -16,7 +16,7 @@ const mockFlags = { testFlag: true, anotherTestFlag: true };
 let mockLDClient: { on: jest.Mock };
 
 const renderWithConfig = async (config: ProviderConfig) => {
-  const LDProvider = await asyncCreateLDProvider(config);
+  const LDProvider = await asyncWithLDProvider(config);
 
   const { getByText } = render(
     <LDProvider>
@@ -27,7 +27,7 @@ const renderWithConfig = async (config: ProviderConfig) => {
   return getByText(/^Received:/);
 };
 
-describe('asyncCreateLDProvider', () => {
+describe('asyncWithLDProvider', () => {
   beforeEach(() => {
     mockLDClient = {
       on: jest.fn((e: string, cb: () => void) => {
@@ -46,7 +46,7 @@ describe('asyncCreateLDProvider', () => {
   });
 
   test('provider renders app correctly', async () => {
-    const LDProvider = await asyncCreateLDProvider({ clientSideID });
+    const LDProvider = await asyncWithLDProvider({ clientSideID });
     const { container } = render(
       <LDProvider>
         <App />
@@ -59,13 +59,13 @@ describe('asyncCreateLDProvider', () => {
   test('ldClient is initialised correctly', async () => {
     const options: LDOptions = { bootstrap: {} };
     const reactOptions: LDReactOptions = { useCamelCaseFlagKeys: false };
-    await asyncCreateLDProvider({ clientSideID, user, options, reactOptions });
+    await asyncWithLDProvider({ clientSideID, user, options, reactOptions });
 
     expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, reactOptions, options, undefined);
   });
 
   test('subscribe to changes on mount', async () => {
-    const LDProvider = await asyncCreateLDProvider({ clientSideID });
+    const LDProvider = await asyncWithLDProvider({ clientSideID });
     render(
       <LDProvider>
         <App />
