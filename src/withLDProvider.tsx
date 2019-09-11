@@ -9,7 +9,16 @@ import { camelCaseKeys } from './utils';
 /**
  * withLDProvider is a function which accepts a config object which is used to initialise launchdarkly-js-client-sdk.
  * It returns a function which accepts your root React component and returns a HOC.
- * This HOC does three things:
+ *
+ * The difference between `withLDProvider` and `asyncCreateLDProvider` is that `withLDProvider` initializes
+ * launchdarkly-js-client-sdk at componentDidMount. This means your flags and the ldClient are only available after
+ * your app has mounted. This can result in a flicker due to flag changes at startup time.
+ *
+ * `asyncCreateLDProvider` initializes launchdarkly-js-client-sdk at the entry point of your app prior to render.
+ * This means that your flags and the ldClient are ready at the beginning of your app. This ensures your app does not
+ * flicker due to flag changes at startup time.
+ *
+ * The HOC from withLDProvider does three things:
  * - It initializes the ldClient instance by calling launchdarkly-js-client-sdk initialize on componentDidMount
  * - It saves all flags and the ldClient instance in the context api
  * - It subscribes to flag changes and propagate them through the context api
