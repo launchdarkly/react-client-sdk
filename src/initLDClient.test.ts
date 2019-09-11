@@ -6,7 +6,6 @@ jest.mock('launchdarkly-js-client-sdk', () => {
     initialize: jest.fn(),
   };
 });
-jest.mock('uuid', () => ({ v4: jest.fn() }));
 
 import { initialize, LDClient, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import { defaultReactOptions, LDReactOptions } from './types';

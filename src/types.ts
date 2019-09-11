@@ -75,5 +75,23 @@ export interface ProviderConfig {
  */
 export interface EnhancedComponent extends React.Component {
   subscribeToChanges(ldClient: LDClient): void;
+  // tslint:disable-next-line:invalid-void
   componentDidMount(): Promise<void>;
+}
+
+/**
+ * Return type of `initLDClient`.
+ */
+export interface AllFlagsLDClient {
+  /**
+   * Contains all flags from LaunchDarkly.
+   */
+  flags: LDFlagSet;
+
+  /**
+   * An instance of `LDClient` from the LaunchDarkly JS SDK (`launchdarkly-js-client-sdk`).
+   *
+   * @see http://docs.launchdarkly.com/docs/js-sdk-reference
+   */
+  ldClient: LDClient;
 }

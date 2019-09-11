@@ -10,7 +10,7 @@
 
 ## Supported React versions
 
-This version of the LaunchDarkly SDK is compatible with versions 16.3.0 and later of React because it uses React's Context API. However, if you are using the SDK's Hooks API, then you must use React version 16.8.0 or later.
+This version of the LaunchDarkly SDK is compatible with versions 16.3.0 and later of React because it uses React's Context API. However, if you are using the SDK's Hooks API or `asyncWithLDProvider`, then you must use React version 16.8.0 or later.
 
 Additionally, refer to the [JavaScript SDK README](https://github.com/launchdarkly/js-client-sdk#browser-compatibility) to learn more about browser compatibility.
 

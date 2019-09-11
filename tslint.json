@@ -10,11 +10,13 @@
         "max-line-length": {
             "options": [120]
         },
+        "no-use-before-declare": false,
         "prettier": true,
         "quotemark": [true, "single", "jsx-double"],
         "ordered-imports": false,
         "object-literal-sort-keys": false,
         "arrow-parens": false,
+        "no-for-in": false,
         "forin": false,
         "no-default-export": false,
         "no-default-import": false,

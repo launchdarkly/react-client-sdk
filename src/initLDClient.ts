@@ -1,23 +1,6 @@
 import { initialize as ldClientInitialize, LDClient, LDFlagSet, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
-import { defaultReactOptions, LDReactOptions } from './types';
+import { AllFlagsLDClient, defaultReactOptions, LDReactOptions } from './types';
 import { camelCaseKeys } from './utils';
-
-/**
- * Return type of `initLDClient`.
- */
-interface AllFlagsLDClient {
-  /**
-   * Contains all flags from LaunchDarkly.
-   */
-  flags: LDFlagSet;
-
-  /**
-   * An instance of `LDClient` from the LaunchDarkly JS SDK (`launchdarkly-js-client-sdk`).
-   *
-   * @see http://docs.launchdarkly.com/docs/js-sdk-reference
-   */
-  ldClient: LDClient;
-}
 
 /**
  * Internal function to initialize the `LDClient`.
