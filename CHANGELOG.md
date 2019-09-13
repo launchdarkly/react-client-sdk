@@ -2,6 +2,14 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/master/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.14.0] - 2019-09-12
+### Added:
+- TypeDoc-generated documentation for all public types and methods is now [online](https://launchdarkly.github.io/react-client-sdk/).
+- The `asyncWithLDProvider` function to allow for your flags and the `LDClient` to be ready for use at the beginning of your app's lifecycle.
+
+### Changed:
+- The `launchdarkly-react-client-sdk` package has been moved from the [`js-client-sdk`](https://github.com/launchdarkly/js-client-sdk) monorepo into its [own repository](https://github.com/launchdarkly/react-client-sdk). All subsequent releases will be made from this new repository.
+
 ## [2.13.0] - 2019-08-15
 ### Added:
 - In the React SDK, the new `reactOptions` parameter to `withLDProvider` provides React-specific options that do not affect the underlying JavaScript SDK. Currently, the only such option is `useCamelCaseFlagKeys`, which is true by default but can be set to false to disable the automatic camel-casing of flag keys.
