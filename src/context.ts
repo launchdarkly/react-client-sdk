@@ -12,16 +12,28 @@ interface LDContext {
   flags: LDFlagSet;
 
   /**
-   * The LaunchDarkly client's instance interface. This will be be undefined initially until
-   * initialization is complete.
+   * An instance of `LDClient` from the LaunchDarkly JS SDK (`launchdarkly-js-client-sdk`).
+   * This will be be undefined initially until initialization is complete.
    *
    * @see http://docs.launchdarkly.com/docs/js-sdk-reference
    */
   ldClient?: LDClient;
 }
 
+/**
+ * @ignore
+ */
 const context = createContext<LDContext>({ flags: {}, ldClient: undefined });
-const { Provider, Consumer } = context;
+const {
+  /**
+   * @ignore
+   */
+  Provider,
+  /**
+   * @ignore
+   */
+  Consumer,
+} = context;
 
 export { Provider, Consumer, LDContext };
 export default context;

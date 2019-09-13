@@ -1,15 +1,22 @@
 import { initialize as ldClientInitialize, LDClient, LDFlagSet, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
-import { v4 as uuid } from 'uuid';
+import { AllFlagsLDClient, defaultReactOptions, LDReactOptions } from './types';
 import { camelCaseKeys } from './utils';
 
-interface AllFlagsLDClient {
-  flags: LDFlagSet;
-  ldClient: LDClient;
-}
-
+/**
+ * Internal function to initialize the `LDClient`.
+ *
+ * @param clientSideID Your project and environment specific client side ID
+ * @param user A LaunchDarkly user object
+ * @param options LaunchDarkly initialization options
+ * @param targetFlags If specified, `launchdarkly-react-client-sdk` will only request and listen to these flags.
+ *
+ * @see `ProviderConfig` for more details about the parameters
+ * @return An initialized client and flags
+ */
 const initLDClient = async (
   clientSideID: string,
-  user: LDUser = { key: uuid() },
+  user: LDUser = { anonymous: true },
+  reactOptions: LDReactOptions = defaultReactOptions,
   options?: LDOptions,
   targetFlags?: LDFlagSet,
 ): Promise<AllFlagsLDClient> => {
@@ -27,7 +34,8 @@ const initLDClient = async (
         rawFlags = ldClient.allFlags();
       }
 
-      resolve({ flags: camelCaseKeys(rawFlags), ldClient });
+      const flags = reactOptions.useCamelCaseFlagKeys ? camelCaseKeys(rawFlags) : rawFlags;
+      resolve({ flags, ldClient });
     });
   });
 };

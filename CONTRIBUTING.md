@@ -1,4 +1,4 @@
-# Contributing to LaunchDarkly SDK for Browser JavaScript - React Wrapper
+# Contributing to the LaunchDarkly Client-side SDK for React
 
 LaunchDarkly has published an [SDK contributor's guide](https://docs.launchdarkly.com/docs/sdk-contributors-guide) that provides a detailed explanation of how our SDKs work. See below for additional information on how to contribute to this SDK.
  
@@ -12,9 +12,9 @@ We encourage pull requests and other contributions from the community. Before su
 
 ## Build instructions
 
-Note that this repository contains only the React wrapper code that provides a convenient way for React code to interact with the LaunchDarkly JavaScript SDK. The JavaScript SDK functionality is in the [`launchdarkly-js-client-sdk`](https://www.npmjs.com/package/launchdarkly-js-client-sdk) package whose source code is in [js-client-sdk](https://github.com/launchdarkly/js-client-sdk), and also the core package `launchdarkly-js-sdk-common` in [js-sdk-common](https://github.com/launchdarkly/js-sdk-common).
+Note that this repository contains only the React SDK code that provides a convenient way for React code to interact with the LaunchDarkly JavaScript SDK. The JavaScript SDK functionality is in the [`launchdarkly-js-client-sdk`](https://www.npmjs.com/package/launchdarkly-js-client-sdk) package whose source code is in [js-client-sdk](https://github.com/launchdarkly/js-client-sdk), and also the core package `launchdarkly-js-sdk-common` in [js-sdk-common](https://github.com/launchdarkly/js-sdk-common).
 
-### Prerequisites
+### Installing dependencies
 
 ```
 npm install
