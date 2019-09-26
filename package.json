@@ -26,9 +26,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/launchdarkly/js-client-sdk.git"
+    "url": "git://github.com/launchdarkly/react-client-sdk.git"
   },
-  "homepage": "https://github.com/launchdarkly/js-client-sdk/tree/master/packages/launchdarkly-react-client-sdk",
+  "homepage": "https://github.com/launchdarkly/react-client-sdk",
   "devDependencies": {
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.1.4",
