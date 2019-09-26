@@ -26,7 +26,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com:launchdarkly/react-client-sdk.git"
+    "url": "git://github.com/launchdarkly/react-client-sdk.git"
   },
   "homepage": "https://github.com/launchdarkly/react-client-sdk",
   "devDependencies": {
