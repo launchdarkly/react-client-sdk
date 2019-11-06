@@ -2,6 +2,19 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/master/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.15.0] - 2019-11-06
+### Changed:
+- Changed the behavior of the warning message that is logged on failing to establish a streaming connection. Rather than the current behavior where the warning message appears upon each failed attempt, it will now only appear on the first failure in each series of attempts. Also, the message has been changed to mention that retries will occur. ([#182](https://github.com/launchdarkly/js-client-sdk/issues/182))
+
+### Fixed:
+- The `beforeunload` event handler no longer calls `close` on the client, which was causing the SDK to become unusable if the page did not actually close after this event fired (for instance if the browser navigated to a URL that launched an external application, or if another `beforeunload` handler cancelled leaving the page). Instead, it now only flushes events. There is also an `unload` handler that flushes any additional events that might have been created by any code that ran during the `beforeunload` stage. ([#181](https://github.com/launchdarkly/js-client-sdk/issues/181))
+- Removed uses of `Object.assign` that caused errors in Internet Explorer unless a polyfill for that function was present. These were removed earlier in the 2.1.1 release, but had been mistakenly added again.
+- Removed development dependency on `typedoc` which caused some vulnerability warnings.
+
+### Deprecated:
+- The `samplingInterval` configuration property is deprecated and will be removed in a future version. The intended use case for the `samplingInterval` feature was to reduce analytics event network usage in high-traffic applications. This feature is being deprecated in favor of summary counters, which are meant to track all events.
+
+
 ## [2.14.0] - 2019-09-12
 ### Added:
 - TypeDoc-generated documentation for all public types and methods is now [online](https://launchdarkly.github.io/react-client-sdk/).
