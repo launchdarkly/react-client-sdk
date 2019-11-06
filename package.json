@@ -26,9 +26,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/launchdarkly/js-client-sdk.git"
+    "url": "git://github.com/launchdarkly/react-client-sdk.git"
   },
-  "homepage": "https://github.com/launchdarkly/js-client-sdk/tree/master/packages/launchdarkly-react-client-sdk",
+  "homepage": "https://github.com/launchdarkly/react-client-sdk",
   "devDependencies": {
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^9.1.4",
@@ -53,11 +53,10 @@
     "tslint": "^5.19.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-plugin-prettier": "^2.0.1",
-    "typedoc": "0.14.2",
     "typescript": "^3.6.2"
   },
   "dependencies": {
-    "launchdarkly-js-client-sdk": "^2.13.0",
+    "launchdarkly-js-client-sdk": "2.15.1",
     "lodash.camelcase": "^4.3.0",
     "uuid": "^3.3.2"
   },

@@ -9,6 +9,9 @@ TITLE=LaunchDarkly React SDK (${LD_RELEASE_VERSION})
 endif
 
 html:
+	cp ../package.json before-typedoc-package.json
+	cp ../package-lock.json before-typedoc-package-lock.json
+	cd .. && npm install typedoc
 	rm -rf build
 	mkdir -p build/html
 # For unknown reasons, TypeDoc doesn't seem to work reliably in this project when we put our
@@ -24,5 +27,7 @@ html:
 	  --excludeExternals \
 	  --externalPattern "**/node_modules/**" \
 	  --readme none
+	mv before-typedoc-package.json ../package.json
+	mv before-typedoc-package-lock.json ../package-lock.json
 
 .PHONY: html
