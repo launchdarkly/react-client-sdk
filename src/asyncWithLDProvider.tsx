@@ -52,7 +52,9 @@ export default async function asyncWithLDProvider(config: ProviderConfig) {
           const flagKey = reactOptions.useCamelCaseFlagKeys ? camelCase(key) : key;
           flattened[flagKey] = changes[key].current;
         }
-        setLDData({ flags: { ...ldData.flags, ...flattened }, ldClient });
+        setLDData(({flags, ldClient}) => {
+          return { flags: { ...flags, ...flattened }, ldClient }
+        });
       });
     }, []);
 
