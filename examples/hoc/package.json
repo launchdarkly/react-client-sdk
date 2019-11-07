@@ -28,7 +28,7 @@
     "express": "^4.16.4",
     "ldclient-node": "^5.7.2",
     "launchdarkly-react-client-sdk": "^2.13.0",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "prop-types": "^15.7.2",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
