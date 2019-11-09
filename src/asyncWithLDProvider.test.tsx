@@ -98,6 +98,20 @@ describe('asyncWithLDProvider', () => {
     expect(receivedNode).toHaveTextContent('{"another-test-flag":false,"test-flag":false}');
   });
 
+  test('consecutive flag changes gets stored in context correctly', async () => {
+    mockLDClient.on.mockImplementationOnce((e: string, cb: (c: LDFlagChangeset) => void) => {
+      cb({ 'another-test-flag': { current: false, previous: true } });
+
+      // simulate second update
+      cb({ 'test-flag': { current: false, previous: true } });
+    });
+
+    const receivedNode = await renderWithConfig({ clientSideID });
+
+    expect(mockLDClient.on).toHaveBeenNthCalledWith(1, 'change', expect.any(Function));
+    expect(receivedNode).toHaveTextContent('{"testFlag":false,"anotherTestFlag":false}');
+  });
+
   test('ldClient bootstraps correctly', async () => {
     // don't subscribe to changes to test bootstrap
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
@@ -146,7 +160,7 @@ describe('asyncWithLDProvider', () => {
       flags: { devTestFlag: true, launchDoggly: true },
       ldClient: mockLDClient,
     }));
-    const options: LDOptions = { bootstrap: {} };
+    const options: LDOptions = {};
     const flags = { 'dev-test-flag': false, 'launch-doggly': false };
     const receivedNode = await renderWithConfig({ clientSideID, user, options, flags });
 
