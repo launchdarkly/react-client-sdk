@@ -1,5 +1,6 @@
 import React, { useState, useEffect, FunctionComponent } from 'react';
 import camelCase from 'lodash.camelcase';
+import isEmpty from 'lodash.isempty';
 import { LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { defaultReactOptions, ProviderConfig } from './types';
 import { Provider } from './context';
@@ -39,9 +40,9 @@ export default async function asyncWithLDProvider(config: ProviderConfig) {
     useEffect(() => {
       if (options) {
         const { bootstrap } = options;
-        if (bootstrap && bootstrap !== 'localStorage') {
-          const bootstrappedFlags = reactOptions.useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap;
-          setLDData({ flags: bootstrappedFlags, ldClient });
+        if (!isEmpty(bootstrap) && bootstrap !== 'localStorage') {
+          const bootstrappedFlags = reactOptions.useCamelCaseFlagKeys ? camelCaseKeys(bootstrap!) : bootstrap;
+          setLDData(prev => ({ ...prev, flags: bootstrappedFlags! }));
         }
       }
 
@@ -52,7 +53,8 @@ export default async function asyncWithLDProvider(config: ProviderConfig) {
           const flagKey = reactOptions.useCamelCaseFlagKeys ? camelCase(key) : key;
           flattened[flagKey] = changes[key].current;
         }
-        setLDData({ flags: { ...ldData.flags, ...flattened }, ldClient });
+
+        setLDData(prev => ({ ...prev, flags: { ...prev.flags, ...flattened } }));
       });
     }, []);
 
