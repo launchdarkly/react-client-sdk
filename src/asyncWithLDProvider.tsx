@@ -41,7 +41,7 @@ export default async function asyncWithLDProvider(config: ProviderConfig) {
         const { bootstrap } = options;
         if (bootstrap && bootstrap !== 'localStorage') {
           const bootstrappedFlags = reactOptions.useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap;
-          setLDData({ flags: bootstrappedFlags, ldClient });
+          setLDData(prev => ({ ...prev, flags: bootstrappedFlags }));
         }
       }
 
@@ -52,7 +52,8 @@ export default async function asyncWithLDProvider(config: ProviderConfig) {
           const flagKey = reactOptions.useCamelCaseFlagKeys ? camelCase(key) : key;
           flattened[flagKey] = changes[key].current;
         }
-        setLDData({ flags: { ...ldData.flags, ...flattened }, ldClient });
+
+        setLDData(prev => ({ ...prev, flags: { ...prev.flags, ...flattened } }));
       });
     }, []);
 
