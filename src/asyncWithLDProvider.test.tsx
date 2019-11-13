@@ -127,6 +127,18 @@ describe('asyncWithLDProvider', () => {
     expect(receivedNode).toHaveTextContent('{"anotherTestFlag":false,"testFlag":true}');
   });
 
+  test('ldClient bootstraps with empty flags', async () => {
+    // don't subscribe to changes to test bootstrap
+    mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
+      return;
+    });
+    const options: LDOptions = {
+      bootstrap: {},
+    };
+    const receivedNode = await renderWithConfig({ clientSideID, user, options });
+    expect(receivedNode).toHaveTextContent('{}');
+  });
+
   test('ldClient bootstraps correctly with kebab-case', async () => {
     // don't subscribe to changes to test bootstrap
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
