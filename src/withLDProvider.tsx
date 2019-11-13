@@ -1,6 +1,5 @@
 import * as React from 'react';
 import camelCase from 'lodash.camelcase';
-import isEmpty from 'lodash.isempty';
 import { LDClient, LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { defaultReactOptions, ProviderConfig, EnhancedComponent } from './types';
 import { Provider, LDContext as HocState } from './context';
@@ -45,10 +44,10 @@ export function withLDProvider(config: ProviderConfig) {
 
         if (options) {
           const { bootstrap } = options;
-          if (!isEmpty(bootstrap) && bootstrap !== 'localStorage') {
-            const flags = reactOptions.useCamelCaseFlagKeys ? camelCaseKeys(bootstrap!) : bootstrap;
+          if (bootstrap && bootstrap !== 'localStorage') {
+            const flags = reactOptions.useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap;
             this.state = {
-              flags: flags!,
+              flags,
               ldClient: undefined,
             };
           }

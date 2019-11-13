@@ -59,7 +59,6 @@
   "dependencies": {
     "launchdarkly-js-client-sdk": "2.15.1",
     "lodash.camelcase": "^4.3.0",
-    "lodash.isempty": "^4.4.0",
     "uuid": "^3.3.2"
   },
   "peerDependencies": {
