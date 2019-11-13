@@ -34,8 +34,7 @@
         "prefer-function-over-method": false,
         "no-unbound-method": false,
         "no-unused-variable": false,
-        "comment-format": false,
-        "no-non-null-assertion": false
+        "comment-format": false
     },
     "rulesDirectory": []
 }
