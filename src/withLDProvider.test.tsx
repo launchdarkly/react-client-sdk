@@ -48,6 +48,18 @@ describe('withLDProvider', () => {
     expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, defaultReactOptions, options, undefined);
   });
 
+  test.only('ldClient bootstraps with empty flags', () => {
+    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const options: LDOptions = {
+      bootstrap: {},
+    };
+    const LaunchDarklyApp = withLDProvider({ clientSideID, user, options })(App);
+    const component = shallow(<LaunchDarklyApp />, { disableLifecycleMethods: true });
+    const initialState = component.state() as HocState;
+
+    expect(initialState.flags).toEqual({});
+  });
+
   test('ld client is bootstrapped correctly and transforms keys to camel case', () => {
     const user: LDUser = { key: 'yus', name: 'yus ng' };
     const options: LDOptions = {
