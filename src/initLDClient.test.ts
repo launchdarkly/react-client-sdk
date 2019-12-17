@@ -15,7 +15,7 @@ const ldClientInitialize = initialize as jest.Mock;
 
 const clientSideID = 'deadbeef';
 const defaultUser: LDUser = { key: 'abcdef' };
-const options: LDOptions = { bootstrap: 'localStorage', wrapperName: 'React' };
+const options: LDOptions = { bootstrap: 'localStorage' };
 const flags = { 'test-flag': false, 'another-test-flag': true };
 
 describe('initLDClient', () => {
@@ -41,7 +41,7 @@ describe('initLDClient', () => {
     const anonUser: LDUser = { anonymous: true };
     await initLDClient(clientSideID);
 
-    expect(ldClientInitialize.mock.calls[0]).toEqual([clientSideID, anonUser, { wrapperName: 'React' }]);
+    expect(ldClientInitialize.mock.calls[0]).toEqual([clientSideID, anonUser, {}]);
     expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
   });
 
