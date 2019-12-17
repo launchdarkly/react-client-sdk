@@ -17,6 +17,9 @@ jobs:
       - run:
           name: dependency audit
           command: ./scripts/better-audit.sh
+      - run
+          name: packaging test
+          command: ./scripts/packaging-test.sh
       - store_test_results:
           path: reports/junit/
       - store_artifacts:
