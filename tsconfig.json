@@ -10,8 +10,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "jsx": "react",
-    "esModuleInterop": true,
-    "resolveJsonModule": true,    
+    "esModuleInterop": true
   },
   "files": [
     "./node_modules/@testing-library/jest-dom/extend-expect.d.ts"
