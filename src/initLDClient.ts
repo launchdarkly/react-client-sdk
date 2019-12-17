@@ -20,7 +20,7 @@ const initLDClient = async (
   options?: LDOptions,
   targetFlags?: LDFlagSet,
 ): Promise<AllFlagsLDClient> => {
-  const allOptions = { wrapperName: 'React', ...options };
+  const allOptions = { ...options };
   const ldClient = ldClientInitialize(clientSideID, user, allOptions);
 
   return new Promise<AllFlagsLDClient>(resolve => {

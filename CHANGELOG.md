@@ -18,8 +18,6 @@ All notable changes to the LaunchDarkly Client-side SDK for React will be docume
 ### Deprecated:
 - The `samplingInterval` configuration property was deprecated in the code in the previous minor version release, and in the changelog, but the deprecation notice was accidentally omitted from the documentation comments. It is hereby deprecated again.
 
-
-
 ## [2.16.0] - 2019-12-16
 ***This release was broken and has been removed.***
 
