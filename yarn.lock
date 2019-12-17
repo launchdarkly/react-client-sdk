@@ -2599,18 +2599,18 @@ kleur@^3.0.3:
   resolved "https://registry.yarnpkg.com/kleur/-/kleur-3.0.3.tgz#a79c9ecc86ee1ce3fa6206d1216c501f147fc07e"
   integrity sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w==
 
-launchdarkly-js-client-sdk@2.15.1:
-  version "2.15.1"
-  resolved "https://registry.yarnpkg.com/launchdarkly-js-client-sdk/-/launchdarkly-js-client-sdk-2.15.1.tgz#7f691e44b1a82baae994929fa9f385f40fc7e893"
-  integrity sha512-XJ+F51bHNFKJU3IWQnTfTyUT3LElAld5UddM+t/B0nSWJkdEEAAxDWtMIoSmw6q+NwyUYYWHvJogYPXQQJBiPw==
+launchdarkly-js-client-sdk@2.16.0:
+  version "2.16.0"
+  resolved "https://registry.yarnpkg.com/launchdarkly-js-client-sdk/-/launchdarkly-js-client-sdk-2.16.0.tgz#aac4273a5499a69006a95ec0097fdd4d4c8023fd"
+  integrity sha512-nr8UAmWDw1UmhfC4u8TyRg/kjsuN/mja8iH5gQpNXbO9ot7AlZIfsd8bPRoMhAgNHMFeE6PnqpOhZuURE7OgdA==
   dependencies:
     escape-string-regexp "1.0.5"
-    launchdarkly-js-sdk-common "2.14.1"
+    launchdarkly-js-sdk-common "3.1.0"
 
-launchdarkly-js-sdk-common@2.14.1:
-  version "2.14.1"
-  resolved "https://registry.yarnpkg.com/launchdarkly-js-sdk-common/-/launchdarkly-js-sdk-common-2.14.1.tgz#d8fd9c28e346795096f0a2d2788113b907962ba0"
-  integrity sha512-uzecXPbmbwmed2LcTrnUu+dhQSCLdAU6+Fz7V136PKXR71TbfaxWsTcUTD0ZXTFXGYLFjXTtsEDUykJA/oGP5Q==
+launchdarkly-js-sdk-common@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/launchdarkly-js-sdk-common/-/launchdarkly-js-sdk-common-3.1.0.tgz#565e0fbe9af214d1b74f5a55011e2d47d407e277"
+  integrity sha512-htP7QkOnsXmcWlsJxLvrAjxYCSU0XjKBBbjvpHH/SBD+mmfInjN/P7S3Y89HAen/o8O+FHz3/FbBhqoZ+W4uyQ==
   dependencies:
     "@babel/polyfill" "7.6.0"
     base64-js "1.3.0"

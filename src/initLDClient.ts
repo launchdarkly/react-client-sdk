@@ -1,6 +1,7 @@
 import { initialize as ldClientInitialize, LDClient, LDFlagSet, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import { AllFlagsLDClient, defaultReactOptions, LDReactOptions } from './types';
 import { camelCaseKeys } from './utils';
+import * as packageJson from '../package.json';
 
 /**
  * Internal function to initialize the `LDClient`.
@@ -20,7 +21,7 @@ const initLDClient = async (
   options?: LDOptions,
   targetFlags?: LDFlagSet,
 ): Promise<AllFlagsLDClient> => {
-  const allOptions = { wrapperName: 'React', ...options };
+  const allOptions = { wrapperName: 'React', wrapperVersion: packageJson.version, ...options };
   const ldClient = ldClientInitialize(clientSideID, user, allOptions);
 
   return new Promise<AllFlagsLDClient>(resolve => {
