@@ -10,12 +10,13 @@ jest.mock('launchdarkly-js-client-sdk', () => {
 import { initialize, LDClient, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import { defaultReactOptions, LDReactOptions } from './types';
 import initLDClient from './initLDClient';
+import * as packageJson from '../package.json';
 
 const ldClientInitialize = initialize as jest.Mock;
 
 const clientSideID = 'deadbeef';
 const defaultUser: LDUser = { key: 'abcdef' };
-const options: LDOptions = { bootstrap: 'localStorage' };
+const options: LDOptions = { bootstrap: 'localStorage', wrapperName: 'React', wrapperVersion: packageJson.version };
 const flags = { 'test-flag': false, 'another-test-flag': true };
 
 describe('initLDClient', () => {
@@ -41,7 +42,11 @@ describe('initLDClient', () => {
     const anonUser: LDUser = { anonymous: true };
     await initLDClient(clientSideID);
 
-    expect(ldClientInitialize.mock.calls[0]).toEqual([clientSideID, anonUser, undefined]);
+    expect(ldClientInitialize.mock.calls[0]).toEqual([
+      clientSideID,
+      anonUser,
+      { wrapperName: 'React', wrapperVersion: packageJson.version },
+    ]);
     expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
   });
 
