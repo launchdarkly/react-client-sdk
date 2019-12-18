@@ -7,7 +7,6 @@ import camelCase from 'lodash.camelcase';
  *
  * @param rawFlags A mapping of flag keys and their values
  * @return A transformed `LDFlagSet` with camelCased flag keys
- * @ignore
  */
 export const camelCaseKeys = (rawFlags: LDFlagSet) => {
   const flags: LDFlagSet = {};
@@ -20,3 +19,5 @@ export const camelCaseKeys = (rawFlags: LDFlagSet) => {
 
   return flags;
 };
+
+export default { camelCaseKeys };
