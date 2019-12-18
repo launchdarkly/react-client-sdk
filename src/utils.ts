@@ -20,3 +20,5 @@ export const camelCaseKeys = (rawFlags: LDFlagSet) => {
 
   return flags;
 };
+
+export default { camelCaseKeys };
