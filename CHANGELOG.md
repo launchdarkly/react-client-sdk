@@ -2,6 +2,12 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/master/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.17.1] - 2020-02-11
+### Fixed:
+- Updated JS SDK dependency version from 2.16.0 to 2.16.3 for several recent fixes. See release notes for [2.16.1](https://github.com/launchdarkly/js-client-sdk/releases/tag/2.16.1), [2.16.2](https://github.com/launchdarkly/js-client-sdk/releases/tag/2.16.2), [2.16.3](https://github.com/launchdarkly/js-client-sdk/releases/tag/2.16.3).
+
+Note that while some transitive dependencies have been changed from exact versions to &#34;best compatible&#34; versions, the dependency on `js-client-sdk` is still an exact version dependency so that each release of `react-client-sdk` has well-defined behavior.
+
 ## [2.17.0] - 2019-12-18
 ### Added:
 - The `camelCaseKeys` utility function is now exposed as part of the SDK API. This function can be called from customers' code to work around the fact that `ldClient` functionality does not automatically camel-case keys in the same manner as the React SDK's props and hooks features.
