@@ -17,7 +17,7 @@ const ldClientInitialize = initialize as jest.Mock;
 const clientSideID = 'deadbeef';
 const defaultUser: LDUser = { key: 'abcdef' };
 const options: LDOptions = { bootstrap: 'localStorage' };
-const extraOptionsAddedBySdk: LDOptions = { wrapperName: 'React', wrapperVersion: 'mock.version' };
+const extraOptionsAddedBySdk: LDOptions = { wrapperName: 'react-client-sdk', wrapperVersion: 'mock.version' };
 const expectedOptions: LDOptions = { ...options, ...extraOptionsAddedBySdk };
 const flags = { 'test-flag': false, 'another-test-flag': true };
 
