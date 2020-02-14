@@ -27,7 +27,7 @@ import { camelCaseKeys } from './utils';
  * @return A function which accepts your root React component and returns a HOC
  */
 export function withLDProvider(config: ProviderConfig) {
-  return function withLDPoviderHoc<P>(WrappedComponent: React.ComponentType<P>) {
+  return function withLDProviderHoc<P>(WrappedComponent: React.ComponentType<P>) {
     const { options, reactOptions: userReactOptions } = config;
     const reactOptions = { ...defaultReactOptions, ...userReactOptions };
 
