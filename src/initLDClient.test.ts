@@ -44,11 +44,7 @@ describe('initLDClient', () => {
     const anonUser: LDUser = { anonymous: true };
     await initLDClient(clientSideID);
 
-    expect(ldClientInitialize.mock.calls[0]).toEqual([
-      clientSideID,
-      anonUser,
-      extraOptionsAddedBySdk,
-    ]);
+    expect(ldClientInitialize.mock.calls[0]).toEqual([clientSideID, anonUser, extraOptionsAddedBySdk]);
     expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
   });
 
