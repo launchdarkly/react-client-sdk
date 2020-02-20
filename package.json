@@ -1,6 +1,6 @@
 {
   "name": "launchdarkly-react-client-sdk",
-  "version": "2.17.1",
+  "version": "2.16.1",
   "description": "LaunchDarkly SDK for React",
   "author": "LaunchDarkly <team@launchdarkly.com>",
   "license": "Apache-2.0",
@@ -17,7 +17,7 @@
   "scripts": {
     "test": "jest",
     "test:junit": "jest --ci --reporters=default --reporters=jest-junit",
-    "build": "rimraf lib/* && tsc && rm -rf lib/*.test.*",
+    "build": "rimraf lib/* && tsc && mv lib/src/* lib && rimraf lib/package.json lib/src lib/*.test.*",
     "lint": "tslint -p tsconfig.json 'src/**/*.ts*'",
     "lint:all": "npm run lint",
     "check-typescript": "tsc",
@@ -56,7 +56,7 @@
     "typescript": "^3.6.2"
   },
   "dependencies": {
-    "launchdarkly-js-client-sdk": "2.16.3",
+    "launchdarkly-js-client-sdk": "2.17.0",
     "lodash.camelcase": "^4.3.0",
     "uuid": "^3.3.2"
   },
