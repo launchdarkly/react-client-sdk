@@ -2,6 +2,16 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/master/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.18.0] - 2020-02-19
+Note: if you are using the LaunchDarkly Relay Proxy to forward events, update the Relay to version 5.10.0 or later before updating to this React SDK version.
+
+### Added:
+- The SDK now periodically sends diagnostic data to LaunchDarkly, describing the version and configuration of the SDK, the architecture and version of the runtime platform, and performance statistics. No credentials, hostnames, or other identifiable values are included. This behavior can be disabled with the `diagnosticOptOut` option, or configured with `diagnosticRecordingInterval`.
+
+### Fixed:
+- Updated JS SDK dependency version to 2.17.0, which includes a fix for streaming mode failing when used with secure mode. See release notes for JS SDK [2.17.0](https://github.com/launchdarkly/js-client-sdk/releases/tag/2.17.0) fror details.
+
+
 ## [2.17.1] - 2020-02-11
 ### Fixed:
 - Updated JS SDK dependency version from 2.16.0 to 2.16.3 for several recent fixes. See release notes for [2.16.1](https://github.com/launchdarkly/js-client-sdk/releases/tag/2.16.1), [2.16.2](https://github.com/launchdarkly/js-client-sdk/releases/tag/2.16.2), [2.16.3](https://github.com/launchdarkly/js-client-sdk/releases/tag/2.16.3).
