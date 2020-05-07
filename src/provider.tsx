@@ -29,7 +29,7 @@ class LDProvider extends React.Component<ProviderConfig, HocState> implements En
   constructor(props: ProviderConfig) {
     super(props);
 
-    const { options, reactOptions } = props;
+    const { options } = props;
 
     this.state = {
       flags: {},
@@ -39,7 +39,7 @@ class LDProvider extends React.Component<ProviderConfig, HocState> implements En
     if (options) {
       const { bootstrap } = options;
       if (bootstrap && bootstrap !== 'localStorage') {
-        const { useCamelCaseFlagKeys = defaultReactOptions.useCamelCaseFlagKeys } = reactOptions || {};
+        const { useCamelCaseFlagKeys } = this.getReactOptions();
         const flags = useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap;
         this.state = {
           flags,
@@ -49,13 +49,14 @@ class LDProvider extends React.Component<ProviderConfig, HocState> implements En
     }
   }
 
+  getReactOptions = () => ({ ...defaultReactOptions, ...this.props.reactOptions });
+
   subscribeToChanges = (ldClient: LDClient) => {
     ldClient.on('change', (changes: LDFlagChangeset) => {
       const flattened: LDFlagSet = {};
-      const { reactOptions } = this.props;
       for (const key in changes) {
         // tslint:disable-next-line:no-unsafe-any
-        const { useCamelCaseFlagKeys = defaultReactOptions.useCamelCaseFlagKeys } = reactOptions || {};
+        const { useCamelCaseFlagKeys } = this.getReactOptions();
         const flagKey = useCamelCaseFlagKeys ? camelCase(key) : key;
         flattened[flagKey] = changes[key].current;
       }
@@ -64,8 +65,8 @@ class LDProvider extends React.Component<ProviderConfig, HocState> implements En
   };
 
   async componentDidMount() {
-    const { clientSideID, user, flags, reactOptions: userReactOptions, options } = this.props;
-    const reactOptions = { ...defaultReactOptions, ...userReactOptions };
+    const { clientSideID, user, flags, options } = this.props;
+    const reactOptions = this.getReactOptions();
     const { flags: fetchedFlags, ldClient } = await initLDClient(clientSideID, user, reactOptions, options, flags);
     this.setState({ flags: fetchedFlags, ldClient });
     this.subscribeToChanges(ldClient);
