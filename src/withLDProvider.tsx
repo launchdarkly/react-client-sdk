@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { defaultReactOptions, ProviderConfig, EnhancedComponent } from './types';
+import { defaultReactOptions, ProviderConfig } from './types';
 import LDProvider from './provider';
 
 /**
