@@ -48,7 +48,7 @@ describe('withLDProvider', () => {
     expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, defaultReactOptions, options, undefined);
   });
 
-  test.only('ldClient bootstraps with empty flags', () => {
+  test('ldClient bootstraps with empty flags', () => {
     const user: LDUser = { key: 'yus', name: 'yus ng' };
     const options: LDOptions = {
       bootstrap: {},
