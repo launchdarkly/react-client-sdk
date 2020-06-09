@@ -1,4 +1,4 @@
-import LDProvider from './provider';
+import LDProvider from './LDProvider';
 import withLDProvider from './withLDProvider';
 import asyncWithLDProvider from './asyncWithLDProvider';
 import withLDConsumer from './withLDConsumer';

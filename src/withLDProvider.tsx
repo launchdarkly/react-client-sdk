@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { defaultReactOptions, ProviderConfig } from './types';
-import LDProvider from './provider';
+import LDProvider from './LDProvider';
 
 /**
  * `withLDProvider` is a function which accepts a config object which is used to
