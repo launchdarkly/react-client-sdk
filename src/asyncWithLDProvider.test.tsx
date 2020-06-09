@@ -58,7 +58,7 @@ describe('asyncWithLDProvider', () => {
 
   test('ldClient is initialised correctly', async () => {
     const options: LDOptions = { bootstrap: {} };
-    const reactOptions: LDReactOptions = { useCamelCaseFlagKeys: false };
+    const reactOptions: LDReactOptions = { manualyInitializeLDClient: false, useCamelCaseFlagKeys: false };
     await asyncWithLDProvider({ clientSideID, user, options, reactOptions });
 
     expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, reactOptions, options, undefined);

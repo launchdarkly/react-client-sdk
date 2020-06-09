@@ -1,6 +1,6 @@
 import * as React from 'react';
 import camelCase from 'lodash.camelcase';
-import { LDClient, LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
+import { LDClient, LDFlagSet, LDFlagChangeset, LDUser } from 'launchdarkly-js-client-sdk';
 import { defaultReactOptions, ProviderConfig, EnhancedComponent } from './types';
 import { Provider, LDContext as HocState } from './context';
 import initLDClient from './initLDClient';
@@ -39,6 +39,7 @@ export function withLDProvider(config: ProviderConfig) {
 
         this.state = {
           flags: {},
+          initLDClient: this.initLDClient,
           ldClient: undefined,
         };
 
@@ -48,6 +49,7 @@ export function withLDProvider(config: ProviderConfig) {
             const flags = reactOptions.useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap;
             this.state = {
               flags,
+              initLDClient: this.initLDClient,
               ldClient: undefined,
             };
           }
@@ -66,11 +68,25 @@ export function withLDProvider(config: ProviderConfig) {
         });
       };
 
-      async componentDidMount() {
-        const { clientSideID, user, flags } = config;
-        const { flags: fetchedFlags, ldClient } = await initLDClient(clientSideID, user, reactOptions, options, flags);
-        this.setState({ flags: fetchedFlags, ldClient });
-        this.subscribeToChanges(ldClient);
+      initLDClient = async (user?: LDUser) => {
+        if (!this.state.ldClient) {
+          const { clientSideID, flags } = config;
+          const { flags: fetchedFlags, ldClient } = await initLDClient(
+            clientSideID,
+            user,
+            reactOptions,
+            options,
+            flags,
+          );
+          this.setState({ flags: fetchedFlags, ldClient });
+          this.subscribeToChanges(ldClient);
+        }
+      };
+
+      componentDidMount() {
+        if (!reactOptions.manualyInitializeLDClient) {
+          this.initLDClient(config.user);
+        }
       }
 
       render() {

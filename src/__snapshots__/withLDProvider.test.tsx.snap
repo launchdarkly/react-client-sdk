@@ -5,6 +5,7 @@ exports[`withLDProvider render app 1`] = `
   value={
     Object {
       "flags": Object {},
+      "initLDClient": [Function],
       "ldClient": undefined,
     }
   }

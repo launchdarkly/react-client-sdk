@@ -2,7 +2,7 @@ import React, { useState, useEffect, FunctionComponent } from 'react';
 import camelCase from 'lodash.camelcase';
 import { LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { defaultReactOptions, ProviderConfig } from './types';
-import { Provider } from './context';
+import { LDContext, Provider } from './context';
 import initLDClient from './initLDClient';
 import { camelCaseKeys } from './utils';
 
@@ -31,8 +31,9 @@ export default async function asyncWithLDProvider(config: ProviderConfig) {
   const { flags: fetchedFlags, ldClient } = await initLDClient(clientSideID, user, reactOptions, options, flags);
 
   const LDProvider: FunctionComponent = ({ children }) => {
-    const [ldData, setLDData] = useState({
+    const [ldData, setLDData] = useState<LDContext>({
       flags: fetchedFlags,
+      initLDClient: () => undefined,
       ldClient,
     });
 

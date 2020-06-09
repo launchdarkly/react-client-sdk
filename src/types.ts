@@ -7,6 +7,18 @@ import * as React from 'react';
  */
 export interface LDReactOptions {
   /**
+   * If set to true, the LDClient will not be initialzed until initLDClient() is called.
+   *
+   * An example of when this flag would be used is if your user object is fetched asynchronously and
+   * you want to wait for your user object before initializing the client.
+   *
+   * This is false by default, meaning the ldClient will be initialized for you, even if a config.user is undefined.
+   *
+   * This flag will not have any effect if you are using asyncWithLDProvider.
+   */
+  manualyInitializeLDClient?: boolean;
+
+  /**
    * Whether the React SDK should transform flag keys into camel-cased format.
    * Using camel-cased flag keys allow for easier use as prop values, however,
    * these keys won't directly match the flag keys as known to LaunchDarkly.
@@ -26,7 +38,7 @@ export interface LDReactOptions {
 /**
  * Contains default values for the `reactOptions` object.
  */
-export const defaultReactOptions = { useCamelCaseFlagKeys: true };
+export const defaultReactOptions = { manualyInitializeLDClient: false, useCamelCaseFlagKeys: true };
 
 /**
  * Configuration object used to initialise LaunchDarkly's JS client.
@@ -76,7 +88,7 @@ export interface ProviderConfig {
 export interface EnhancedComponent extends React.Component {
   subscribeToChanges(ldClient: LDClient): void;
   // tslint:disable-next-line:invalid-void
-  componentDidMount(): Promise<void>;
+  componentDidMount(): void;
 }
 
 /**
