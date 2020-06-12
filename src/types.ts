@@ -1,3 +1,4 @@
+import { ProviderConfig } from './types';
 import { LDClient, LDFlagSet, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import * as React from 'react';
 

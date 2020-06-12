@@ -3,12 +3,11 @@ jest.mock('./context', () => ({ Provider: 'Provider' }));
 
 import * as React from 'react';
 import { create } from 'react-test-renderer';
-import { shallow } from 'enzyme';
 import { LDFlagChangeset, LDFlagSet, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
 import withLDProvider from './withLDProvider';
-import { LDReactOptions, EnhancedComponent, defaultReactOptions } from './types';
-import { LDContext as HocState } from './context';
+import { EnhancedComponent, defaultReactOptions } from './types';
+import LDProvider from './provider';
 
 const clientSideID = 'deadbeef';
 const App = () => <div>My App</div>;
@@ -42,108 +41,10 @@ describe('withLDProvider', () => {
     const user: LDUser = { key: 'yus', name: 'yus ng' };
     const options: LDOptions = { bootstrap: {} };
     const LaunchDarklyApp = withLDProvider({ clientSideID, user, options })(App);
-    const instance = create(<LaunchDarklyApp />).root.instance as EnhancedComponent;
+    const instance = create(<LaunchDarklyApp />).root.findByType(LDProvider).instance as EnhancedComponent;
 
     await instance.componentDidMount();
     expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, defaultReactOptions, options, undefined);
-  });
-
-  test('ldClient bootstraps with empty flags', () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
-    const options: LDOptions = {
-      bootstrap: {},
-    };
-    const LaunchDarklyApp = withLDProvider({ clientSideID, user, options })(App);
-    const component = shallow(<LaunchDarklyApp />, { disableLifecycleMethods: true });
-    const initialState = component.state() as HocState;
-
-    expect(initialState.flags).toEqual({});
-  });
-
-  test('ld client is bootstrapped correctly and transforms keys to camel case', () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
-    const options: LDOptions = {
-      bootstrap: {
-        'test-flag': true,
-        'another-test-flag': false,
-        $flagsState: {
-          'test-flag': { version: 125, variation: 0, trackEvents: true },
-          'another-test-flag': { version: 18, variation: 1 },
-        },
-        $valid: true,
-      },
-    };
-    const LaunchDarklyApp = withLDProvider({ clientSideID, user, options })(App);
-    const component = shallow(<LaunchDarklyApp />, { disableLifecycleMethods: true });
-    const initialState = component.state() as HocState;
-
-    expect(mockInitLDClient).not.toHaveBeenCalled();
-    expect(initialState.flags).toEqual({ testFlag: true, anotherTestFlag: false });
-  });
-
-  test('ld client should not transform keys to camel case if option is disabled', () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
-    const options: LDOptions = {
-      bootstrap: {
-        'test-flag': true,
-        'another-test-flag': false,
-      },
-    };
-    const reactOptions: LDReactOptions = {
-      useCamelCaseFlagKeys: false,
-    };
-    const LaunchDarklyApp = withLDProvider({ clientSideID, user, options, reactOptions })(App);
-    const component = shallow(<LaunchDarklyApp />, { disableLifecycleMethods: true });
-    const initialState = component.state() as HocState;
-
-    expect(mockInitLDClient).not.toHaveBeenCalled();
-    expect(initialState.flags).toEqual({ 'test-flag': true, 'another-test-flag': false });
-  });
-
-  test('ld client should transform keys to camel case if transform option is absent', () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
-    const options: LDOptions = {
-      bootstrap: {
-        'test-flag': true,
-        'another-test-flag': false,
-      },
-    };
-    const reactOptions: LDReactOptions = {};
-    const LaunchDarklyApp = withLDProvider({ clientSideID, user, options, reactOptions })(App);
-    const component = shallow(<LaunchDarklyApp />, { disableLifecycleMethods: true });
-    const initialState = component.state() as HocState;
-
-    expect(mockInitLDClient).not.toHaveBeenCalled();
-    expect(initialState.flags).toEqual({ testFlag: true, anotherTestFlag: false });
-  });
-
-  test('ld client should transform keys to camel case if react options object is absent', () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
-    const options: LDOptions = {
-      bootstrap: {
-        'test-flag': true,
-        'another-test-flag': false,
-      },
-    };
-    const LaunchDarklyApp = withLDProvider({ clientSideID, user, options })(App);
-    const component = shallow(<LaunchDarklyApp />, { disableLifecycleMethods: true });
-    const initialState = component.state() as HocState;
-
-    expect(mockInitLDClient).not.toHaveBeenCalled();
-    expect(initialState.flags).toEqual({ testFlag: true, anotherTestFlag: false });
-  });
-
-  test('state.flags should be initialised to empty when bootstrapping from localStorage', () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
-    const options: LDOptions = {
-      bootstrap: 'localStorage',
-    };
-    const LaunchDarklyApp = withLDProvider({ clientSideID, user, options })(App);
-    const component = shallow(<LaunchDarklyApp />, { disableLifecycleMethods: true });
-    const initialState = component.state() as HocState;
-
-    expect(mockInitLDClient).not.toHaveBeenCalled();
-    expect(initialState.flags).toEqual({});
   });
 
   test('ld client is initialised correctly with target flags', async () => {
@@ -155,7 +56,7 @@ describe('withLDProvider', () => {
     const options: LDOptions = { bootstrap: {} };
     const flags = { 'dev-test-flag': false, 'launch-doggly': false };
     const LaunchDarklyApp = withLDProvider({ clientSideID, user, options, flags })(App);
-    const instance = create(<LaunchDarklyApp />).root.instance as EnhancedComponent;
+    const instance = create(<LaunchDarklyApp />).root.findByType(LDProvider).instance as EnhancedComponent;
     instance.setState = jest.fn();
 
     await instance.componentDidMount();
@@ -169,7 +70,7 @@ describe('withLDProvider', () => {
 
   test('flags and ldClient are saved in state on mount', async () => {
     const LaunchDarklyApp = withLDProvider({ clientSideID })(App);
-    const instance = create(<LaunchDarklyApp />).root.instance as EnhancedComponent;
+    const instance = create(<LaunchDarklyApp />).root.findByType(LDProvider).instance as EnhancedComponent;
     instance.setState = jest.fn();
 
     await instance.componentDidMount();
@@ -178,7 +79,7 @@ describe('withLDProvider', () => {
 
   test('subscribeToChanges is called on mount', async () => {
     const LaunchDarklyApp = withLDProvider({ clientSideID })(App);
-    const instance = create(<LaunchDarklyApp />).root.instance as EnhancedComponent;
+    const instance = create(<LaunchDarklyApp />).root.findByType(LDProvider).instance as EnhancedComponent;
     instance.subscribeToChanges = jest.fn();
 
     await instance.componentDidMount();
@@ -190,7 +91,7 @@ describe('withLDProvider', () => {
       cb({ 'test-flag': { current: false, previous: true } });
     });
     const LaunchDarklyApp = withLDProvider({ clientSideID })(App);
-    const instance = create(<LaunchDarklyApp />).root.instance as EnhancedComponent;
+    const instance = create(<LaunchDarklyApp />).root.findByType(LDProvider).instance as EnhancedComponent;
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
@@ -206,7 +107,7 @@ describe('withLDProvider', () => {
       cb({ 'another-test-flag': { current: false, previous: true }, 'test-flag': { current: false, previous: true } });
     });
     const LaunchDarklyApp = withLDProvider({ clientSideID, reactOptions: { useCamelCaseFlagKeys: false } })(App);
-    const instance = create(<LaunchDarklyApp />).root.instance as EnhancedComponent;
+    const instance = create(<LaunchDarklyApp />).root.findByType(LDProvider).instance as EnhancedComponent;
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
