@@ -8,7 +8,7 @@ import { LDFlagChangeset, LDFlagSet, LDOptions, LDUser } from 'launchdarkly-js-c
 import initLDClient from './initLDClient';
 import { LDReactOptions, EnhancedComponent, defaultReactOptions, ProviderConfig } from './types';
 import { LDContext as HocState } from './context';
-import LDProvider from './LDProvider';
+import LDProvider from './provider';
 
 const clientSideID = 'deadbeef';
 const App = () => <div>My App</div>;
