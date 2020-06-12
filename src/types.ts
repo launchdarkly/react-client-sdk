@@ -80,8 +80,7 @@ export interface ProviderConfig {
  */
 export interface EnhancedComponent extends React.Component {
   subscribeToChanges(ldClient: LDClient): void;
-  // tslint:disable-next-line:invalid-void
-  componentDidMount(): Promise<void>;
+  componentDidMount(): void;
 }
 
 /**

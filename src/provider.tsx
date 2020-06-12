@@ -72,7 +72,7 @@ class LDProvider extends React.Component<ProviderConfig, HocState> implements En
     this.subscribeToChanges(ldClient);
   };
 
-  async componentDidMount() {
+  componentDidMount() {
     const { user, waitForUserToInitializeClient } = this.props;
     if (waitForUserToInitializeClient && !user) {
       return;
