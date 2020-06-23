@@ -48,9 +48,9 @@ export interface ProviderConfig {
   user?: LDUser;
 
   /**
-   * If set to true, the ldClient will not be initialzed until the user prop has been defined.
+   * If set to true, the ldClient will not be initialized until the user prop has been defined.
    */
-  waitForUserToInitializeClient?: boolean;
+  deferInitialization?: boolean;
 
   /**
    * LaunchDarkly initialization options. These options are common between LaunchDarkly's JavaScript and React SDKs.

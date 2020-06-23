@@ -73,17 +73,17 @@ class LDProvider extends React.Component<ProviderConfig, HocState> implements En
   };
 
   componentDidMount() {
-    const { user, waitForUserToInitializeClient } = this.props;
-    if (waitForUserToInitializeClient && !user) {
+    const { user, deferInitialization } = this.props;
+    if (deferInitialization && !user) {
       return;
     }
     this.initLDClient();
   }
 
   componentDidUpdate(prevProps: ProviderConfig) {
-    const { user, waitForUserToInitializeClient } = this.props;
+    const { user, deferInitialization } = this.props;
     const userJustLoaded = !prevProps.user && user;
-    if (waitForUserToInitializeClient && userJustLoaded) {
+    if (deferInitialization && userJustLoaded) {
       this.initLDClient();
     }
   }
