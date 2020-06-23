@@ -72,19 +72,20 @@ class LDProvider extends React.Component<ProviderConfig, HocState> implements En
     this.subscribeToChanges(ldClient);
   };
 
-  componentDidMount() {
+  async componentDidMount() {
     const { user, deferInitialization } = this.props;
     if (deferInitialization && !user) {
       return;
     }
-    this.initLDClient();
+
+    return this.initLDClient();
   }
 
-  componentDidUpdate(prevProps: ProviderConfig) {
+  async componentDidUpdate(prevProps: ProviderConfig) {
     const { user, deferInitialization } = this.props;
     const userJustLoaded = !prevProps.user && user;
     if (deferInitialization && userJustLoaded) {
-      this.initLDClient();
+      return this.initLDClient();
     }
   }
 
