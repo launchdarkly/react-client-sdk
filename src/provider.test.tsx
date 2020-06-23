@@ -282,7 +282,7 @@ describe('LDProvider', () => {
     expect(newState).toEqual({ flags: { 'another-test-flag': false, 'test-flag': false } });
   });
 
-  test(`if props.deferInitialization is true, ld client is only initialized once props.user is defined`, async () => {
+  test(`if props.deferInitialization is true, ld client will only initialize once props.user is defined`, async () => {
     const options: LDOptions = { bootstrap: {} };
     const props: ProviderConfig = { clientSideID, deferInitialization: true, options };
     const LaunchDarklyApp = (
