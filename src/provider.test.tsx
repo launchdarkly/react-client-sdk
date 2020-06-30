@@ -306,7 +306,7 @@ describe('LDProvider', () => {
     );
     renderer.update(UpdatedLaunchDarklyApp);
     if (instance.componentDidUpdate) {
-      await instance.componentDidUpdate(props, {});
+      await instance.componentDidUpdate(props);
     }
 
     expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, defaultReactOptions, options, undefined);
