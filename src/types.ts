@@ -48,6 +48,11 @@ export interface ProviderConfig {
   user?: LDUser;
 
   /**
+   * If set to true, the ldClient will not be initialized until the user prop has been defined.
+   */
+  deferInitialization?: boolean;
+
+  /**
    * LaunchDarkly initialization options. These options are common between LaunchDarkly's JavaScript and React SDKs.
    *
    * @see https://docs.launchdarkly.com/docs/js-sdk-reference#section-customizing-your-client
@@ -77,6 +82,8 @@ export interface EnhancedComponent extends React.Component {
   subscribeToChanges(ldClient: LDClient): void;
   // tslint:disable-next-line:invalid-void
   componentDidMount(): Promise<void>;
+  // tslint:disable-next-line:invalid-void
+  componentDidUpdate(prevProps: ProviderConfig): Promise<void>;
 }
 
 /**
