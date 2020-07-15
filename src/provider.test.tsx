@@ -281,4 +281,34 @@ describe('LDProvider', () => {
     expect(mockLDClient.on).toHaveBeenCalledWith('change', expect.any(Function));
     expect(newState).toEqual({ flags: { 'another-test-flag': false, 'test-flag': false } });
   });
+
+  test(`if props.deferInitialization is true, ld client will only initialize once props.user is defined`, async () => {
+    const options: LDOptions = { bootstrap: {} };
+    const props: ProviderConfig = { clientSideID, deferInitialization: true, options };
+    const LaunchDarklyApp = (
+      <LDProvider {...props}>
+        <App />
+      </LDProvider>
+    );
+    const renderer = create(LaunchDarklyApp);
+    const instance = renderer.root.findByType(LDProvider).instance as EnhancedComponent;
+
+    await instance.componentDidMount();
+
+    expect(mockInitLDClient).toHaveBeenCalledTimes(0);
+
+    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const newProps = { ...props, user };
+    const UpdatedLaunchDarklyApp = (
+      <LDProvider {...newProps}>
+        <App />
+      </LDProvider>
+    );
+    renderer.update(UpdatedLaunchDarklyApp);
+    if (instance.componentDidUpdate) {
+      await instance.componentDidUpdate(props);
+    }
+
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, defaultReactOptions, options, undefined);
+  });
 });
