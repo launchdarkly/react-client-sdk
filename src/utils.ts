@@ -48,4 +48,7 @@ export const getFlattenedFlagsFromChangeset = (
   return flattened;
 };
 
+// TODO: Remove this for the next major version. This was added to maintain backwards compatibility.
+camelCaseKeys.camelCaseKeys = camelCaseKeys;
+
 export default { camelCaseKeys, getFlattenedFlagsFromChangeset };
