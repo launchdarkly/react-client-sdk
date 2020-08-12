@@ -179,4 +179,19 @@ describe('asyncWithLDProvider', () => {
     expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, defaultReactOptions, options, flags);
     expect(receivedNode).toHaveTextContent('{"devTestFlag":true,"launchDoggly":true}');
   });
+
+  test('only updates to subscribed flags are pushed to the Provider', async () => {
+    mockInitLDClient.mockImplementation(() => ({
+      flags: { testFlag: true },
+      ldClient: mockLDClient,
+    }));
+    mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
+      cb({ 'test-flag': { current: false, previous: true }, 'another-test-flag': { current: false, previous: true } });
+    });
+    const options: LDOptions = {};
+    const subscribedFlags = { 'test-flag': false };
+    const receivedNode = await renderWithConfig({ clientSideID, user, options, flags: subscribedFlags });
+
+    expect(receivedNode).toHaveTextContent('{"testFlag":false}');
+  });
 });

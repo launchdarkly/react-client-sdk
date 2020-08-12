@@ -1,5 +1,6 @@
-import { LDFlagSet } from 'launchdarkly-js-client-sdk';
+import {LDFlagChangeset, LDFlagSet} from 'launchdarkly-js-client-sdk';
 import camelCase from 'lodash.camelcase';
+import {LDReactOptions} from "./types";
 
 /**
  * Transforms a set of flags so that their keys are camelCased. This function ignores
@@ -20,4 +21,27 @@ export const camelCaseKeys = (rawFlags: LDFlagSet) => {
   return flags;
 };
 
-export default { camelCaseKeys };
+/**
+ * Gets the flags to pass to the provider from the changeset.
+ *
+ * @param changes the `LDFlagChangeset` from the ldClient onchange handler.
+ * @param targetFlags if targetFlags are specified, changes to other flags are ignored and not returned in the
+ * flattened `LDFlagSet`
+ * @param reactOptions reactOptions.useCamelCaseFlagKeys is used to determine whether to
+ * @return an `LDFlagSet` with the current flag values from the LDFlagChangeset filtered by `targetFlags`
+ * or null if none of the targetFlags were changed
+ */
+export const getFlattenedFlagsFromChangeset = (changes: LDFlagChangeset, targetFlags: LDFlagSet | undefined,
+                                               reactOptions: LDReactOptions): LDFlagSet | null => {
+  const flattened: LDFlagSet = {};
+  for (const key in changes) {
+    if (targetFlags === undefined || targetFlags[key] !== undefined) {
+      // tslint:disable-next-line:no-unsafe-any
+      const flagKey = reactOptions.useCamelCaseFlagKeys ? camelCase(key) : key;
+      flattened[flagKey] = changes[key].current;
+    }
+  }
+  return Object.keys(flattened).length > 0 ? flattened : null;
+}
+
+export default { camelCaseKeys, getFlattenedFlagsFromChangeset };

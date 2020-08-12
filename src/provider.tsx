@@ -4,7 +4,7 @@ import { LDClient, LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk
 import { EnhancedComponent, ProviderConfig, defaultReactOptions } from './types';
 import { Provider, LDContext as HocState } from './context';
 import initLDClient from './initLDClient';
-import { camelCaseKeys } from './utils';
+import {camelCaseKeys, getFlattenedFlagsFromChangeset} from './utils';
 
 /**
  * The `LDProvider` is a component which accepts a config object which is used to
@@ -52,15 +52,12 @@ class LDProvider extends React.Component<ProviderConfig, HocState> implements En
   getReactOptions = () => ({ ...defaultReactOptions, ...this.props.reactOptions });
 
   subscribeToChanges = (ldClient: LDClient) => {
+    const { flags } = this.props;
     ldClient.on('change', (changes: LDFlagChangeset) => {
-      const flattened: LDFlagSet = {};
-      for (const key in changes) {
-        // tslint:disable-next-line:no-unsafe-any
-        const { useCamelCaseFlagKeys } = this.getReactOptions();
-        const flagKey = useCamelCaseFlagKeys ? camelCase(key) : key;
-        flattened[flagKey] = changes[key].current;
+      const flattened: LDFlagSet | null = getFlattenedFlagsFromChangeset(changes, flags, this.getReactOptions());
+      if (flattened) {
+        this.setState(({flags}) => ({flags: {...flags, ...flattened}}));
       }
-      this.setState(({ flags }) => ({ flags: { ...flags, ...flattened } }));
     });
   };
 

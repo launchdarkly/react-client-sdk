@@ -311,4 +311,31 @@ describe('LDProvider', () => {
 
     expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, defaultReactOptions, options, undefined);
   });
+
+  test('only updates to subscribed flags are pushed to the Provider', async () => {
+    mockInitLDClient.mockImplementation(() => ({
+      flags: { testFlag: true },
+      ldClient: mockLDClient,
+    }));
+    mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
+      cb({ 'test-flag': { current: false, previous: true }, 'another-test-flag': { current: false, previous: true } });
+    });
+    const options: LDOptions = {};
+    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const subscribedFlags = { 'test-flag': false };
+    const props: ProviderConfig = { clientSideID, user, options, flags: subscribedFlags };
+    const LaunchDarklyApp = (
+        <LDProvider {...props}>
+          <App />
+        </LDProvider>
+    );
+    const instance = create(LaunchDarklyApp).root.findByType(LDProvider).instance as EnhancedComponent;
+    const mockSetState = jest.spyOn(instance, 'setState');
+
+    await instance.componentDidMount();
+    const callback = mockSetState.mock.calls[1][0] as (flags: LDFlagSet) => LDFlagSet;
+    const newState = callback({});
+
+    expect(newState).toEqual({ flags: { 'testFlag': false } });
+  });
 });
