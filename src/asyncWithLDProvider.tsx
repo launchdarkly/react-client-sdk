@@ -1,5 +1,4 @@
 import React, { useState, useEffect, FunctionComponent } from 'react';
-import camelCase from 'lodash.camelcase';
 import { LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { defaultReactOptions, ProviderConfig } from './types';
 import { Provider } from './context';

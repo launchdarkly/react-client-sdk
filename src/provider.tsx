@@ -1,5 +1,4 @@
 import * as React from 'react';
-import camelCase from 'lodash.camelcase';
 import { LDClient, LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { EnhancedComponent, ProviderConfig, defaultReactOptions } from './types';
 import { Provider, LDContext as HocState } from './context';
