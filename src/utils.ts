@@ -1,6 +1,6 @@
-import {LDFlagChangeset, LDFlagSet} from 'launchdarkly-js-client-sdk';
+import { LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import camelCase from 'lodash.camelcase';
-import {LDReactOptions} from "./types";
+import { LDReactOptions } from './types';
 
 /**
  * Transforms a set of flags so that their keys are camelCased. This function ignores
@@ -27,12 +27,15 @@ export const camelCaseKeys = (rawFlags: LDFlagSet) => {
  * @param changes the `LDFlagChangeset` from the ldClient onchange handler.
  * @param targetFlags if targetFlags are specified, changes to other flags are ignored and not returned in the
  * flattened `LDFlagSet`
- * @param reactOptions reactOptions.useCamelCaseFlagKeys is used to determine whether to
- * @return an `LDFlagSet` with the current flag values from the LDFlagChangeset filtered by `targetFlags`
- * or null if none of the targetFlags were changed
+ * @param reactOptions reactOptions.useCamelCaseFlagKeys determines whether to change the flag keys to camelCase
+ * @return an `LDFlagSet` with the current flag values from the LDFlagChangeset filtered by `targetFlags`. The returned
+ * object may be empty `{}` if none of the targetFlags were changed.
  */
-export const getFlattenedFlagsFromChangeset = (changes: LDFlagChangeset, targetFlags: LDFlagSet | undefined,
-                                               reactOptions: LDReactOptions): LDFlagSet | null => {
+export const getFlattenedFlagsFromChangeset = (
+  changes: LDFlagChangeset,
+  targetFlags: LDFlagSet | undefined,
+  reactOptions: LDReactOptions,
+): LDFlagSet => {
   const flattened: LDFlagSet = {};
   for (const key in changes) {
     if (targetFlags === undefined || targetFlags[key] !== undefined) {
@@ -41,7 +44,8 @@ export const getFlattenedFlagsFromChangeset = (changes: LDFlagChangeset, targetF
       flattened[flagKey] = changes[key].current;
     }
   }
-  return Object.keys(flattened).length > 0 ? flattened : null;
-}
+
+  return flattened;
+};
 
 export default { camelCaseKeys, getFlattenedFlagsFromChangeset };

@@ -182,16 +182,16 @@ describe('asyncWithLDProvider', () => {
 
   test('only updates to subscribed flags are pushed to the Provider', async () => {
     mockInitLDClient.mockImplementation(() => ({
-      flags: { testFlag: true },
+      flags: { testFlag: 2 },
       ldClient: mockLDClient,
     }));
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
-      cb({ 'test-flag': { current: false, previous: true }, 'another-test-flag': { current: false, previous: true } });
+      cb({ 'test-flag': { current: 3, previous: 2 }, 'another-test-flag': { current: false, previous: true } });
     });
     const options: LDOptions = {};
-    const subscribedFlags = { 'test-flag': false };
+    const subscribedFlags = { 'test-flag': 1 };
     const receivedNode = await renderWithConfig({ clientSideID, user, options, flags: subscribedFlags });
 
-    expect(receivedNode).toHaveTextContent('{"testFlag":false}');
+    expect(receivedNode).toHaveTextContent('{"testFlag":3}');
   });
 });

@@ -3,7 +3,7 @@ import { LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { defaultReactOptions, ProviderConfig } from './types';
 import { Provider } from './context';
 import initLDClient from './initLDClient';
-import {camelCaseKeys, getFlattenedFlagsFromChangeset} from './utils';
+import { camelCaseKeys, getFlattenedFlagsFromChangeset } from './utils';
 
 /**
  * This is an async function which initializes LaunchDarkly's JS SDK (`launchdarkly-js-client-sdk`)
@@ -45,8 +45,8 @@ export default async function asyncWithLDProvider(config: ProviderConfig) {
       }
 
       ldClient.on('change', (changes: LDFlagChangeset) => {
-        const flattened: LDFlagSet | null = getFlattenedFlagsFromChangeset(changes, flags, reactOptions);
-        if (flattened) {
+        const flattened: LDFlagSet = getFlattenedFlagsFromChangeset(changes, flags, reactOptions);
+        if (Object.keys(flattened).length > 0) {
           setLDData(prev => ({ ...prev, flags: { ...prev.flags, ...flattened } }));
         }
       });

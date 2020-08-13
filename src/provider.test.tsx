@@ -314,20 +314,20 @@ describe('LDProvider', () => {
 
   test('only updates to subscribed flags are pushed to the Provider', async () => {
     mockInitLDClient.mockImplementation(() => ({
-      flags: { testFlag: true },
+      flags: { testFlag: 2 },
       ldClient: mockLDClient,
     }));
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
-      cb({ 'test-flag': { current: false, previous: true }, 'another-test-flag': { current: false, previous: true } });
+      cb({ 'test-flag': { current: 3, previous: 2 }, 'another-test-flag': { current: false, previous: true } });
     });
     const options: LDOptions = {};
     const user: LDUser = { key: 'yus', name: 'yus ng' };
-    const subscribedFlags = { 'test-flag': false };
+    const subscribedFlags = { 'test-flag': 1 };
     const props: ProviderConfig = { clientSideID, user, options, flags: subscribedFlags };
     const LaunchDarklyApp = (
-        <LDProvider {...props}>
-          <App />
-        </LDProvider>
+      <LDProvider {...props}>
+        <App />
+      </LDProvider>
     );
     const instance = create(LaunchDarklyApp).root.findByType(LDProvider).instance as EnhancedComponent;
     const mockSetState = jest.spyOn(instance, 'setState');
@@ -336,6 +336,6 @@ describe('LDProvider', () => {
     const callback = mockSetState.mock.calls[1][0] as (flags: LDFlagSet) => LDFlagSet;
     const newState = callback({});
 
-    expect(newState).toEqual({ flags: { 'testFlag': false } });
+    expect(newState).toEqual({ flags: { testFlag: 3 } });
   });
 });
