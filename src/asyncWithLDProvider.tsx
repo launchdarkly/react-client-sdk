@@ -1,10 +1,9 @@
 import React, { useState, useEffect, FunctionComponent } from 'react';
-import camelCase from 'lodash.camelcase';
 import { LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { defaultReactOptions, ProviderConfig } from './types';
 import { Provider } from './context';
 import initLDClient from './initLDClient';
-import { camelCaseKeys } from './utils';
+import { camelCaseKeys, getFlattenedFlagsFromChangeset } from './utils';
 
 /**
  * This is an async function which initializes LaunchDarkly's JS SDK (`launchdarkly-js-client-sdk`)
@@ -46,14 +45,10 @@ export default async function asyncWithLDProvider(config: ProviderConfig) {
       }
 
       ldClient.on('change', (changes: LDFlagChangeset) => {
-        const flattened: LDFlagSet = {};
-        for (const key in changes) {
-          // tslint:disable-next-line:no-unsafe-any
-          const flagKey = reactOptions.useCamelCaseFlagKeys ? camelCase(key) : key;
-          flattened[flagKey] = changes[key].current;
+        const flattened: LDFlagSet = getFlattenedFlagsFromChangeset(changes, flags, reactOptions);
+        if (Object.keys(flattened).length > 0) {
+          setLDData(prev => ({ ...prev, flags: { ...prev.flags, ...flattened } }));
         }
-
-        setLDData(prev => ({ ...prev, flags: { ...prev.flags, ...flattened } }));
       });
     }, []);
 
