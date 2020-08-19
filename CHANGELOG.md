@@ -2,6 +2,10 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/master/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.20.1] - 2020-08-19
+### Fixed:
+- Fixed an issue where change listeners would update the component state when any flag was modified, even if the client instance was configured such that it was not subscribed for the modified flag. (Thanks, [clayembry](https://github.com/launchdarkly/react-client-sdk/pull/46)!)
+
 ## [2.20.0] - 2020-07-17
 ### Changed:
 - Updated `launchdarkly-js-client-sdk` version to 2.18.0, which adds the [`disable-sync-event-post`](https://launchdarkly.github.io/js-client-sdk/interfaces/_launchdarkly_js_client_sdk_.ldoptions.html#disablesynceventpost) option.
