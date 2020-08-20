@@ -38,7 +38,7 @@ export const getFlattenedFlagsFromChangeset = (
 ): LDFlagSet => {
   const flattened: LDFlagSet = {};
   for (const key in changes) {
-    if (targetFlags === undefined || targetFlags[key] !== undefined) {
+    if (!targetFlags || targetFlags[key] !== undefined) {
       // tslint:disable-next-line:no-unsafe-any
       const flagKey = reactOptions.useCamelCaseFlagKeys ? camelCase(key) : key;
       flattened[flagKey] = changes[key].current;
