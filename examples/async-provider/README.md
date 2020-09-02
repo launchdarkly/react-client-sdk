@@ -13,7 +13,7 @@ yarn
 Follow these steps to run the example app:
 
 * In client/index.js, set `clientSideID` to your own Client-side ID. You can find
-this in your ld portal under Account settings / Projects.
+this in your LaunchDarkly portal under Account settings / Projects.
 
 * Create a flag called `dev-test-flag` in your project. Make sure you
 make the flag available to the client-side SDK.
