@@ -21,5 +21,5 @@ const App = () => (
 );
 
 // Set clientSideID to your own Client-side ID. You can find this in
-// your ld portal under Account settings / Projects
-export default withLDProvider({ clientSideID: '59b2b2596d1a250b1c78baa4' })(App);
+// your LaunchDarkly portal under Account settings / Projects
+export default withLDProvider({ clientSideID: 'YOUR_CLIENT_SIDE_ID_HERE' })(App);
