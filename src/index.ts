@@ -5,5 +5,15 @@ import withLDConsumer from './withLDConsumer';
 import useFlags from './useFlags';
 import useLDClient from './useLDClient';
 import camelCaseKeys from './utils';
+import context from './context';
 
-export { LDProvider, withLDProvider, withLDConsumer, useFlags, useLDClient, asyncWithLDProvider, camelCaseKeys };
+export {
+  asyncWithLDProvider,
+  camelCaseKeys,
+  context,
+  LDProvider,
+  useFlags,
+  useLDClient,
+  withLDConsumer,
+  withLDProvider,
+};
