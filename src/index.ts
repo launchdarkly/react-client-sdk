@@ -1,4 +1,5 @@
 import LDProvider from './provider';
+import MockProvider from './mockProvider';
 import withLDProvider from './withLDProvider';
 import asyncWithLDProvider from './asyncWithLDProvider';
 import withLDConsumer from './withLDConsumer';
@@ -12,6 +13,7 @@ export {
   camelCaseKeys,
   context,
   LDProvider,
+  MockProvider,
   useFlags,
   useLDClient,
   withLDConsumer,

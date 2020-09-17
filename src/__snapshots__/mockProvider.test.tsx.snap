@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MockProvider allows the usage of \`useFlags\` with the given mocked flags 1`] = `
+<div>
+  Value: 
+  my-test
+</div>
+`;
