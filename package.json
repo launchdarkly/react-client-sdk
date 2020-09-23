@@ -13,6 +13,8 @@
     "bindings"
   ],
   "main": "lib/index.js",
+  "module": "lib/index.js",
+  "sideEffects": false,
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest",
