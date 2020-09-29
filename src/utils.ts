@@ -48,7 +48,11 @@ export const getFlattenedFlagsFromChangeset = (
   return flattened;
 };
 
-// TODO: Remove this for the next major version. This was added to maintain backwards compatibility.
+/**
+ * @deprecated The `camelCaseKeys.camelCaseKeys` property will be removed in a future version,
+ * please update your code to use the `camelCaseKeys` function directly.
+ */
+// tslint:disable-next-line deprecation
 camelCaseKeys.camelCaseKeys = camelCaseKeys;
 
 export default { camelCaseKeys, getFlattenedFlagsFromChangeset };
