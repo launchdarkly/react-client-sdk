@@ -5,7 +5,9 @@ import { asyncWithLDProvider } from 'launchdarkly-react-client-sdk';
 import App from '../universal/app';
 
 (async () => {
-  const LDProvider = await asyncWithLDProvider({ clientSideID: '59b2b2596d1a250b1c78baa4' });
+  // Set clientSideID to your own Client-side ID. You can find this in
+  // your LaunchDarkly portal under Account settings / Projects
+  const LDProvider = await asyncWithLDProvider({ clientSideID: 'YOUR_CLIENT_SIDE_ID_HERE' });
 
   render(
     <BrowserRouter>
