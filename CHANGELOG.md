@@ -2,6 +2,14 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/master/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.21.0] - 2020-11-17
+### Fixed:
+- The `camelCaseKeys` utility function is now exported as a function instead of as an object containing a `camelCaseKeys` function. `camelCaseKeys.camelCaseKeys` remains for backwards compatibility.
+- Updated the `LDEvaluationDetail.reason` type definition to be nullable. This value will be `null` when `LDOptions.evaluationReasons` is `false`.
+
+### Deprecated:
+- `camelCaseKeys.camelCaseKeys` is now deprecated-- see the note above.
+
 ## [2.20.2] - 2020-09-14
 ### Fixed:
 - In streaming mode, when connecting to the Relay Proxy rather than directly to the LaunchDarkly streaming service, if the current user was changed twice within a short time it was possible for the SDK to revert to flag values from the previous user. (Fixed in JS SDK 2.18.1)
