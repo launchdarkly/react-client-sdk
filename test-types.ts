@@ -9,6 +9,7 @@ var ver: string = ld.version;
 var logger: ld.LDLogger = ld.createConsoleLogger("info");
 var userWithKeyOnly: ld.LDUser = { key: 'user' };
 var anonUserWithNoKey: ld.LDUser = { anonymous: true };
+var anonUserWithKey: ld.LDUser = { key: 'anon-user', anonymous: true };
 var user: ld.LDUser = {
   key: 'user',
   secondary: 'otherkey',
@@ -45,3 +46,5 @@ var detailReason: ld.LDEvaluationReason = detail.reason;
 
 var flagSet: ld.LDFlagSet = client.allFlags();
 var flagSetValue: ld.LDFlagValue = flagSet['key'];
+
+client.alias(user, anonUserWithKey);
