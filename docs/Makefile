@@ -11,7 +11,7 @@ endif
 html:
 	cp ../package.json before-typedoc-package.json
 	cp ../package-lock.json before-typedoc-package-lock.json
-	cd .. && npm install typedoc
+	cd .. && npm install "typedoc@<0.20.0"
 	rm -rf build
 	mkdir -p build/html
 # For unknown reasons, TypeDoc doesn't seem to work reliably in this project when we put our
