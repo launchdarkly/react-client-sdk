@@ -36,7 +36,7 @@ const Home = ({ flags }) => (
         <ListItem>Turn the flag on and off to see this app respond without a browser refresh.</ListItem>
       </ul>
     </div>
-    <FlagDisplay>{flags.devTestFlag ? <FlagOn>Flag on</FlagOn> : <span>Flag off</span>}</FlagDisplay>
+    <FlagDisplay>{flags.devTestFlag}</FlagDisplay>
   </Root>
 );
 

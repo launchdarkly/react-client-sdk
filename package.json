@@ -45,9 +45,9 @@
     "jest-junit": "^6.3.0",
     "prettier": "^1.18.2",
     "prop-types": "^15.7.2",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-test-renderer": "^16.8.4",
+    "react": "^17.0.0",
+    "react-dom": "^17.0.0",
+    "react-test-renderer": "^17.0.2",
     "rimraf": "^3.0.0",
     "ts-jest": "^26.0.0",
     "tslint": "^5.19.0",
@@ -61,6 +61,7 @@
     "uuid": "^3.3.2"
   },
   "peerDependencies": {
-    "react": "^16.6.3"
+    "react": "^16.6.3 || ^17.0.0",
+    "react-dom": "^16.8.4 || ^17.0.0"
   }
 }
