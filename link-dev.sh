@@ -11,7 +11,7 @@ rm -rf node_modules
 npm install --production
 
 echo "===== Linking to examples"
-declare -a examples=("async-provider hoc")
+declare -a examples=(async-provider hoc)
 
 for example in "${examples[@]}"
 do
