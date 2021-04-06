@@ -15,9 +15,7 @@ const FlagDisplay = styled.div`
   font-size: 20px;
   font-weight: bold;
 `;
-const FlagOn = styled.span`
-  color: #96bf01;
-`;
+
 const HooksDemo = () => {
   const { devTestFlag } = useFlags();
 

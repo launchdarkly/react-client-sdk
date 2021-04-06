@@ -16,9 +16,7 @@ const FlagDisplay = styled.div`
   font-size: 20px;
   font-weight: bold;
 `;
-const FlagOn = styled.span`
-  color: #96bf01;
-`;
+
 const Home = ({ flags }) => (
   <Root>
     <Heading>Welcome to launchdarkly-react-client-sdk Example App</Heading>
