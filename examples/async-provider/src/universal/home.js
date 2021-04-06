@@ -16,7 +16,9 @@ const FlagDisplay = styled.div`
   font-size: 20px;
   font-weight: bold;
 `;
-
+const FlagOn = styled.span`
+  color: #96bf01;
+`;
 const Home = ({ flags }) => (
   <Root>
     <Heading>Welcome to launchdarkly-react-client-sdk Example App</Heading>
@@ -34,7 +36,7 @@ const Home = ({ flags }) => (
         <ListItem>Turn the flag on and off to see this app respond without a browser refresh.</ListItem>
       </ul>
     </div>
-    <FlagDisplay>{flags.devTestFlag}</FlagDisplay>
+    <FlagDisplay>{flags.devTestFlag ? <FlagOn>Flag on</FlagOn> : <span>Flag off</span>}</FlagDisplay>
   </Root>
 );
 

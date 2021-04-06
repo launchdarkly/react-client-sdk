@@ -38,7 +38,7 @@ const HooksDemo = () => {
           <ListItem>Turn the flag on and off to see this app respond without a browser refresh.</ListItem>
         </ul>
       </div>
-      <FlagDisplay>{devTestFlag}</FlagDisplay>
+      <FlagDisplay>{devTestFlag ? <FlagOn>Flag on</FlagOn> : <span>Flag off</span>}</FlagDisplay>
     </Root>
   );
 };

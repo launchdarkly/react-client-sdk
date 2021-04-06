@@ -7,7 +7,7 @@ import App from '../universal/app';
 (async () => {
   // Set clientSideID to your own Client-side ID. You can find this in
   // your LaunchDarkly portal under Account settings / Projects
-  const LDProvider = await asyncWithLDProvider({ clientSideID: '60524d9ce9c4b50e7d2ca0d4' });
+  const LDProvider = await asyncWithLDProvider({ clientSideID: 'YOUR_CLIENT_SIDE_ID_HERE' });
 
   render(
     <BrowserRouter>

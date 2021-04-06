@@ -15,7 +15,9 @@ const FlagDisplay = styled.div`
   font-size: 20px;
   font-weight: bold;
 `;
-
+const FlagOn = styled.span`
+  color: #96bf01;
+`;
 const HooksDemo = () => {
   const { devTestFlag } = useFlags();
 
@@ -36,7 +38,7 @@ const HooksDemo = () => {
           <ListItem>Turn the flag on and off to see this app respond without a browser refresh.</ListItem>
         </ul>
       </div>
-      <FlagDisplay>{devTestFlag}</FlagDisplay>
+      <FlagDisplay>{devTestFlag ? <FlagOn>Flag on</FlagOn> : <span>Flag off</span>}</FlagDisplay>
     </Root>
   );
 };
