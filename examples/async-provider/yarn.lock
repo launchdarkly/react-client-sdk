@@ -3936,27 +3936,29 @@ koa@^2.5.3:
     type-is "^1.6.16"
     vary "^1.1.2"
 
-launchdarkly-js-client-sdk@2.19.0:
-  version "2.19.0"
-  resolved "https://registry.yarnpkg.com/launchdarkly-js-client-sdk/-/launchdarkly-js-client-sdk-2.19.0.tgz#eb846ecf8d195d0631a6612f7c01c4cec157a1dd"
-  integrity sha512-wt5jQVFcTfietLsgHm2hFPenIx4vejCctrsi4KnjcI1mTWW9fWhpGqFVbQWfuezePr4xp8+1Ldol+lpe9c0DhA==
+launchdarkly-js-client-sdk@2.19.1:
+  version "2.19.1"
+  resolved "https://registry.yarnpkg.com/launchdarkly-js-client-sdk/-/launchdarkly-js-client-sdk-2.19.1.tgz#fafdee022db0abcd94ce512ecd3b628381a8d12e"
+  integrity sha512-75KSckqH0OSVQbjzgTJk5B/a5XT5Z5nruAPqFn2wj38rF/9hxwWH2XcVc7R+6q0m88RuLUZ1AV9tr5TMKVBd/A==
   dependencies:
     escape-string-regexp "^1.0.5"
-    launchdarkly-js-sdk-common "3.3.0"
+    launchdarkly-js-sdk-common "3.3.1"
 
-launchdarkly-js-sdk-common@3.3.0:
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/launchdarkly-js-sdk-common/-/launchdarkly-js-sdk-common-3.3.0.tgz#1f78adeb4944e62850f8e8b0227ddd8fcc8af513"
-  integrity sha512-YZNwD9t7qL530Diz+thetn+9qVHzz+m421i4RAlMhWcximr9UCA9ZktuBa1ry1Fca1+wLNWXKI4Es94lTZSOVw==
+launchdarkly-js-sdk-common@3.3.1:
+  version "3.3.1"
+  resolved "https://registry.yarnpkg.com/launchdarkly-js-sdk-common/-/launchdarkly-js-sdk-common-3.3.1.tgz#4650cf2364364f0b22fe42febd4ec2200d6835a6"
+  integrity sha512-8YZcMtn7mf/e62iBopNcG9k6FLrFBHaAbUzRMOTeouOyVx8/M967I5E7zKbqlfMIsPSE6yjxik2yvpO1+oAz8w==
   dependencies:
     base64-js "^1.3.0"
     fast-deep-equal "^2.0.1"
     uuid "^3.3.2"
 
-"launchdarkly-react-client-sdk@file:../..":
-  version "2.22.0"
+launchdarkly-react-client-sdk@^2.22.1:
+  version "2.22.1"
+  resolved "https://registry.yarnpkg.com/launchdarkly-react-client-sdk/-/launchdarkly-react-client-sdk-2.22.1.tgz#76db051c7069e3f0593affbbe8c6b269c305a1af"
+  integrity sha512-12SRSqD6shrg6BMMi8WByKhm85sW0EP29JohSzT/pzSW/VXRFtzl2Rf8UD2ZdUg3Caz7zKHDeEZ9c4lTy1IN7g==
   dependencies:
-    launchdarkly-js-client-sdk "2.19.0"
+    launchdarkly-js-client-sdk "2.19.1"
     lodash.camelcase "^4.3.0"
     uuid "^3.3.2"
 

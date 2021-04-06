@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/server/index.js",
     "lint": "eslint ./src",
-    "serve": "webpack-serve webpack.config.server"
+    "serve": "webpack-serve webpack.config.server",
+    "postinstall": "cd ../../ && yarn link-dev"
   },
   "repository": {
     "type": "git",
