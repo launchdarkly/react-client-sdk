@@ -2,6 +2,10 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/master/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.22.2] - 2021-04-06
+### Changed:
+- Updated the SDK&#39;s peer dependencies so that it can run in an application with React 17 (thanks, [maclockard](https://github.com/launchdarkly/react-client-sdk/pull/61)!)
+
 ## [2.22.1] - 2021-04-02
 ### Fixed:
 - The property `LDOptions.inlineUsersInEvents` was not included in the TypeScript definitions for the JavaScript SDK.
