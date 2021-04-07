@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>LDProvider | LaunchDarkly React SDK (2.22.1)</title>
-	<meta name="description" content="Documentation for LaunchDarkly React SDK (2.22.1)">
+	<title>LDProvider | LaunchDarkly React SDK (2.22.2)</title>
+	<meta name="description" content="Documentation for LaunchDarkly React SDK (2.22.2)">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 </head>
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">LaunchDarkly React SDK (2.22.1)</a>
+					<a href="../index.html" class="title">LaunchDarkly React SDK (2.22.2)</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -162,7 +162,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides Component.__constructor</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c681581/src/provider.tsx#L26">src/provider.tsx:26</a></li>
+									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c50f05f/src/provider.tsx#L26">src/provider.tsx:26</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -185,23 +185,24 @@
 					<aside class="tsd-sources">
 						<p>Inherited from Component.context</p>
 						<ul>
-							<li>Defined in node_modules/@types/react/index.d.ts:425</li>
+							<li>Defined in node_modules/@types/react/index.d.ts:469</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>If using the new style context, re-declare this in your class to be the
-							<code>React.ContextType</code> of your <code>static contextType</code>.</p>
+								<code>React.ContextType</code> of your <code>static contextType</code>.
+							Should be used with type annotation or static contextType.</p>
 						</div>
 						<pre><code class="language-ts"><span class="hljs-keyword">static</span> contextType = MyContext
+<span class="hljs-comment">// For TS pre-3.7:</span>
 context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContext&gt;
+<span class="hljs-comment">// For TS 3.7 and above:</span>
+<span class="hljs-keyword">declare</span> context: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContext&gt;
 </code></pre>
 						<dl class="tsd-comment-tags">
-							<dt>deprecated</dt>
-							<dd><p>if used without a type annotation, or without static contextType</p>
-							</dd>
 							<dt>see</dt>
-							<dd><p><a href="https://reactjs.org/docs/legacy-context.html">https://reactjs.org/docs/legacy-context.html</a></p>
+							<dd><p><a href="https://reactjs.org/docs/context.html">https://reactjs.org/docs/context.html</a></p>
 							</dd>
 						</dl>
 					</div>
@@ -213,7 +214,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<aside class="tsd-sources">
 						<p>Inherited from Component.props</p>
 						<ul>
-							<li>Defined in node_modules/@types/react/index.d.ts:450</li>
+							<li>Defined in node_modules/@types/react/index.d.ts:494</li>
 						</ul>
 					</aside>
 				</section>
@@ -224,7 +225,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<aside class="tsd-sources">
 						<p>Inherited from Component.refs</p>
 						<ul>
-							<li>Defined in node_modules/@types/react/index.d.ts:456</li>
+							<li>Defined in node_modules/@types/react/index.d.ts:500</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -250,7 +251,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<aside class="tsd-sources">
 						<p>Overrides Component.state</p>
 						<ul>
-							<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c681581/src/provider.tsx#L26">src/provider.tsx:26</a></li>
+							<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c50f05f/src/provider.tsx#L26">src/provider.tsx:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -261,7 +262,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 					<aside class="tsd-sources">
 						<p>Inherited from Component.contextType</p>
 						<ul>
-							<li>Defined in node_modules/@types/react/index.d.ts:410</li>
+							<li>Defined in node_modules/@types/react/index.d.ts:451</li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -301,7 +302,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Inherited from DeprecatedLifecycle.UNSAFE_componentWillMount</p>
 								<ul>
-									<li>Defined in node_modules/@types/react/index.d.ts:638</li>
+									<li>Defined in node_modules/@types/react/index.d.ts:707</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -339,7 +340,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Inherited from DeprecatedLifecycle.UNSAFE_componentWillReceiveProps</p>
 								<ul>
-									<li>Defined in node_modules/@types/react/index.d.ts:670</li>
+									<li>Defined in node_modules/@types/react/index.d.ts:739</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -388,7 +389,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Inherited from DeprecatedLifecycle.UNSAFE_componentWillUpdate</p>
 								<ul>
-									<li>Defined in node_modules/@types/react/index.d.ts:698</li>
+									<li>Defined in node_modules/@types/react/index.d.ts:767</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -438,7 +439,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Inherited from ComponentLifecycle.componentDidCatch</p>
 								<ul>
-									<li>Defined in node_modules/@types/react/index.d.ts:567</li>
+									<li>Defined in node_modules/@types/react/index.d.ts:636</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -471,7 +472,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Overrides ComponentLifecycle.componentDidMount</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c681581/src/provider.tsx#L71">src/provider.tsx:71</a></li>
+									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c50f05f/src/provider.tsx#L71">src/provider.tsx:71</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -489,7 +490,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Overrides NewLifecycle.componentDidUpdate</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c681581/src/provider.tsx#L80">src/provider.tsx:80</a></li>
+									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c50f05f/src/provider.tsx#L80">src/provider.tsx:80</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -513,7 +514,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Inherited from DeprecatedLifecycle.componentWillMount</p>
 								<ul>
-									<li>Defined in node_modules/@types/react/index.d.ts:624</li>
+									<li>Defined in node_modules/@types/react/index.d.ts:693</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -550,7 +551,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Inherited from DeprecatedLifecycle.componentWillReceiveProps</p>
 								<ul>
-									<li>Defined in node_modules/@types/react/index.d.ts:653</li>
+									<li>Defined in node_modules/@types/react/index.d.ts:722</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -598,7 +599,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Inherited from ComponentLifecycle.componentWillUnmount</p>
 								<ul>
-									<li>Defined in node_modules/@types/react/index.d.ts:562</li>
+									<li>Defined in node_modules/@types/react/index.d.ts:631</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -622,7 +623,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Inherited from DeprecatedLifecycle.componentWillUpdate</p>
 								<ul>
-									<li>Defined in node_modules/@types/react/index.d.ts:683</li>
+									<li>Defined in node_modules/@types/react/index.d.ts:752</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -671,7 +672,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Inherited from Component.forceUpdate</p>
 								<ul>
-									<li>Defined in node_modules/@types/react/index.d.ts:442</li>
+									<li>Defined in node_modules/@types/react/index.d.ts:486</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -694,7 +695,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c681581/src/provider.tsx#L51">src/provider.tsx:51</a></li>
+									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c50f05f/src/provider.tsx#L51">src/provider.tsx:51</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">{}</span></h4>
@@ -712,7 +713,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Inherited from NewLifecycle.getSnapshotBeforeUpdate</p>
 								<ul>
-									<li>Defined in node_modules/@types/react/index.d.ts:603</li>
+									<li>Defined in node_modules/@types/react/index.d.ts:672</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -747,7 +748,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c681581/src/provider.tsx#L63">src/provider.tsx:63</a></li>
+									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c50f05f/src/provider.tsx#L63">src/provider.tsx:63</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -765,7 +766,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Overrides Component.render</p>
 								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c681581/src/provider.tsx#L88">src/provider.tsx:88</a></li>
+									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c50f05f/src/provider.tsx#L88">src/provider.tsx:88</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Element</span></h4>
@@ -783,7 +784,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Inherited from Component.setState</p>
 								<ul>
-									<li>Defined in node_modules/@types/react/index.d.ts:437</li>
+									<li>Defined in node_modules/@types/react/index.d.ts:481</li>
 								</ul>
 							</aside>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -816,7 +817,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 							<aside class="tsd-sources">
 								<p>Inherited from ComponentLifecycle.shouldComponentUpdate</p>
 								<ul>
-									<li>Defined in node_modules/@types/react/index.d.ts:557</li>
+									<li>Defined in node_modules/@types/react/index.d.ts:626</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -855,7 +856,7 @@ context!: React.ContextType&lt;<span class="hljs-keyword">typeof</span> MyContex
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c681581/src/provider.tsx#L53">src/provider.tsx:53</a></li>
+									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/c50f05f/src/provider.tsx#L53">src/provider.tsx:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
