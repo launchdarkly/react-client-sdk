@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/server/index.js",
     "lint": "eslint ./src",
-    "serve": "webpack-serve webpack.config.server"
+    "serve": "webpack-serve webpack.config.server",
+    "postinstall": "cd ../../ && yarn link-dev"
   },
   "repository": {
     "type": "git",
@@ -26,7 +27,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "express": "^4.16.4",
-    "launchdarkly-react-client-sdk": "^2.15.0",
+    "launchdarkly-react-client-sdk": "^2.22.1",
     "lodash": "^4.17.11",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
