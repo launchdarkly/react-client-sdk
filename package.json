@@ -58,7 +58,7 @@
     "typescript": "~3.8.3"
   },
   "dependencies": {
-    "launchdarkly-js-client-sdk": "2.19.1",
+    "launchdarkly-js-client-sdk": "2.19.2",
     "lodash.camelcase": "^4.3.0",
     "uuid": "^3.3.2"
   },
