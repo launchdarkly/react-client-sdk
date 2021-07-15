@@ -23,13 +23,13 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
  * @param config - The configuration used to initialize LaunchDarkly's JS SDK
  * @return A function which accepts your root React component and returns a HOC
  */
-export function withLDProvider(config: ProviderConfig): any {
-  return function withLDProviderHoc<P>(WrappedComponent: React.ComponentType<P>) {
+export function withLDProvider(config: ProviderConfig): (WrappedComponent: React.ComponentType) => React.ComponentType {
+  return function withLDProviderHoc(WrappedComponent: React.ComponentType): React.ComponentType {
     const { reactOptions: userReactOptions } = config;
     const reactOptions = { ...defaultReactOptions, ...userReactOptions };
     const providerProps = { ...config, reactOptions };
 
-    class HoistedComponent extends React.Component<P> {
+    class HoistedComponent extends React.Component {
       render() {
         return (
           <LDProvider {...providerProps}>
@@ -40,6 +40,7 @@ export function withLDProvider(config: ProviderConfig): any {
     }
 
     hoistNonReactStatics(HoistedComponent, WrappedComponent);
+
     return HoistedComponent;
   };
 }
