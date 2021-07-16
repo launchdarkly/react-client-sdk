@@ -34,6 +34,7 @@
     "@testing-library/jest-dom": "^4.1.0",
     "@testing-library/react": "^11.2.6",
     "@types/enzyme": "^3.10.3",
+    "@types/hoist-non-react-statics": "^3.3.1",
     "@types/jest": "^25.2.3",
     "@types/lodash.camelcase": "^4.3.6",
     "@types/prop-types": "^15.7.2",
@@ -58,6 +59,7 @@
     "typescript": "~3.8.3"
   },
   "dependencies": {
+    "hoist-non-react-statics": "^3.3.2",
     "launchdarkly-js-client-sdk": "2.19.2",
     "lodash.camelcase": "^4.3.0",
     "uuid": "^3.3.2"
