@@ -118,12 +118,12 @@ describe('withLDProvider', () => {
     expect(newState).toEqual({ flags: { 'another-test-flag': false, 'test-flag': false } });
   });
 
-  test('hoist non react statics', async () => {
+  test('hoist non react statics', () => {
     interface ComponentWithStaticFn extends React.FC {
-      getInitialProps: () => void;
+      getInitialProps(): void;
     }
-    const WrappedComponent: ComponentWithStaticFn = () => null;
-    WrappedComponent.getInitialProps = function() {};
+    const WrappedComponent: ComponentWithStaticFn = () => <></>;
+    WrappedComponent.getInitialProps = () => '';
 
     const LaunchDarklyApp = withLDProvider({ clientSideID, reactOptions: { useCamelCaseFlagKeys: false } })(
       WrappedComponent,
