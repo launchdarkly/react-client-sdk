@@ -125,7 +125,9 @@ describe('withLDProvider', () => {
     const WrappedComponent: ComponentWithStaticFn = () => null;
     WrappedComponent.getInitialProps = function() {};
 
-    const LaunchDarklyApp = withLDProvider({ clientSideID, reactOptions: { useCamelCaseFlagKeys: false } })(WrappedComponent) as ComponentWithStaticFn;
+    const LaunchDarklyApp = withLDProvider({ clientSideID, reactOptions: { useCamelCaseFlagKeys: false } })(
+      WrappedComponent,
+    ) as ComponentWithStaticFn;
     expect(LaunchDarklyApp.getInitialProps).toBeDefined();
   });
 });
