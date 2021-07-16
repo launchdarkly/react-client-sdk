@@ -1,5 +1,4 @@
 import Express from 'express';
-import React from 'react';
 
 const PORT = 3000;
 const app = Express();
