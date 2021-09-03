@@ -1,6 +1,6 @@
-import { camelCaseKeys, getFlattenedFlagsFromChangeset } from './utils';
-import { LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
-import { LDReactOptions } from './types';
+import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './utils';
+import { LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
+import { defaultReactOptions, LDReactOptions } from './types';
 
 describe('Utils', () => {
   test('camelCaseKeys should ignore system keys', () => {
@@ -71,5 +71,44 @@ describe('Utils', () => {
     const flattened = getFlattenedFlagsFromChangeset(flagChanges, targetFlags, reactOptions);
 
     expect(flattened).toEqual({ 'another-test-flag': false, 'test-flag': true });
+  });
+
+  describe('fetchFlags', () => {
+    const allFlags: LDFlagSet = { 'example-flag': true, 'test-example': false };
+    const reactOptions: LDReactOptions = { ...defaultReactOptions };
+
+    let mockLDClient: jest.Mocked<Partial<LDClient>>;
+
+    beforeEach(() => {
+      mockLDClient = {
+        allFlags: jest.fn().mockReturnValue(allFlags),
+        variation: jest.fn((_, defaultVal: boolean | string | number) => defaultVal),
+      };
+    });
+
+    test('should return variations for the target flags', () => {
+      const targetFlags = { 'target-one': true, 'target-two': true, 'target-three': false };
+      const flagSet = fetchFlags(mockLDClient as LDClient, reactOptions, targetFlags);
+
+      expect(mockLDClient.allFlags).toBeCalledTimes(0);
+      expect(mockLDClient.variation).toBeCalledTimes(3);
+      expect(flagSet).toEqual({ targetOne: true, targetThree: false, targetTwo: true });
+    });
+
+    test('should return all flags when target flags is not defined', () => {
+      const flagSet = fetchFlags(mockLDClient as LDClient, reactOptions, undefined);
+
+      expect(mockLDClient.allFlags).toBeCalledTimes(1);
+      expect(mockLDClient.variation).toBeCalledTimes(0);
+      expect(flagSet).toEqual({ exampleFlag: true, testExample: false });
+    });
+
+    test('should not return camelCase flag keys when useCamelCaseFlagKeys is set to false', () => {
+      const flagSet = fetchFlags(mockLDClient as LDClient, { useCamelCaseFlagKeys: false }, undefined);
+
+      expect(mockLDClient.allFlags).toBeCalledTimes(1);
+      expect(mockLDClient.variation).toBeCalledTimes(0);
+      expect(flagSet).toEqual(allFlags);
+    });
   });
 });

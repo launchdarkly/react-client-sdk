@@ -1,6 +1,6 @@
-import { LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
+import { LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import camelCase from 'lodash.camelcase';
-import { LDReactOptions } from './types';
+import { defaultReactOptions, LDReactOptions } from './types';
 
 /**
  * Transforms a set of flags so that their keys are camelCased. This function ignores
@@ -49,10 +49,37 @@ export const getFlattenedFlagsFromChangeset = (
 };
 
 /**
+ * Retrieves flag values.
+ *
+ * @param ldClient LaunchDarkly client
+ * @param reactOptions Initialization options for the LaunchDarkly React SDK
+ * @param targetFlags If specified, `launchdarkly-react-client-sdk` will only request and listen to these flags.
+ *
+ * @returns an `LDFlagSet` with the current flag values from LaunchDarkly filtered by `targetFlags`.
+ */
+export const fetchFlags = (
+  ldClient: LDClient,
+  reactOptions: LDReactOptions = defaultReactOptions,
+  targetFlags?: LDFlagSet,
+) => {
+  let rawFlags: LDFlagSet = {};
+
+  if (targetFlags) {
+    for (const flag in targetFlags) {
+      rawFlags[flag] = ldClient.variation(flag, targetFlags[flag]);
+    }
+  } else {
+    rawFlags = ldClient.allFlags();
+  }
+
+  return reactOptions.useCamelCaseFlagKeys ? camelCaseKeys(rawFlags) : rawFlags;
+};
+
+/**
  * @deprecated The `camelCaseKeys.camelCaseKeys` property will be removed in a future version,
  * please update your code to use the `camelCaseKeys` function directly.
  */
 // tslint:disable-next-line deprecation
 camelCaseKeys.camelCaseKeys = camelCaseKeys;
 
-export default { camelCaseKeys, getFlattenedFlagsFromChangeset };
+export default { camelCaseKeys, getFlattenedFlagsFromChangeset, fetchFlags };
