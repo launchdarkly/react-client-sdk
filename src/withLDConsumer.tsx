@@ -26,7 +26,7 @@ export interface LDProps {
   /**
    * An instance of `LDClient` from the LaunchDarkly JS SDK (`launchdarkly-js-client-sdk`)
    *
-   * @see http://docs.launchdarkly.com/docs/js-sdk-reference
+   * @see https://docs.launchdarkly.com/sdk/client-side/javascript
    */
   ldClient?: LDClient;
 }
