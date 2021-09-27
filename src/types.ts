@@ -16,9 +16,9 @@ export interface LDReactOptions {
    * This is true by default, meaning that keys will automatically be converted to camel-case.
    *
    * For more information, see the React SDK Reference Guide on
-   * [flag keys](https://docs.launchdarkly.com/docs/react-sdk-reference#section-flag-keys).
+   * [flag keys](https://docs.launchdarkly.com/sdk/client-side/react/react-web#flag-keys).
    *
-   * @see https://docs.launchdarkly.com/docs/react-sdk-reference#section-flag-keys
+   * @see https://docs.launchdarkly.com/sdk/client-side/react/react-web#flag-keys
    */
   useCamelCaseFlagKeys?: boolean;
 }
@@ -43,7 +43,7 @@ export interface ProviderConfig {
    * A LaunchDarkly user object. If unspecified, a new user with a
    * random key will be created and used. This user's key will remain constant across browser sessions.
    *
-   * @see http://docs.launchdarkly.com/docs/js-sdk-reference#section-users
+   * @see https://docs.launchdarkly.com/sdk/features/user-config#javascript
    */
   user?: LDUser;
 
@@ -55,7 +55,7 @@ export interface ProviderConfig {
   /**
    * LaunchDarkly initialization options. These options are common between LaunchDarkly's JavaScript and React SDKs.
    *
-   * @see https://docs.launchdarkly.com/docs/js-sdk-reference#section-customizing-your-client
+   * @see https://docs.launchdarkly.com/sdk/features/config#javascript
    */
   options?: LDOptions;
 
@@ -98,7 +98,7 @@ export interface AllFlagsLDClient {
   /**
    * An instance of `LDClient` from the LaunchDarkly JS SDK (`launchdarkly-js-client-sdk`).
    *
-   * @see http://docs.launchdarkly.com/docs/js-sdk-reference
+   * @see https://docs.launchdarkly.com/sdk/client-side/javascript
    */
   ldClient: LDClient;
 }
