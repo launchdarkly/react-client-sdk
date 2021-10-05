@@ -24,11 +24,9 @@ import hoistNonReactStatics from 'hoist-non-react-statics';
  * @return A function which accepts your root React component and returns a HOC
  */
 export function withLDProvider<T = {}>(
-  config: ProviderConfig
+  config: ProviderConfig,
 ): (WrappedComponent: React.ComponentType<T>) => React.ComponentType<T> {
-  return function withLDProviderHoc(
-    WrappedComponent: React.ComponentType<T>
-  ): React.ComponentType<T> {
+  return function withLDProviderHoc(WrappedComponent: React.ComponentType<T>): React.ComponentType<T> {
     const { reactOptions: userReactOptions } = config;
     const reactOptions = { ...defaultReactOptions, ...userReactOptions };
     const providerProps = { ...config, reactOptions };
