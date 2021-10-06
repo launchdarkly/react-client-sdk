@@ -1,9 +1,18 @@
 jest.mock('./initLDClient', () => jest.fn());
+jest.mock('./utils', () => {
+  const originalModule = jest.requireActual('./utils');
+
+  return {
+    ...originalModule,
+    fetchFlags: jest.fn(),
+  };
+});
 
 import React from 'react';
 import { render } from '@testing-library/react';
 import { LDFlagChangeset, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
+import { fetchFlags } from './utils';
 import { defaultReactOptions, LDReactOptions, ProviderConfig } from './types';
 import { Consumer } from './context';
 import asyncWithLDProvider from './asyncWithLDProvider';
@@ -12,6 +21,7 @@ const clientSideID = 'deadbeef';
 const user: LDUser = { key: 'yus', name: 'yus ng' };
 const App = () => <>My App</>;
 const mockInitLDClient = initLDClient as jest.Mock;
+const mockFetchFlags = fetchFlags as jest.Mock;
 const mockFlags = { testFlag: true, anotherTestFlag: true };
 let mockLDClient: { on: jest.Mock };
 
@@ -36,9 +46,10 @@ describe('asyncWithLDProvider', () => {
     };
 
     mockInitLDClient.mockImplementation(() => ({
-      flags: mockFlags,
       ldClient: mockLDClient,
     }));
+
+    mockFetchFlags.mockReturnValue(mockFlags);
   });
 
   afterEach(() => {
@@ -78,6 +89,7 @@ describe('asyncWithLDProvider', () => {
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
       cb({ 'test-flag': { current: false, previous: true } });
     });
+
     const receivedNode = await renderWithConfig({ clientSideID });
 
     expect(mockLDClient.on).toHaveBeenNthCalledWith(1, 'change', expect.any(Function));
@@ -85,8 +97,8 @@ describe('asyncWithLDProvider', () => {
   });
 
   test('subscribe to changes with kebab-case', async () => {
+    mockFetchFlags.mockReturnValue({ 'another-test-flag': true, 'test-flag': true });
     mockInitLDClient.mockImplementation(() => ({
-      flags: { 'another-test-flag': true, 'test-flag': true },
       ldClient: mockLDClient,
     }));
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
@@ -168,10 +180,11 @@ describe('asyncWithLDProvider', () => {
   });
 
   test('ldClient is initialised correctly with target flags', async () => {
+    mockFetchFlags.mockReturnValue({ devTestFlag: true, launchDoggly: true });
     mockInitLDClient.mockImplementation(() => ({
-      flags: { devTestFlag: true, launchDoggly: true },
       ldClient: mockLDClient,
     }));
+
     const options: LDOptions = {};
     const flags = { 'dev-test-flag': false, 'launch-doggly': false };
     const receivedNode = await renderWithConfig({ clientSideID, user, options, flags });
@@ -181,8 +194,8 @@ describe('asyncWithLDProvider', () => {
   });
 
   test('only updates to subscribed flags are pushed to the Provider', async () => {
+    mockFetchFlags.mockReturnValue({ testFlag: 2 });
     mockInitLDClient.mockImplementation(() => ({
-      flags: { testFlag: 2 },
       ldClient: mockLDClient,
     }));
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {

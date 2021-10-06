@@ -3,7 +3,7 @@ import { LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { defaultReactOptions, ProviderConfig } from './types';
 import { Provider } from './context';
 import initLDClient from './initLDClient';
-import { camelCaseKeys, getFlattenedFlagsFromChangeset } from './utils';
+import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './utils';
 
 /**
  * This is an async function which initializes LaunchDarkly's JS SDK (`launchdarkly-js-client-sdk`)
@@ -25,13 +25,13 @@ import { camelCaseKeys, getFlattenedFlagsFromChangeset } from './utils';
  * @param config - The configuration used to initialize LaunchDarkly's JS SDK
  */
 export default async function asyncWithLDProvider(config: ProviderConfig) {
-  const { clientSideID, user, flags, options, reactOptions: userReactOptions } = config;
+  const { clientSideID, user, flags: targetFlags, options, reactOptions: userReactOptions } = config;
   const reactOptions = { ...defaultReactOptions, ...userReactOptions };
-  const { flags: fetchedFlags, ldClient } = await initLDClient(clientSideID, user, reactOptions, options, flags);
+  const { ldClient } = await initLDClient(clientSideID, user, reactOptions, options, targetFlags);
 
   const LDProvider: FunctionComponent = ({ children }) => {
     const [ldData, setLDData] = useState({
-      flags: fetchedFlags,
+      flags: fetchFlags(ldClient, reactOptions, targetFlags),
       ldClient,
     });
 
@@ -45,7 +45,7 @@ export default async function asyncWithLDProvider(config: ProviderConfig) {
       }
 
       ldClient.on('change', (changes: LDFlagChangeset) => {
-        const flattened: LDFlagSet = getFlattenedFlagsFromChangeset(changes, flags, reactOptions);
+        const flattened: LDFlagSet = getFlattenedFlagsFromChangeset(changes, targetFlags, reactOptions);
         if (Object.keys(flattened).length > 0) {
           setLDData(prev => ({ ...prev, flags: { ...prev.flags, ...flattened } }));
         }

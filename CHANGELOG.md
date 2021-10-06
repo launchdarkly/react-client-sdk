@@ -2,6 +2,14 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/master/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.23.1] - 2021-09-03
+### Fixed:
+- When using `asyncWithLDProvider`, components added to the DOM after client initialization now use the latest known flag values instead of the bootstrapped values.
+
+## [2.23.0] - 2021-07-16
+### Added:
+- HOC now hoists statics (thanks, [NathanWaddell121107](https://github.com/launchdarkly/react-client-sdk/pull/71)!)
+
 ## [2.22.3] - 2021-06-09
 ### Fixed:
 - Events for the [LaunchDarkly debugger](https://docs.launchdarkly.com/home/flags/debugger) are now properly pre-processed to omit private user attributes, as well as enforce only expected top level attributes are sent.
