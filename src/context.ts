@@ -15,7 +15,7 @@ interface LDContext {
    * An instance of `LDClient` from the LaunchDarkly JS SDK (`launchdarkly-js-client-sdk`).
    * This will be be undefined initially until initialization is complete.
    *
-   * @see http://docs.launchdarkly.com/docs/js-sdk-reference
+   * @see https://docs.launchdarkly.com/sdk/client-side/javascript
    */
   ldClient?: LDClient;
 }
