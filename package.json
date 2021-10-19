@@ -14,6 +14,7 @@
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
+  "files": ["lib", "src", "!**/*.test.*", "!**/__snapshots__"],
   "scripts": {
     "test": "jest",
     "test:junit": "jest --ci --reporters=default --reporters=jest-junit",
