@@ -13,7 +13,7 @@ import { render } from '@testing-library/react';
 import { LDFlagChangeset, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
 import { fetchFlags } from './utils';
-import { defaultReactOptions, LDReactOptions, ProviderConfig } from './types';
+import { AsyncProviderConfig, defaultReactOptions, LDReactOptions } from './types';
 import { Consumer } from './context';
 import asyncWithLDProvider from './asyncWithLDProvider';
 
@@ -25,7 +25,7 @@ const mockFetchFlags = fetchFlags as jest.Mock;
 const mockFlags = { testFlag: true, anotherTestFlag: true };
 let mockLDClient: { on: jest.Mock };
 
-const renderWithConfig = async (config: ProviderConfig) => {
+const renderWithConfig = async (config: AsyncProviderConfig) => {
   const LDProvider = await asyncWithLDProvider(config);
 
   const { getByText } = render(
