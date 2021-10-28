@@ -74,6 +74,13 @@ export interface ProviderConfig {
 }
 
 /**
+ * `asyncWithLDProvider` does not support the `deferInitialization` config option because `asyncWithLDProvider` needs
+ * to be initialized at the app entry point prior to render to ensure flags and the ldClient are ready at the beginning
+ * of the app.
+ */
+export type AsyncProviderConfig = Omit<ProviderConfig, 'deferInitialization'>;
+
+/**
  * The return type of withLDProvider HOC. Exported for testing purposes only.
  *
  * @ignore
