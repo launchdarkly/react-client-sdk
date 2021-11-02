@@ -1,6 +1,6 @@
 import React, { useState, useEffect, FunctionComponent } from 'react';
 import { LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
-import { defaultReactOptions, ProviderConfig } from './types';
+import { AsyncProviderConfig, defaultReactOptions } from './types';
 import { Provider } from './context';
 import initLDClient from './initLDClient';
 import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './utils';
@@ -18,13 +18,18 @@ import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './uti
  * flicker due to flag changes at startup time.
  *
  * `asyncWithLDProvider` accepts a config object which is used to initialize `launchdarkly-js-client-sdk`.
+ *
+ * `asyncWithLDProvider` does not support the `deferInitialization` config option because `asyncWithLDProvider` needs
+ * to be initialized at the entry point prior to render to ensure your flags and the ldClient are ready at the beginning
+ * of your app.
+ *
  * It returns a provider which is a React FunctionComponent which:
  * - saves all flags and the ldClient instance in the context API
  * - subscribes to flag changes and propagate them through the context API
  *
  * @param config - The configuration used to initialize LaunchDarkly's JS SDK
  */
-export default async function asyncWithLDProvider(config: ProviderConfig) {
+export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
   const { clientSideID, user, flags: targetFlags, options, reactOptions: userReactOptions } = config;
   const reactOptions = { ...defaultReactOptions, ...userReactOptions };
   const { ldClient } = await initLDClient(clientSideID, user, reactOptions, options, targetFlags);
