@@ -1,6 +1,6 @@
 {
   "name": "launchdarkly-react-client-sdk",
-  "version": "2.23.2",
+  "version": "2.23.3",
   "description": "LaunchDarkly SDK for React",
   "author": "LaunchDarkly <team@launchdarkly.com>",
   "license": "Apache-2.0",
@@ -14,7 +14,12 @@
   ],
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
-  "files": ["lib", "src", "!**/*.test.*", "!**/__snapshots__"],
+  "files": [
+    "lib",
+    "src",
+    "!**/*.test.*",
+    "!**/__snapshots__"
+  ],
   "scripts": {
     "test": "jest",
     "test:junit": "jest --ci --reporters=default --reporters=jest-junit",

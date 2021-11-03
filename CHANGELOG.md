@@ -2,6 +2,16 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/master/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.23.3] - 2021-11-02
+### Added:
+- The `AsyncProviderConfig` type was added. This type is a clone of `ProviderConfig` except that `deferInitialization` is marked as deprecated; see the "Deprecated" section below for more information.
+
+### Fixed:
+- Fixed a bug where sourcemaps did not point to released files. ([#66](https://github.com/launchdarkly/react-client-sdk/issues/66))
+
+### Deprecated:
+- Deprecated the ability to specify `deferInitialization` in the `config` object parameter for `asyncWithLDProvider`. The `asyncWithLDProvider` function needs to be initialized at the app entry point prior to render to ensure flags and the `ldClient` are ready at the beginning of the app. As a result, initialization cannot be deferred when using `asyncWithLDProvider`. ([#99](https://github.com/launchdarkly/react-client-sdk/issues/99))
+
 ## [2.23.2] - 2021-10-06
 ### Changed:
 - Improved `withLDProvider` so that prop types can be provided (thanks, [dsifford](https://github.com/launchdarkly/react-client-sdk/pull/97)!)
