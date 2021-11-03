@@ -10,8 +10,7 @@ endif
 
 html:
 	cp ../package.json before-typedoc-package.json
-	cp ../package-lock.json before-typedoc-package-lock.json
-	cd .. && npm install "typedoc@<0.20.0"
+	cd .. && npm install "typedoc@<0.21.0"
 	rm -rf build
 	mkdir -p build/html
 # For unknown reasons, TypeDoc doesn't seem to work reliably in this project when we put our
@@ -19,8 +18,7 @@ html:
 # put all the options on the command line.
 # Also for unknown reasons, TypeDoc does not like us to specify a source path of ./src even
 # though that's what we do in our other projects, so we'll cd to the project root.
-	cd .. && ./node_modules/.bin/typedoc \
-	  --mode file \
+	cd .. && ./node_modules/.bin/typedoc src \
 	  --out ./docs/build/html \
 	  --name "${TITLE}" \
 	  --exclude '**/*.test.ts*' \
@@ -28,6 +26,5 @@ html:
 	  --externalPattern "**/node_modules/**" \
 	  --readme none
 	mv before-typedoc-package.json ../package.json
-	mv before-typedoc-package-lock.json ../package-lock.json
 
 .PHONY: html
