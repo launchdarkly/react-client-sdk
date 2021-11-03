@@ -10,7 +10,6 @@ endif
 
 html:
 	cp ../package.json before-typedoc-package.json
-	cp ../package-lock.json before-typedoc-package-lock.json
 	cd .. && npm install "typedoc@<0.21.0"
 	rm -rf build
 	mkdir -p build/html
@@ -27,6 +26,5 @@ html:
 	  --externalPattern "**/node_modules/**" \
 	  --readme none
 	mv before-typedoc-package.json ../package.json
-	mv before-typedoc-package-lock.json ../package-lock.json
 
 .PHONY: html
