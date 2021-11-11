@@ -71,6 +71,12 @@ export interface ProviderConfig {
    * Otherwise, all flags will be requested and listened to.
    */
   flags?: LDFlagSet;
+
+  /**
+   * Optionally, the LDClient can be initialised outside of the provider
+   * and passed in, instead of being initialised by the provider.
+   */
+  ldClient?: LDClient | Promise<LDClient | undefined>;
 }
 
 /**

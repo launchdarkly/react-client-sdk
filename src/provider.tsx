@@ -3,7 +3,7 @@ import { LDClient, LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk
 import { EnhancedComponent, ProviderConfig, defaultReactOptions } from './types';
 import { Provider, LDContext as HocState } from './context';
 import initLDClient from './initLDClient';
-import { camelCaseKeys, getFlattenedFlagsFromChangeset } from './utils';
+import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './utils';
 
 /**
  * The `LDProvider` is a component which accepts a config object which is used to
@@ -62,8 +62,16 @@ class LDProvider extends React.Component<ProviderConfig, HocState> implements En
 
   initLDClient = async () => {
     const { clientSideID, flags, options, user } = this.props;
+    let ldClient = await this.props.ldClient;
     const reactOptions = this.getReactOptions();
-    const { flags: fetchedFlags, ldClient } = await initLDClient(clientSideID, user, reactOptions, options, flags);
+    let fetchedFlags;
+    if (ldClient) {
+      fetchedFlags = await fetchFlags(ldClient, reactOptions, flags);
+    } else {
+      const initialisedOutput = await initLDClient(clientSideID, user, reactOptions, options, flags);
+      fetchedFlags = initialisedOutput.flags;
+      ldClient = initialisedOutput.ldClient;
+    }
     this.setState({ flags: fetchedFlags, ldClient });
     this.subscribeToChanges(ldClient);
   };
