@@ -39,6 +39,8 @@ export interface ProviderConfig {
    */
   clientSideID: string;
 
+  ldClient?: LDClient;
+
   /**
    * A LaunchDarkly user object. If unspecified, a new user with a
    * random key will be created and used. This user's key will remain constant across browser sessions.
