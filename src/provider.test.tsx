@@ -78,13 +78,13 @@ describe('LDProvider', () => {
   });
 
   test('ld client is used if passed in as promise', async () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const user1: LDUser = { key: 'yus', name: 'yus ng' };
+    const user2: LDUser = { key: 'launch', name: 'darkly' };
     const options: LDOptions = { bootstrap: {} };
     const ldClient: Promise<LDClient> = new Promise(async resolve =>
-      resolve((await initLDClient(clientSideID, user, defaultReactOptions, options, undefined)).ldClient),
+      resolve((await initLDClient(clientSideID, user1, defaultReactOptions, options, undefined)).ldClient),
     );
-    mockInitLDClient.mockClear();
-    const props: ProviderConfig = { clientSideID, ldClient };
+    const props: ProviderConfig = { clientSideID, ldClient, user: user2 };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
         <App />
@@ -93,7 +93,8 @@ describe('LDProvider', () => {
     const instance = create(LaunchDarklyApp).root.findByType(LDProvider).instance as EnhancedComponent;
 
     await instance.componentDidMount();
-    expect(mockInitLDClient).not.toHaveBeenCalled();
+    expect(mockInitLDClient).toBeCalledTimes(1);
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user1, defaultReactOptions, options, undefined);
   });
 
   test('ld client is created if passed in promise resolves as undefined', async () => {
@@ -102,7 +103,6 @@ describe('LDProvider', () => {
     const ldClient: Promise<undefined> = new Promise(async resolve =>
       resolve(undefined),
     );
-    mockInitLDClient.mockClear();
     const props: ProviderConfig = { clientSideID, ldClient, user, options };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
