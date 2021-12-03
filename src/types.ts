@@ -73,6 +73,9 @@ export interface ProviderConfig {
   flags?: LDFlagSet;
 }
 
+/**
+ * Configuration object used to initialize LaunchDarkly's JS client asynchronously.
+ */
 export type AsyncProviderConfig = Omit<ProviderConfig, 'deferInitialization'> & {
   /**
    * @deprecated - `asyncWithLDProvider` does not support the `deferInitialization` config option because
