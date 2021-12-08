@@ -66,7 +66,7 @@ class LDProvider extends React.Component<ProviderConfig, HocState> implements En
     const reactOptions = this.getReactOptions();
     let fetchedFlags;
     if (ldClient) {
-      fetchedFlags = await fetchFlags(ldClient, reactOptions, flags);
+      fetchedFlags = fetchFlags(ldClient, reactOptions, flags);
     } else {
       const initialisedOutput = await initLDClient(clientSideID, user, reactOptions, options, flags);
       fetchedFlags = initialisedOutput.flags;

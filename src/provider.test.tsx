@@ -4,8 +4,7 @@ jest.mock('./context', () => ({ Provider: 'Provider' }));
 import * as React from 'react';
 import { create } from 'react-test-renderer';
 import { shallow } from 'enzyme';
-import type { LDClient } from 'launchdarkly-js-client-sdk';
-import { LDFlagChangeset, LDFlagSet, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
+import { LDClient, LDFlagChangeset, LDFlagSet, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
 import { LDReactOptions, EnhancedComponent, defaultReactOptions, ProviderConfig } from './types';
 import { LDContext as HocState } from './context';
@@ -81,9 +80,11 @@ describe('LDProvider', () => {
     const user1: LDUser = { key: 'yus', name: 'yus ng' };
     const user2: LDUser = { key: 'launch', name: 'darkly' };
     const options: LDOptions = { bootstrap: {} };
-    const ldClient: Promise<LDClient> = new Promise(async resolve =>
-      resolve((await initLDClient(clientSideID, user1, defaultReactOptions, options, undefined)).ldClient),
-    );
+    const ldClient: Promise<LDClient> = new Promise(async resolve => {
+      resolve((await initLDClient(clientSideID, user1, defaultReactOptions, options, undefined)).ldClient);
+
+      return;
+    });
     const props: ProviderConfig = { clientSideID, ldClient, user: user2 };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
@@ -100,9 +101,11 @@ describe('LDProvider', () => {
   test('ld client is created if passed in promise resolves as undefined', async () => {
     const user: LDUser = { key: 'yus', name: 'yus ng' };
     const options: LDOptions = { bootstrap: {} };
-    const ldClient: Promise<undefined> = new Promise(async resolve =>
-      resolve(undefined),
-    );
+    const ldClient: Promise<undefined> = new Promise(async resolve => {
+      resolve(undefined);
+
+      return;
+    });
     const props: ProviderConfig = { clientSideID, ldClient, user, options };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
