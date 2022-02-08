@@ -2,6 +2,17 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/master/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.25.0] - 2022-02-08
+Updated to version 2.20.1 of the JavaScript SDK, incorporating improvements from the [2.19.4](https://github.com/launchdarkly/js-client-sdk/releases/tag/2.19.4), [2.20.0](https://github.com/launchdarkly/js-client-sdk/releases/tag/2.20.0), and [2.20.1](https://github.com/launchdarkly/js-client-sdk/releases/tag/2.20.1) releases.
+
+### Added:
+- Added exports of the types `LDReactOptions`, `ProviderConfig`, `AsyncProviderConfig`, and `AllFlagsLDClient`. These were referenced in exported functions, but were not previously importable from the main module.
+- New property `LDOptions.requestHeaderTransform` allows custom headers to be added to all HTTP requests. This may be necessary if you have an Internet gateway that uses a custom header for authentication. Note that custom headers may cause cross-origin browser requests to be rejected unless you have a way to ensure that the header name also appears in `Access-Control-Allow-Headers` for CORS preflight responses; if you are connecting to the LaunchDarkly Relay Proxy, it has a way to configure this.
+
+### Fixed:
+- If the browser local storage mechanism throws an exception (for instance, if it is disabled or if storage is full), the SDK now correctly catches the exception and logs a message about the failure. It will only log this message once during the lifetime of the SDK client. ([#109](https://github.com/launchdarkly/react-client-sdk/issues/109))
+- Removed an obsolete warning that would appear in the browser console after calling `track`: `Custom event "_____" does not exist`. Originally, the SDK had an expectation that `track` would be used only for event keys that had been previously defined as custom goals in the LaunchDarkly dashboard. That is still often the case, but it is not required and LaunchDarkly no longer sends custom goal names to the SDK, so the warning was happening even if such a goal did exist.
+
 ## [2.24.0] - 2021-12-09
 ### Added:
 - When initializing the SDK, consumers can now optionally pass in a previously-initialized `ldClient` instance (thanks, [TimboTambo](https://github.com/launchdarkly/react-client-sdk/pull/105)!)
