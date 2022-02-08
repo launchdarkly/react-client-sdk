@@ -6,4 +6,6 @@ import useFlags from './useFlags';
 import useLDClient from './useLDClient';
 import { camelCaseKeys } from './utils';
 
-export { LDProvider, withLDProvider, withLDConsumer, useFlags, useLDClient, asyncWithLDProvider, camelCaseKeys };
+export * from './types';
+
+export { LDProvider, asyncWithLDProvider, camelCaseKeys, useFlags, useLDClient, withLDProvider, withLDConsumer };
