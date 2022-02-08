@@ -1,574 +1,85 @@
-<!doctype html>
-<html class="default no-js">
-<head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>LaunchDarkly React SDK (2.23.0)</title>
-	<meta name="description" content="Documentation for LaunchDarkly React SDK (2.23.0)">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="assets/css/main.css">
-</head>
-<body>
-<header>
-	<div class="tsd-page-toolbar">
-		<div class="container">
-			<div class="table-wrap">
-				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
-					<div class="field">
-						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
-						<input id="tsd-search-field" type="text" />
-					</div>
-					<ul class="results">
-						<li class="state loading">Preparing search index...</li>
-						<li class="state failure">The search index is not available</li>
-					</ul>
-					<a href="index.html" class="title">LaunchDarkly React SDK (2.23.0)</a>
-				</div>
-				<div class="table-cell" id="tsd-widgets">
-					<div id="tsd-filter">
-						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
-						<div class="tsd-filter-group">
-							<div class="tsd-select" id="tsd-filter-visibility">
-								<span class="tsd-select-label">All</span>
-								<ul class="tsd-select-list">
-									<li data-value="public">Public</li>
-									<li data-value="protected">Public/Protected</li>
-									<li data-value="private" class="selected">All</li>
-								</ul>
-							</div>
-							<input type="checkbox" id="tsd-filter-inherited" checked />
-							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
-							<input type="checkbox" id="tsd-filter-only-exported" />
-							<label class="tsd-widget" for="tsd-filter-only-exported">Only exported</label>
-						</div>
-					</div>
-					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="tsd-page-title">
-		<div class="container">
-			<ul class="tsd-breadcrumb">
-				<li>
-					<a href="index.html">Globals</a>
-				</li>
-			</ul>
-			<h1>LaunchDarkly React SDK (2.23.0)</h1>
-		</div>
-	</div>
-</header>
-<div class="container container-main">
-	<div class="row">
-		<div class="col-8 col-content">
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Classes</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-class"><a href="classes/ldprovider.html" class="tsd-kind-icon">LDProvider</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Interfaces</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface"><a href="interfaces/allflagsldclient.html" class="tsd-kind-icon">All<wbr>FlagsLDClient</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/consumeroptions.html" class="tsd-kind-icon">Consumer<wbr>Options</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/ldcontext.html" class="tsd-kind-icon">LDContext</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/ldprops.html" class="tsd-kind-icon">LDProps</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/ldreactoptions.html" class="tsd-kind-icon">LDReact<wbr>Options</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/providerconfig.html" class="tsd-kind-icon">Provider<wbr>Config</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Functions</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-function"><a href="index.html#asyncwithldprovider" class="tsd-kind-icon">async<wbr>WithLDProvider</a></li>
-								<li class="tsd-kind-function"><a href="index.html#camelcasekeys" class="tsd-kind-icon">camel<wbr>Case<wbr>Keys</a></li>
-								<li class="tsd-kind-function"><a href="index.html#getflattenedflagsfromchangeset" class="tsd-kind-icon">get<wbr>Flattened<wbr>Flags<wbr>From<wbr>Changeset</a></li>
-								<li class="tsd-kind-function"><a href="index.html#initldclient" class="tsd-kind-icon">initLDClient</a></li>
-								<li class="tsd-kind-function"><a href="index.html#useflags" class="tsd-kind-icon">use<wbr>Flags</a></li>
-								<li class="tsd-kind-function"><a href="index.html#useldclient" class="tsd-kind-icon">useLDClient</a></li>
-								<li class="tsd-kind-function"><a href="index.html#withldconsumer" class="tsd-kind-icon">withLDConsumer</a></li>
-								<li class="tsd-kind-function"><a href="index.html#withldprovider" class="tsd-kind-icon">withLDProvider</a></li>
-							</ul>
-						</section>
-						<section class="tsd-index-section ">
-							<h3>Object literals</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-object-literal"><a href="index.html#defaultreactoptions" class="tsd-kind-icon">default<wbr>React<wbr>Options</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Functions</h2>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="asyncwithldprovider" class="tsd-anchor"></a>
-					<h3>async<wbr>WithLDProvider</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">async<wbr>WithLDProvider<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="interfaces/providerconfig.html" class="tsd-signature-type">ProviderConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">FunctionComponent</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/f40292b/src/asyncWithLDProvider.tsx#L27">src/asyncWithLDProvider.tsx:27</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>This is an async function which initializes LaunchDarkly&#39;s JS SDK (<code>launchdarkly-js-client-sdk</code>)
-									and awaits it so all flags and the ldClient are ready before the consumer app is rendered.</p>
-								</div>
-								<p>The difference between <code>withLDProvider</code> and <code>asyncWithLDProvider</code> is that <code>withLDProvider</code> initializes
-									<code>launchdarkly-js-client-sdk</code> at componentDidMount. This means your flags and the ldClient are only available after
-								your app has mounted. This can result in a flicker due to flag changes at startup time.</p>
-								<p><code>asyncWithLDProvider</code> initializes <code>launchdarkly-js-client-sdk</code> at the entry point of your app prior to render.
-									This means that your flags and the ldClient are ready at the beginning of your app. This ensures your app does not
-								flicker due to flag changes at startup time.</p>
-								<p><code>asyncWithLDProvider</code> accepts a config object which is used to initialize <code>launchdarkly-js-client-sdk</code>.
-								It returns a provider which is a React FunctionComponent which:</p>
-								<ul>
-									<li>saves all flags and the ldClient instance in the context API</li>
-									<li>subscribes to flag changes and propagate them through the context API</li>
-								</ul>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>config: <a href="interfaces/providerconfig.html" class="tsd-signature-type">ProviderConfig</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The configuration used to initialize LaunchDarkly&#39;s JS SDK</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">FunctionComponent</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="camelcasekeys" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> camel<wbr>Case<wbr>Keys</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">camel<wbr>Case<wbr>Keys<span class="tsd-signature-symbol">(</span>rawFlags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">LDFlagSet</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">LDFlagSet</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/f40292b/src/utils.ts#L12">src/utils.ts:12</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Transforms a set of flags so that their keys are camelCased. This function ignores
-									flag keys which start with <code>$</code>.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>rawFlags: <span class="tsd-signature-type">LDFlagSet</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>A mapping of flag keys and their values</p>
-										</div>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">LDFlagSet</span></h4>
-							<p>A transformed <code>LDFlagSet</code> with camelCased flag keys</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="getflattenedflagsfromchangeset" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> get<wbr>Flattened<wbr>Flags<wbr>From<wbr>Changeset</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Flattened<wbr>Flags<wbr>From<wbr>Changeset<span class="tsd-signature-symbol">(</span>changes<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">LDFlagChangeset</span>, targetFlags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">LDFlagSet</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, reactOptions<span class="tsd-signature-symbol">: </span><a href="interfaces/ldreactoptions.html" class="tsd-signature-type">LDReactOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">LDFlagSet</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/f40292b/src/utils.ts#L34">src/utils.ts:34</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Gets the flags to pass to the provider from the changeset.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>changes: <span class="tsd-signature-type">LDFlagChangeset</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>the <code>LDFlagChangeset</code> from the ldClient onchange handler.</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<h5>targetFlags: <span class="tsd-signature-type">LDFlagSet</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>if targetFlags are specified, changes to other flags are ignored and not returned in the
-											flattened <code>LDFlagSet</code></p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<h5>reactOptions: <a href="interfaces/ldreactoptions.html" class="tsd-signature-type">LDReactOptions</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>reactOptions.useCamelCaseFlagKeys determines whether to change the flag keys to camelCase</p>
-										</div>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">LDFlagSet</span></h4>
-							<p>an <code>LDFlagSet</code> with the current flag values from the LDFlagChangeset filtered by <code>targetFlags</code>. The returned
-							object may be empty <code>{}</code> if none of the targetFlags were changed.</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="initldclient" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> initLDClient</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">initLDClient<span class="tsd-signature-symbol">(</span>clientSideID<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, user<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">LDUser</span>, reactOptions<span class="tsd-signature-symbol">?: </span><a href="interfaces/ldreactoptions.html" class="tsd-signature-type">LDReactOptions</a>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">LDOptions</span>, targetFlags<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">LDFlagSet</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/allflagsldclient.html" class="tsd-signature-type">AllFlagsLDClient</a><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/f40292b/src/initLDClient.ts#L17">src/initLDClient.ts:17</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Internal function to initialize the <code>LDClient</code>.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>see</dt>
-									<dd><p><code>ProviderConfig</code> for more details about the parameters</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>clientSideID: <span class="tsd-signature-type">string</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>Your project and environment specific client side ID</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> user: <span class="tsd-signature-type">LDUser</span><span class="tsd-signature-symbol"> = { anonymous: true }</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>A LaunchDarkly user object</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> reactOptions: <a href="interfaces/ldreactoptions.html" class="tsd-signature-type">LDReactOptions</a><span class="tsd-signature-symbol"> = defaultReactOptions</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <span class="tsd-signature-type">LDOptions</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>LaunchDarkly initialization options</p>
-										</div>
-									</div>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> targetFlags: <span class="tsd-signature-type">LDFlagSet</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<div class="lead">
-											<p>If specified, <code>launchdarkly-react-client-sdk</code> will only request and listen to these flags.</p>
-										</div>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/allflagsldclient.html" class="tsd-signature-type">AllFlagsLDClient</a><span class="tsd-signature-symbol">&gt;</span></h4>
-							<p>An initialized client and flags</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="useflags" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> use<wbr>Flags</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">use<wbr>Flags<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">LDFlagSet</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/f40292b/src/useFlags.ts#L12">src/useFlags.ts:12</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p><code>useFlags</code> is a custom hook which returns all feature flags. It uses the <code>useContext</code> primitive
-										to access the LaunchDarkly context set up by <code>withLDProvider</code>. As such you will still need to
-										use the <code>withLDProvider</code> HOC at the root of your app to initialize the React SDK and populate the
-									context with <code>ldClient</code> and your flags.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">LDFlagSet</span></h4>
-							<p>All the feature flags configured in your LaunchDarkly project</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="useldclient" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> useLDClient</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">useLDClient<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">LDClient</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/f40292b/src/useLDClient.ts#L14">src/useLDClient.ts:14</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p><code>useLDClient</code> is a custom hook which returns the underlying <a href="https://launchdarkly.github.io/js-client-sdk/interfaces/_launchdarkly_js_client_sdk_.ldclient.html">LaunchDarkly JavaScript SDK client object</a>.
-										Like the <code>useFlags</code> custom hook, <code>useLDClient</code> also uses the <code>useContext</code> primitive to access the LaunchDarkly
-										context set up by <code>withLDProvider</code>. You will still need to use the <code>withLDProvider</code> HOC
-									to initialise the react sdk to use this custom hook.</p>
-								</div>
-							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">LDClient</span></h4>
-							<p>The <code>launchdarkly-js-client-sdk</code> <code>LDClient</code> object</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="withldconsumer" class="tsd-anchor"></a>
-					<h3>withLDConsumer</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">withLDConsumer<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="interfaces/consumeroptions.html" class="tsd-signature-type">ConsumerOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">withLDConsumerHoc</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/f40292b/src/withLDConsumer.tsx#L43">src/withLDConsumer.tsx:43</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>withLDConsumer is a function which accepts an optional options object and returns a function
-										which accepts your React component. This function returns a HOC with flags
-									and the ldClient instance injected via props.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> options: <a href="interfaces/consumeroptions.html" class="tsd-signature-type">ConsumerOptions</a><span class="tsd-signature-symbol"> = { clientOnly: false }</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>If you need only the <code>ldClient</code> instance and not flags, then set <code>{ clientOnly: true }</code>
-										to only pass the ldClient prop to your component. Defaults to <code>{ clientOnly: false }</code>.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">withLDConsumerHoc</span></h4>
-							<p>A HOC with flags and the <code>ldClient</code> instance injected via props</p>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="withldprovider" class="tsd-anchor"></a>
-					<h3>withLDProvider</h3>
-					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">withLDProvider<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="interfaces/providerconfig.html" class="tsd-signature-type">ProviderConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>WrappedComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ComponentType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">React.ComponentType</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/f40292b/src/withLDProvider.tsx#L26">src/withLDProvider.tsx:26</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p><code>withLDProvider</code> is a function which accepts a config object which is used to
-									initialize <code>launchdarkly-js-client-sdk</code>.</p>
-								</div>
-								<p>This HOC handles passing configuration to the <code>LDProvider</code>, which does the following:</p>
-								<ul>
-									<li>It initializes the ldClient instance by calling <code>launchdarkly-js-client-sdk</code> initialize on <code>componentDidMount</code></li>
-									<li>It saves all flags and the ldClient instance in the context API</li>
-									<li>It subscribes to flag changes and propagate them through the context API</li>
-								</ul>
-								<p>The difference between <code>withLDProvider</code> and <code>asyncWithLDProvider</code> is that <code>withLDProvider</code> initializes
-									<code>launchdarkly-js-client-sdk</code> at <code>componentDidMount</code>. This means your flags and the ldClient are only available after
-								your app has mounted. This can result in a flicker due to flag changes at startup time.</p>
-								<p><code>asyncWithLDProvider</code> initializes <code>launchdarkly-js-client-sdk</code> at the entry point of your app prior to render.
-									This means that your flags and the ldClient are ready at the beginning of your app. This ensures your app does not
-								flicker due to flag changes at startup time.</p>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>config: <a href="interfaces/providerconfig.html" class="tsd-signature-type">ProviderConfig</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>The configuration used to initialize LaunchDarkly&#39;s JS SDK</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span>WrappedComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ComponentType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">React.ComponentType</span></h4>
-							<p>A function which accepts your root React component and returns a HOC</p>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter-signature">
-									<ul class="tsd-signatures tsd-kind-type-literal">
-										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>WrappedComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ComponentType</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ComponentType</span></li>
-									</ul>
-									<ul class="tsd-descriptions">
-										<li class="tsd-description">
-											<h4 class="tsd-parameters-title">Parameters</h4>
-											<ul class="tsd-parameters">
-												<li>
-													<h5>WrappedComponent: <span class="tsd-signature-type">React.ComponentType</span></h5>
-												</li>
-											</ul>
-											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">React.ComponentType</span></h4>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-					</ul>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Object literals</h2>
-				<section class="tsd-panel tsd-member tsd-kind-object-literal">
-					<a name="defaultreactoptions" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagConst">Const</span> default<wbr>React<wbr>Options</h3>
-					<div class="tsd-signature tsd-kind-icon">default<wbr>React<wbr>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/f40292b/src/types.ts#L29">src/types.ts:29</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Contains default values for the <code>reactOptions</code> object.</p>
-						</div>
-					</div>
-					<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-object-literal">
-						<a name="defaultreactoptions.usecamelcaseflagkeys" class="tsd-anchor"></a>
-						<h3>use<wbr>Camel<wbr>Case<wbr>Flag<wbr>Keys</h3>
-						<div class="tsd-signature tsd-kind-icon">use<wbr>Camel<wbr>Case<wbr>Flag<wbr>Keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></div>
-						<aside class="tsd-sources">
-							<ul>
-								<li>Defined in <a href="https://github.com/launchdarkly/react-client-sdk/blob/f40292b/src/types.ts#L29">src/types.ts:29</a></li>
-							</ul>
-						</aside>
-					</section>
-				</section>
-			</section>
-		</div>
-		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
-			<nav class="tsd-navigation primary">
-				<ul>
-					<li class="globals current ">
-						<a href="index.html"><em>Globals</em></a>
-					</li>
-				</ul>
-			</nav>
-			<nav class="tsd-navigation secondary menu-sticky">
-				<ul class="before-current">
-					<li class=" tsd-kind-class">
-						<a href="classes/ldprovider.html" class="tsd-kind-icon">LDProvider</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/allflagsldclient.html" class="tsd-kind-icon">All<wbr>FlagsLDClient</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/consumeroptions.html" class="tsd-kind-icon">Consumer<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ldcontext.html" class="tsd-kind-icon">LDContext</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ldprops.html" class="tsd-kind-icon">LDProps</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/ldreactoptions.html" class="tsd-kind-icon">LDReact<wbr>Options</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/providerconfig.html" class="tsd-kind-icon">Provider<wbr>Config</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="index.html#asyncwithldprovider" class="tsd-kind-icon">async<wbr>WithLDProvider</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="index.html#camelcasekeys" class="tsd-kind-icon">camel<wbr>Case<wbr>Keys</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="index.html#getflattenedflagsfromchangeset" class="tsd-kind-icon">get<wbr>Flattened<wbr>Flags<wbr>From<wbr>Changeset</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="index.html#initldclient" class="tsd-kind-icon">initLDClient</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="index.html#useflags" class="tsd-kind-icon">use<wbr>Flags</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="index.html#useldclient" class="tsd-kind-icon">useLDClient</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="index.html#withldconsumer" class="tsd-kind-icon">withLDConsumer</a>
-					</li>
-					<li class=" tsd-kind-function">
-						<a href="index.html#withldprovider" class="tsd-kind-icon">withLDProvider</a>
-					</li>
-					<li class=" tsd-kind-object-literal">
-						<a href="index.html#defaultreactoptions" class="tsd-kind-icon">default<wbr>React<wbr>Options</a>
-					</li>
-				</ul>
-			</nav>
-		</div>
-	</div>
-</div>
-<footer class="with-border-bottom">
-	<div class="container">
-		<h2>Legend</h2>
-		<div class="tsd-legend-group">
-			<ul class="tsd-legend">
-				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited property</span></li>
-				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-inherited"><span class="tsd-kind-icon">Inherited method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-			</ul>
-		</div>
-	</div>
-</footer>
-<div class="container tsd-generator">
-	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
-</div>
-<div class="overlay"></div>
-<script src="assets/js/main.js"></script>
-</body>
-</html>
+<!DOCTYPE html><html class="default no-js"><head><meta charSet="utf-8"/><meta http-equiv="X-UA-Compatible" content="IE=edge"/><title>LaunchDarkly React SDK (2.25.0)</title><meta name="description" content="Documentation for LaunchDarkly React SDK (2.25.0)"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="stylesheet" href="assets/style.css"/><link rel="stylesheet" href="assets/highlight.css"/><script async src="assets/search.js" id="search-script"></script></head><body><header><div class="tsd-page-toolbar"><div class="container"><div class="table-wrap"><div class="table-cell" id="tsd-search" data-base="."><div class="field"><label for="tsd-search-field" class="tsd-widget search no-caption">Search</label><input type="text" id="tsd-search-field"/></div><ul class="results"><li class="state loading">Preparing search index...</li><li class="state failure">The search index is not available</li></ul><a href="index.html" class="title">LaunchDarkly React SDK (2.25.0)</a></div><div class="table-cell" id="tsd-widgets"><div id="tsd-filter"><a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a><div class="tsd-filter-group"><div class="tsd-select" id="tsd-filter-visibility"><span class="tsd-select-label">All</span><ul class="tsd-select-list"><li data-value="public">Public</li><li data-value="protected">Public/Protected</li><li data-value="private" class="selected">All</li></ul></div> <input type="checkbox" id="tsd-filter-inherited" checked/><label class="tsd-widget" for="tsd-filter-inherited">Inherited</label><input type="checkbox" id="tsd-filter-externals" checked/><label class="tsd-widget" for="tsd-filter-externals">Externals</label></div></div><a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a></div></div></div></div><div class="tsd-page-title"><div class="container"><h1>LaunchDarkly React SDK (2.25.0)</h1></div></div></header><div class="container container-main"><div class="row"><div class="col-8 col-content"><section class="tsd-panel-group tsd-index-group"><h2>Index</h2><section class="tsd-panel tsd-index-panel"><div class="tsd-index-content"><section class="tsd-index-section "><h3>Namespaces</h3><ul class="tsd-index-list"><li class="tsd-kind-namespace"><a href="modules/camelCaseKeys.html" class="tsd-kind-icon">camel<wbr/>Case<wbr/>Keys</a></li></ul></section><section class="tsd-index-section "><h3>Classes</h3><ul class="tsd-index-list"><li class="tsd-kind-class"><a href="classes/LDProvider.html" class="tsd-kind-icon">LDProvider</a></li></ul></section><section class="tsd-index-section "><h3>Interfaces</h3><ul class="tsd-index-list"><li class="tsd-kind-interface"><a href="interfaces/AllFlagsLDClient.html" class="tsd-kind-icon">All<wbr/>FlagsLDClient</a></li><li class="tsd-kind-interface"><a href="interfaces/LDReactOptions.html" class="tsd-kind-icon">LDReact<wbr/>Options</a></li><li class="tsd-kind-interface"><a href="interfaces/ProviderConfig.html" class="tsd-kind-icon">Provider<wbr/>Config</a></li></ul></section><section class="tsd-index-section "><h3>Type aliases</h3><ul class="tsd-index-list"><li class="tsd-kind-type-alias"><a href="index.html#AsyncProviderConfig" class="tsd-kind-icon">Async<wbr/>Provider<wbr/>Config</a></li></ul></section><section class="tsd-index-section "><h3>Variables</h3><ul class="tsd-index-list"><li class="tsd-kind-variable"><a href="index.html#camelCaseKeys" class="tsd-kind-icon">camel<wbr/>Case<wbr/>Keys</a></li><li class="tsd-kind-variable"><a href="index.html#defaultReactOptions" class="tsd-kind-icon">default<wbr/>React<wbr/>Options</a></li></ul></section><section class="tsd-index-section "><h3>Functions</h3><ul class="tsd-index-list"><li class="tsd-kind-function"><a href="index.html#asyncWithLDProvider" class="tsd-kind-icon">async<wbr/>WithLDProvider</a></li><li class="tsd-kind-function"><a href="index.html#useFlags" class="tsd-kind-icon">use<wbr/>Flags</a></li><li class="tsd-kind-function"><a href="index.html#useLDClient" class="tsd-kind-icon">useLDClient</a></li><li class="tsd-kind-function"><a href="index.html#withLDConsumer" class="tsd-kind-icon">withLDConsumer</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="index.html#withLDProvider" class="tsd-kind-icon">withLDProvider</a></li></ul></section></div></section></section><section class="tsd-panel-group tsd-member-group "><h2>Type aliases</h2><section class="tsd-panel tsd-member tsd-kind-type-alias"><a name="AsyncProviderConfig" class="tsd-anchor"></a><h3>Async<wbr/>Provider<wbr/>Config</h3><div class="tsd-signature tsd-kind-icon">Async<wbr/>Provider<wbr/>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Omit</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/ProviderConfig.html" class="tsd-signature-type" data-tsd-kind="Interface">ProviderConfig</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">&quot;deferInitialization&quot;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-symbol">{ </span>deferInitialization<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span></div><aside class="tsd-sources"><ul><li>Defined in types.ts:87</li></ul></aside><div class="tsd-comment tsd-typography"><div class="lead">
+<p>Configuration object used to initialize LaunchDarkly&#39;s JS client asynchronously.</p>
+</div></div></section></section><section class="tsd-panel-group tsd-member-group "><h2>Variables</h2><section class="tsd-panel tsd-member tsd-kind-variable"><a name="camelCaseKeys" class="tsd-anchor"></a><h3>camel<wbr/>Case<wbr/>Keys</h3><div class="tsd-signature tsd-kind-icon">camel<wbr/>Case<wbr/>Keys<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>camelCaseKeys<span class="tsd-signature-symbol">: </span>{ (rawFlags: LDFlagSet): LDFlagSet; camelCaseKeys: ...; }<span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources"><ul><li>Defined in utils.ts:12</li></ul></aside><div class="tsd-comment tsd-typography"><div class="lead">
+<p>Transforms a set of flags so that their keys are camelCased. This function ignores
+flag keys which start with <code>$</code>.</p>
+</div></div><div class="tsd-type-declaration"><h4>Type declaration</h4><ul class="tsd-parameters"><li class="tsd-parameter-signature"><ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-variable"><li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>rawFlags<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">LDFlagSet</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">LDFlagSet</span></li></ul><ul class="tsd-descriptions"><li class="tsd-description"><div class="tsd-comment tsd-typography"><div class="lead">
+<p>Transforms a set of flags so that their keys are camelCased. This function ignores
+flag keys which start with <code>$</code>.</p>
+</div></div><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameters"><li><h5>rawFlags: <span class="tsd-signature-type">LDFlagSet</span></h5><div class="tsd-comment tsd-typography"><div class="lead">
+<p>A mapping of flag keys and their values</p>
+</div></div></li></ul><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">LDFlagSet</span></h4><div><p>A transformed <code>LDFlagSet</code> with camelCased flag keys</p>
+</div></li></ul></li><li class="tsd-parameter"><h5>camel<wbr/>Case<wbr/>Keys<span class="tsd-signature-symbol">: </span>{ (rawFlags: LDFlagSet): LDFlagSet; camelCaseKeys: ...; }</h5></li></ul></div></section><section class="tsd-panel tsd-member tsd-kind-variable"><a name="defaultReactOptions" class="tsd-anchor"></a><h3>default<wbr/>React<wbr/>Options</h3><div class="tsd-signature tsd-kind-icon">default<wbr/>React<wbr/>Options<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>useCamelCaseFlagKeys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></div><aside class="tsd-sources"><ul><li>Defined in types.ts:29</li></ul></aside><div class="tsd-comment tsd-typography"><div class="lead">
+<p>Contains default values for the <code>reactOptions</code> object.</p>
+</div></div><div class="tsd-type-declaration"><h4>Type declaration</h4><ul class="tsd-parameters"><li class="tsd-parameter"><h5>use<wbr/>Camel<wbr/>Case<wbr/>Flag<wbr/>Keys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></h5></li></ul></div></section></section><section class="tsd-panel-group tsd-member-group "><h2>Functions</h2><section class="tsd-panel tsd-member tsd-kind-function"><a name="asyncWithLDProvider" class="tsd-anchor"></a><h3>async<wbr/>WithLDProvider</h3><ul class="tsd-signatures tsd-kind-function"><li class="tsd-signature tsd-kind-icon">async<wbr/>WithLDProvider<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="index.html#AsyncProviderConfig" class="tsd-signature-type" data-tsd-kind="Type alias">AsyncProviderConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">FunctionComponent</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li></ul><ul class="tsd-descriptions"><li class="tsd-description"><aside class="tsd-sources"><ul><li>Defined in asyncWithLDProvider.tsx:32</li></ul></aside><div class="tsd-comment tsd-typography"><div class="lead">
+<p>This is an async function which initializes LaunchDarkly&#39;s JS SDK (<code>launchdarkly-js-client-sdk</code>)
+and awaits it so all flags and the ldClient are ready before the consumer app is rendered.</p>
+</div><div><p>The difference between <code>withLDProvider</code> and <code>asyncWithLDProvider</code> is that <code>withLDProvider</code> initializes
+<code>launchdarkly-js-client-sdk</code> at componentDidMount. This means your flags and the ldClient are only available after
+your app has mounted. This can result in a flicker due to flag changes at startup time.</p>
+<p><code>asyncWithLDProvider</code> initializes <code>launchdarkly-js-client-sdk</code> at the entry point of your app prior to render.
+This means that your flags and the ldClient are ready at the beginning of your app. This ensures your app does not
+flicker due to flag changes at startup time.</p>
+<p><code>asyncWithLDProvider</code> accepts a config object which is used to initialize <code>launchdarkly-js-client-sdk</code>.</p>
+<p><code>asyncWithLDProvider</code> does not support the <code>deferInitialization</code> config option because <code>asyncWithLDProvider</code> needs
+to be initialized at the entry point prior to render to ensure your flags and the ldClient are ready at the beginning
+of your app.</p>
+<p>It returns a provider which is a React FunctionComponent which:</p>
+<ul>
+<li>saves all flags and the ldClient instance in the context API</li>
+<li>subscribes to flag changes and propagate them through the context API</li>
+</ul>
+</div></div><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameters"><li><h5>config: <a href="index.html#AsyncProviderConfig" class="tsd-signature-type" data-tsd-kind="Type alias">AsyncProviderConfig</a></h5><div class="tsd-comment tsd-typography"><div><p>The configuration used to initialize LaunchDarkly&#39;s JS SDK</p>
+</div></div></li></ul><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">FunctionComponent</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4></li></ul></section><section class="tsd-panel tsd-member tsd-kind-function"><a name="useFlags" class="tsd-anchor"></a><h3><span class="tsd-flag ts-flagConst">Const</span> use<wbr/>Flags</h3><ul class="tsd-signatures tsd-kind-function"><li class="tsd-signature tsd-kind-icon">use<wbr/>Flags<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">LDFlagSet</span></li></ul><ul class="tsd-descriptions"><li class="tsd-description"><aside class="tsd-sources"><ul><li>Defined in useFlags.ts:12</li></ul></aside><div class="tsd-comment tsd-typography"><div class="lead">
+<p><code>useFlags</code> is a custom hook which returns all feature flags. It uses the <code>useContext</code> primitive
+to access the LaunchDarkly context set up by <code>withLDProvider</code>. As such you will still need to
+use the <code>withLDProvider</code> HOC at the root of your app to initialize the React SDK and populate the
+context with <code>ldClient</code> and your flags.</p>
+</div></div><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">LDFlagSet</span></h4><div><p>All the feature flags configured in your LaunchDarkly project</p>
+</div></li></ul></section><section class="tsd-panel tsd-member tsd-kind-function"><a name="useLDClient" class="tsd-anchor"></a><h3><span class="tsd-flag ts-flagConst">Const</span> useLDClient</h3><ul class="tsd-signatures tsd-kind-function"><li class="tsd-signature tsd-kind-icon">useLDClient<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">LDClient</span></li></ul><ul class="tsd-descriptions"><li class="tsd-description"><aside class="tsd-sources"><ul><li>Defined in useLDClient.ts:14</li></ul></aside><div class="tsd-comment tsd-typography"><div class="lead">
+<p><code>useLDClient</code> is a custom hook which returns the underlying <a href="https://launchdarkly.github.io/js-client-sdk/interfaces/_launchdarkly_js_client_sdk_.ldclient.html">LaunchDarkly JavaScript SDK client object</a>.
+Like the <code>useFlags</code> custom hook, <code>useLDClient</code> also uses the <code>useContext</code> primitive to access the LaunchDarkly
+context set up by <code>withLDProvider</code>. You will still need to use the <code>withLDProvider</code> HOC
+to initialise the react sdk to use this custom hook.</p>
+</div></div><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">LDClient</span></h4><div><p>The <code>launchdarkly-js-client-sdk</code> <code>LDClient</code> object</p>
+</div></li></ul></section><section class="tsd-panel tsd-member tsd-kind-function"><a name="withLDConsumer" class="tsd-anchor"></a><h3>withLDConsumer</h3><ul class="tsd-signatures tsd-kind-function"><li class="tsd-signature tsd-kind-icon">withLDConsumer<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">ConsumerOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span>&lt;P&gt;<span class="tsd-signature-symbol">(</span>WrappedComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ComponentType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">P</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">LDProps</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">P</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Element</span></li></ul><ul class="tsd-descriptions"><li class="tsd-description"><aside class="tsd-sources"><ul><li>Defined in withLDConsumer.tsx:43</li></ul></aside><div class="tsd-comment tsd-typography"><div class="lead">
+<p>withLDConsumer is a function which accepts an optional options object and returns a function
+which accepts your React component. This function returns a HOC with flags
+and the ldClient instance injected via props.</p>
+</div></div><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameters"><li><h5>options: <span class="tsd-signature-type">ConsumerOptions</span><span class="tsd-signature-symbol"> = ...</span></h5><div class="tsd-comment tsd-typography"><div><p>If you need only the <code>ldClient</code> instance and not flags, then set <code>{ clientOnly: true }</code>
+to only pass the ldClient prop to your component. Defaults to <code>{ clientOnly: false }</code>.</p>
+</div></div></li></ul><h4 class="tsd-returns-title">Returns &lt;P&gt;<span class="tsd-signature-symbol">(</span>WrappedComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ComponentType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">P</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">LDProps</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">P</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Element</span></h4><div><p>A HOC with flags and the <code>ldClient</code> instance injected via props</p>
+</div><ul class="tsd-parameters"><li class="tsd-parameter-signature"><ul class="tsd-signatures tsd-kind-type-literal tsd-has-type-parameter"><li class="tsd-signature tsd-kind-icon">&lt;P&gt;<span class="tsd-signature-symbol">(</span>WrappedComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ComponentType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">P</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">LDProps</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">P</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Element</span></li></ul><ul class="tsd-descriptions"><li class="tsd-description"><h4 class="tsd-type-parameters-title">Type parameters</h4><ul class="tsd-type-parameters"><li><h4>P</h4></li></ul><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameters"><li><h5>WrappedComponent: <span class="tsd-signature-type">ComponentType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">P</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">LDProps</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul><h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">P</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">Element</span></h4><ul class="tsd-parameters"><li class="tsd-parameter-signature"><ul class="tsd-signatures tsd-kind-type-literal"><li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type" data-tsd-kind="Type parameter">P</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Element</span></li></ul><ul class="tsd-descriptions"><li class="tsd-description"><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameters"><li><h5>props: <span class="tsd-signature-type" data-tsd-kind="Type parameter">P</span></h5></li></ul><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Element</span></h4></li></ul></li></ul></li></ul></li></ul></li></ul></section><section class="tsd-panel tsd-member tsd-kind-function tsd-has-type-parameter"><a name="withLDProvider" class="tsd-anchor"></a><h3>withLDProvider</h3><ul class="tsd-signatures tsd-kind-function tsd-has-type-parameter"><li class="tsd-signature tsd-kind-icon">withLDProvider&lt;T&gt;<span class="tsd-signature-symbol">(</span>config<span class="tsd-signature-symbol">: </span><a href="interfaces/ProviderConfig.html" class="tsd-signature-type" data-tsd-kind="Interface">ProviderConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>WrappedComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ComponentType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">React.ComponentType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">&gt;</span></li></ul><ul class="tsd-descriptions"><li class="tsd-description"><aside class="tsd-sources"><ul><li>Defined in withLDProvider.tsx:26</li></ul></aside><div class="tsd-comment tsd-typography"><div class="lead">
+<p><code>withLDProvider</code> is a function which accepts a config object which is used to
+initialize <code>launchdarkly-js-client-sdk</code>.</p>
+</div><div><p>This HOC handles passing configuration to the <code>LDProvider</code>, which does the following:</p>
+<ul>
+<li>It initializes the ldClient instance by calling <code>launchdarkly-js-client-sdk</code> initialize on <code>componentDidMount</code></li>
+<li>It saves all flags and the ldClient instance in the context API</li>
+<li>It subscribes to flag changes and propagate them through the context API</li>
+</ul>
+<p>The difference between <code>withLDProvider</code> and <code>asyncWithLDProvider</code> is that <code>withLDProvider</code> initializes
+<code>launchdarkly-js-client-sdk</code> at <code>componentDidMount</code>. This means your flags and the ldClient are only available after
+your app has mounted. This can result in a flicker due to flag changes at startup time.</p>
+<p><code>asyncWithLDProvider</code> initializes <code>launchdarkly-js-client-sdk</code> at the entry point of your app prior to render.
+This means that your flags and the ldClient are ready at the beginning of your app. This ensures your app does not
+flicker due to flag changes at startup time.</p>
+</div></div><h4 class="tsd-type-parameters-title">Type parameters</h4><ul class="tsd-type-parameters"><li><h4>T = <span class="tsd-signature-symbol">{}</span></h4></li></ul><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameters"><li><h5>config: <a href="interfaces/ProviderConfig.html" class="tsd-signature-type" data-tsd-kind="Interface">ProviderConfig</a></h5><div class="tsd-comment tsd-typography"><div><p>The configuration used to initialize LaunchDarkly&#39;s JS SDK</p>
+</div></div></li></ul><h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span>WrappedComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ComponentType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">React.ComponentType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><div><p>A function which accepts your root React component and returns a HOC</p>
+</div><ul class="tsd-parameters"><li class="tsd-parameter-signature"><ul class="tsd-signatures tsd-kind-type-literal"><li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>WrappedComponent<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ComponentType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ComponentType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">&gt;</span></li></ul><ul class="tsd-descriptions"><li class="tsd-description"><div class="tsd-comment tsd-typography"><div class="lead">
+<p><code>withLDProvider</code> is a function which accepts a config object which is used to
+initialize <code>launchdarkly-js-client-sdk</code>.</p>
+</div><div><p>This HOC handles passing configuration to the <code>LDProvider</code>, which does the following:</p>
+<ul>
+<li>It initializes the ldClient instance by calling <code>launchdarkly-js-client-sdk</code> initialize on <code>componentDidMount</code></li>
+<li>It saves all flags and the ldClient instance in the context API</li>
+<li>It subscribes to flag changes and propagate them through the context API</li>
+</ul>
+<p>The difference between <code>withLDProvider</code> and <code>asyncWithLDProvider</code> is that <code>withLDProvider</code> initializes
+<code>launchdarkly-js-client-sdk</code> at <code>componentDidMount</code>. This means your flags and the ldClient are only available after
+your app has mounted. This can result in a flicker due to flag changes at startup time.</p>
+<p><code>asyncWithLDProvider</code> initializes <code>launchdarkly-js-client-sdk</code> at the entry point of your app prior to render.
+This means that your flags and the ldClient are ready at the beginning of your app. This ensures your app does not
+flicker due to flag changes at startup time.</p>
+</div></div><h4 class="tsd-parameters-title">Parameters</h4><ul class="tsd-parameters"><li><h5>WrappedComponent: <span class="tsd-signature-type">React.ComponentType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h5></li></ul><h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">React.ComponentType</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type" data-tsd-kind="Type parameter">T</span><span class="tsd-signature-symbol">&gt;</span></h4><div><p>A function which accepts your root React component and returns a HOC</p>
+</div></li></ul></li></ul></li></ul></section></section></div><div class="col-4 col-menu menu-sticky-wrap menu-highlight"><nav class="tsd-navigation primary"><ul><li class="current"><a href="index.html">Exports</a></li><li class=" tsd-kind-namespace"><a href="modules/camelCaseKeys.html">camel<wbr/>Case<wbr/>Keys</a></li></ul></nav><nav class="tsd-navigation secondary menu-sticky"><ul><li class="tsd-kind-class"><a href="classes/LDProvider.html" class="tsd-kind-icon">LDProvider</a></li><li class="tsd-kind-interface"><a href="interfaces/AllFlagsLDClient.html" class="tsd-kind-icon">All<wbr/>FlagsLDClient</a></li><li class="tsd-kind-interface"><a href="interfaces/LDReactOptions.html" class="tsd-kind-icon">LDReact<wbr/>Options</a></li><li class="tsd-kind-interface"><a href="interfaces/ProviderConfig.html" class="tsd-kind-icon">Provider<wbr/>Config</a></li><li class="tsd-kind-type-alias"><a href="index.html#AsyncProviderConfig" class="tsd-kind-icon">Async<wbr/>Provider<wbr/>Config</a></li><li class="tsd-kind-variable"><a href="index.html#camelCaseKeys" class="tsd-kind-icon">camel<wbr/>Case<wbr/>Keys</a></li><li class="tsd-kind-variable"><a href="index.html#defaultReactOptions" class="tsd-kind-icon">default<wbr/>React<wbr/>Options</a></li><li class="tsd-kind-function"><a href="index.html#asyncWithLDProvider" class="tsd-kind-icon">async<wbr/>WithLDProvider</a></li><li class="tsd-kind-function"><a href="index.html#useFlags" class="tsd-kind-icon">use<wbr/>Flags</a></li><li class="tsd-kind-function"><a href="index.html#useLDClient" class="tsd-kind-icon">useLDClient</a></li><li class="tsd-kind-function"><a href="index.html#withLDConsumer" class="tsd-kind-icon">withLDConsumer</a></li><li class="tsd-kind-function tsd-has-type-parameter"><a href="index.html#withLDProvider" class="tsd-kind-icon">withLDProvider</a></li></ul></nav></div></div></div><footer class="with-border-bottom"><div class="container"><h2>Legend</h2><div class="tsd-legend-group"><ul class="tsd-legend"><li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li><li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li><li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li></ul><ul class="tsd-legend"><li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li></ul></div><h2>Settings</h2><p>Theme <select id="theme"><option value="os">OS</option><option value="light">Light</option><option value="dark">Dark</option></select></p></div></footer><div class="container tsd-generator"><p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p></div><div class="overlay"></div><script src="assets/main.js"></script></body></html>
