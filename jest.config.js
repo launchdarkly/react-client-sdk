@@ -6,4 +6,5 @@ module.exports = {
   },
   testRegex: '.*\\.test\\.(ts|tsx)$',
   setupFilesAfterEnv: ['./setupTests.js'],
+  testEnvironment: 'jest-environment-jsdom-global',
 };
