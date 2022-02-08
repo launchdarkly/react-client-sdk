@@ -14,14 +14,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "files": [
-    "./node_modules/@testing-library/jest-dom/extend-expect.d.ts"
-  ],
   "include": ["src"],
-  "exclude": [
-    "node_modules",
-    "lib",
-    "dist",
-    "example"
-  ]
+  "exclude": ["node_modules", "lib", "dist", "example"]
 }
