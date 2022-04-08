@@ -25,7 +25,7 @@ const initLDClient = async (
   const allOptions = { wrapperName: 'react-client-sdk', wrapperVersion: version, ...options };
   const ldClient = ldClientInitialize(clientSideID, user, allOptions);
 
-  return new Promise<AllFlagsLDClient>(resolve => {
+  return new Promise<AllFlagsLDClient>((resolve) => {
     ldClient.on('ready', () => {
       const flags = fetchFlags(ldClient, reactOptions, targetFlags);
       resolve({ flags, ldClient });

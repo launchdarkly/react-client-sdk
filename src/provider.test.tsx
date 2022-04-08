@@ -80,7 +80,7 @@ describe('LDProvider', () => {
     const user1: LDUser = { key: 'yus', name: 'yus ng' };
     const user2: LDUser = { key: 'launch', name: 'darkly' };
     const options: LDOptions = { bootstrap: {} };
-    const ldClient: Promise<LDClient> = new Promise(async resolve => {
+    const ldClient: Promise<LDClient> = new Promise(async (resolve) => {
       resolve((await initLDClient(clientSideID, user1, defaultReactOptions, options, undefined)).ldClient);
 
       return;
@@ -101,7 +101,7 @@ describe('LDProvider', () => {
   test('ld client is created if passed in promise resolves as undefined', async () => {
     const user: LDUser = { key: 'yus', name: 'yus ng' };
     const options: LDOptions = { bootstrap: {} };
-    const ldClient: Promise<undefined> = new Promise(async resolve => {
+    const ldClient: Promise<undefined> = new Promise(async (resolve) => {
       resolve(undefined);
 
       return;

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { Component, PropsWithChildren } from 'react';
 import { LDClient, LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { EnhancedComponent, ProviderConfig, defaultReactOptions } from './types';
 import { Provider, LDContext as HocState } from './context';
@@ -22,7 +22,7 @@ import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './uti
  * within your application. This provider is used inside the `withLDProviderHOC` and can be used instead to initialize
  * the `launchdarkly-js-client-sdk`. For async initialization, check out the `asyncWithLDProvider` function
  */
-class LDProvider extends React.Component<ProviderConfig, HocState> implements EnhancedComponent {
+class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> implements EnhancedComponent {
   readonly state: Readonly<HocState>;
 
   constructor(props: ProviderConfig) {
