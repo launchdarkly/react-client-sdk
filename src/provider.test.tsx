@@ -1,9 +1,8 @@
 jest.mock('./initLDClient', () => jest.fn());
 jest.mock('./context', () => ({ Provider: 'Provider' }));
 
-import * as React from 'react';
+import React, { Component } from 'react';
 import { create } from 'react-test-renderer';
-import { shallow } from 'enzyme';
 import { LDClient, LDFlagChangeset, LDFlagSet, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
 import { LDReactOptions, EnhancedComponent, defaultReactOptions, ProviderConfig } from './types';
@@ -40,7 +39,7 @@ describe('LDProvider', () => {
         <App />
       </LDProvider>
     );
-    const component = create(LaunchDarklyApp);
+    const component = create(LaunchDarklyApp).toTree()?.instance as Component;
     expect(component).toMatchSnapshot();
   });
 
@@ -129,8 +128,8 @@ describe('LDProvider', () => {
         <App />
       </LDProvider>
     );
-    const component = shallow(LaunchDarklyApp, { disableLifecycleMethods: true });
-    const initialState = component.state() as HocState;
+    const component = create(LaunchDarklyApp).toTree()?.instance as Component;
+    const initialState = component.state as HocState;
 
     expect(initialState.flags).toEqual({});
   });
@@ -154,8 +153,8 @@ describe('LDProvider', () => {
         <App />
       </LDProvider>
     );
-    const component = shallow(LaunchDarklyApp, { disableLifecycleMethods: true });
-    const initialState = component.state() as HocState;
+    const component = create(LaunchDarklyApp).toTree()?.instance as Component;
+    const initialState = component.state as HocState;
 
     expect(mockInitLDClient).not.toHaveBeenCalled();
     expect(initialState.flags).toEqual({ testFlag: true, anotherTestFlag: false });
@@ -178,8 +177,8 @@ describe('LDProvider', () => {
         <App />
       </LDProvider>
     );
-    const component = shallow(LaunchDarklyApp, { disableLifecycleMethods: true });
-    const initialState = component.state() as HocState;
+    const component = create(LaunchDarklyApp).toTree()?.instance as Component;
+    const initialState = component.state as HocState;
 
     expect(mockInitLDClient).not.toHaveBeenCalled();
     expect(initialState.flags).toEqual({ 'test-flag': true, 'another-test-flag': false });
@@ -200,8 +199,8 @@ describe('LDProvider', () => {
         <App />
       </LDProvider>
     );
-    const component = shallow(LaunchDarklyApp, { disableLifecycleMethods: true });
-    const initialState = component.state() as HocState;
+    const component = create(LaunchDarklyApp).toTree()?.instance as Component;
+    const initialState = component.state as HocState;
 
     expect(mockInitLDClient).not.toHaveBeenCalled();
     expect(initialState.flags).toEqual({ testFlag: true, anotherTestFlag: false });
@@ -221,8 +220,8 @@ describe('LDProvider', () => {
         <App />
       </LDProvider>
     );
-    const component = shallow(LaunchDarklyApp, { disableLifecycleMethods: true });
-    const initialState = component.state() as HocState;
+    const component = create(LaunchDarklyApp).toTree()?.instance as Component;
+    const initialState = component.state as HocState;
 
     expect(mockInitLDClient).not.toHaveBeenCalled();
     expect(initialState.flags).toEqual({ testFlag: true, anotherTestFlag: false });
@@ -239,8 +238,8 @@ describe('LDProvider', () => {
         <App />
       </LDProvider>
     );
-    const component = shallow(LaunchDarklyApp, { disableLifecycleMethods: true });
-    const initialState = component.state() as HocState;
+    const component = create(LaunchDarklyApp).toTree()?.instance as Component;
+    const initialState = component.state as HocState;
 
     expect(mockInitLDClient).not.toHaveBeenCalled();
     expect(initialState.flags).toEqual({});
