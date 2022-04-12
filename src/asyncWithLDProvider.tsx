@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FunctionComponent, PropsWithChildren, ReactNode } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { AsyncProviderConfig, defaultReactOptions } from './types';
 import { Provider } from './context';

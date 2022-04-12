@@ -39,7 +39,7 @@ describe('LDProvider', () => {
         <App />
       </LDProvider>
     );
-    const component = create(LaunchDarklyApp).toTree()?.instance as Component;
+    const component = create(LaunchDarklyApp);
     expect(component).toMatchSnapshot();
   });
 
