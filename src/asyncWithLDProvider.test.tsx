@@ -30,7 +30,7 @@ const renderWithConfig = async (config: AsyncProviderConfig) => {
 
   const { getByText } = render(
     <LDProvider>
-      <Consumer>{value => <span>Received: {JSON.stringify(value.flags)}</span>}</Consumer>
+      <Consumer>{(value) => <span>Received: {JSON.stringify(value.flags)}</span>}</Consumer>
     </LDProvider>,
   );
 
