@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FunctionComponent } from 'react';
+import React, { useState, useEffect, ReactNode } from 'react';
 import { LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { AsyncProviderConfig, defaultReactOptions } from './types';
 import { Provider } from './context';
@@ -34,7 +34,7 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
   const reactOptions = { ...defaultReactOptions, ...userReactOptions };
   const { ldClient } = await initLDClient(clientSideID, user, reactOptions, options, targetFlags);
 
-  const LDProvider: FunctionComponent = ({ children }) => {
+  const LDProvider = ({ children }: { children: ReactNode }) => {
     const [ldData, setLDData] = useState({
       flags: fetchFlags(ldClient, reactOptions, targetFlags),
       ldClient,
@@ -45,14 +45,14 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
         const { bootstrap } = options;
         if (bootstrap && bootstrap !== 'localStorage') {
           const bootstrappedFlags = reactOptions.useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap;
-          setLDData(prev => ({ ...prev, flags: bootstrappedFlags }));
+          setLDData((prev) => ({ ...prev, flags: bootstrappedFlags }));
         }
       }
 
       ldClient.on('change', (changes: LDFlagChangeset) => {
         const flattened: LDFlagSet = getFlattenedFlagsFromChangeset(changes, targetFlags, reactOptions);
         if (Object.keys(flattened).length > 0) {
-          setLDData(prev => ({ ...prev, flags: { ...prev.flags, ...flattened } }));
+          setLDData((prev) => ({ ...prev, flags: { ...prev.flags, ...flattened } }));
         }
       });
     }, []);
