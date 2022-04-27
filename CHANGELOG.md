@@ -2,6 +2,14 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/master/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.26.0] - 2022-04-27
+### Added:
+- `LDOptions.application`, for configuration of application metadata that may be used in LaunchDarkly analytics or other product features. This does not affect feature flag evaluations.
+- Added `basicLogger`, a replacement for the deprecated `createConsoleLogger`.
+
+### Fixed:
+- The `baseUrl`, `streamUrl`, and `eventsUrl` properties now work properly regardless of whether the URL string has a trailing slash. Previously, a trailing slash would cause request URL paths to have double slashes.
+
 ## [2.25.2] - 2022-04-15
 ### Changed:
 - Updated LDProvider and the SDK's peer dependencies so that it can run in an application with React 18 ([#129](https://github.com/launchdarkly/react-client-sdk/issues/129))
