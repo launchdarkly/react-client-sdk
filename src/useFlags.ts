@@ -1,5 +1,6 @@
+import { LDFlagSet } from 'launchdarkly-js-sdk-common';
 import { useContext } from 'react';
-import context from './context';
+import context, { LDContext } from './context';
 
 /**
  * `useFlags` is a custom hook which returns all feature flags. It uses the `useContext` primitive
@@ -9,8 +10,8 @@ import context from './context';
  *
  * @return All the feature flags configured in your LaunchDarkly project
  */
-const useFlags = () => {
-  const { flags } = useContext(context);
+const useFlags = <T extends LDFlagSet>(): T => {
+  const { flags }  = useContext<LDContext>(context);
 
   return flags;
 };
