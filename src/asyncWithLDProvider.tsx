@@ -34,7 +34,7 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
   const reactOptions = { ...defaultReactOptions, ...userReactOptions };
   const { ldClient } = await initLDClient(clientSideID, user, reactOptions, options, targetFlags);
 
-  const LDProvider = ({ children }: { children: ReactNode }) => {
+  function LDProvider({ children }: { children: ReactNode }) {
     const [ldData, setLDData] = useState({
       flags: fetchFlags(ldClient, reactOptions, targetFlags),
       ldClient,
@@ -58,7 +58,7 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
     }, []);
 
     return <Provider value={ldData}>{children}</Provider>;
-  };
+  }
 
   return LDProvider;
 }

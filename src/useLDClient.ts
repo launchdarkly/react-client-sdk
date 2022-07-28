@@ -11,10 +11,8 @@ import context from './context';
  * @return The `launchdarkly-js-client-sdk` `LDClient` object
  */
 // tslint:enable:max-line-length
-const useLDClient = () => {
+export default function useLDClient() {
   const { ldClient } = useContext(context);
 
   return ldClient;
-};
-
-export default useLDClient;
+}

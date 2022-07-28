@@ -10,10 +10,8 @@ import context, { LDContext } from './context';
  *
  * @return All the feature flags configured in your LaunchDarkly project
  */
-const useFlags = <T extends LDFlagSet = LDFlagSet>(): T => {
+export default function useFlags<T extends LDFlagSet = LDFlagSet>(): T {
   const { flags } = useContext<LDContext>(context);
 
   return flags as T;
-};
-
-export default useFlags;
+}

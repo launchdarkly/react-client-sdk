@@ -9,7 +9,7 @@ import { defaultReactOptions, LDReactOptions } from './types';
  * @param rawFlags A mapping of flag keys and their values
  * @return A transformed `LDFlagSet` with camelCased flag keys
  */
-export const camelCaseKeys = (rawFlags: LDFlagSet) => {
+export function camelCaseKeys(rawFlags: LDFlagSet) {
   const flags: LDFlagSet = {};
   for (const rawFlag in rawFlags) {
     // Exclude system keys
@@ -19,7 +19,7 @@ export const camelCaseKeys = (rawFlags: LDFlagSet) => {
   }
 
   return flags;
-};
+}
 
 /**
  * Gets the flags to pass to the provider from the changeset.
@@ -31,11 +31,11 @@ export const camelCaseKeys = (rawFlags: LDFlagSet) => {
  * @return an `LDFlagSet` with the current flag values from the LDFlagChangeset filtered by `targetFlags`. The returned
  * object may be empty `{}` if none of the targetFlags were changed.
  */
-export const getFlattenedFlagsFromChangeset = (
+export function getFlattenedFlagsFromChangeset(
   changes: LDFlagChangeset,
   targetFlags: LDFlagSet | undefined,
   reactOptions: LDReactOptions,
-): LDFlagSet => {
+): LDFlagSet {
   const flattened: LDFlagSet = {};
   for (const key in changes) {
     if (!targetFlags || targetFlags[key] !== undefined) {
@@ -46,7 +46,7 @@ export const getFlattenedFlagsFromChangeset = (
   }
 
   return flattened;
-};
+}
 
 /**
  * Retrieves flag values.
@@ -57,11 +57,11 @@ export const getFlattenedFlagsFromChangeset = (
  *
  * @returns an `LDFlagSet` with the current flag values from LaunchDarkly filtered by `targetFlags`.
  */
-export const fetchFlags = (
+export function fetchFlags(
   ldClient: LDClient,
   reactOptions: LDReactOptions = defaultReactOptions,
   targetFlags?: LDFlagSet,
-) => {
+) {
   let rawFlags: LDFlagSet = {};
 
   if (targetFlags) {
@@ -73,7 +73,7 @@ export const fetchFlags = (
   }
 
   return reactOptions.useCamelCaseFlagKeys ? camelCaseKeys(rawFlags) : rawFlags;
-};
+}
 
 /**
  * @deprecated The `camelCaseKeys.camelCaseKeys` property will be removed in a future version,
