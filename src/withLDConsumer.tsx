@@ -19,7 +19,7 @@ export interface ConsumerOptions {
 export interface LDProps {
   /**
    * A map of feature flags from their keys to their values.
-   * Keys are camelCased using `lodash.camelcase`.
+   * Keys are camelCased.
    */
   flags?: LDFlagSet;
 

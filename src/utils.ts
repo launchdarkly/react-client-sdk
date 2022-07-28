@@ -1,6 +1,9 @@
 import { LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
-import camelCase from 'lodash.camelcase';
 import { defaultReactOptions, LDReactOptions } from './types';
+
+function snakeCaseToCamelCase(str: string): string {
+  return str.replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
+}
 
 /**
  * Transforms a set of flags so that their keys are camelCased. This function ignores
@@ -14,7 +17,7 @@ export const camelCaseKeys = (rawFlags: LDFlagSet) => {
   for (const rawFlag in rawFlags) {
     // Exclude system keys
     if (rawFlag.indexOf('$') !== 0) {
-      flags[camelCase(rawFlag)] = rawFlags[rawFlag]; // tslint:disable-line:no-unsafe-any
+      flags[snakeCaseToCamelCase(rawFlag)] = rawFlags[rawFlag]; // tslint:disable-line:no-unsafe-any
     }
   }
 
@@ -40,7 +43,7 @@ export const getFlattenedFlagsFromChangeset = (
   for (const key in changes) {
     if (!targetFlags || targetFlags[key] !== undefined) {
       // tslint:disable-next-line:no-unsafe-any
-      const flagKey = reactOptions.useCamelCaseFlagKeys ? camelCase(key) : key;
+      const flagKey = reactOptions.useCamelCaseFlagKeys ? snakeCaseToCamelCase(key) : key;
       flattened[flagKey] = changes[key].current;
     }
   }
