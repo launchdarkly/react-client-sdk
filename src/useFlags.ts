@@ -1,8 +1,9 @@
 import { useContext } from 'react';
 import context, { LDContext } from './context';
 
-
-type LDFlagSet = { [key: string]: any };
+interface LDFlagSet {
+  [key: string]: any;
+}
 
 /**
  * `useFlags` is a custom hook which returns all feature flags. It uses the `useContext` primitive
