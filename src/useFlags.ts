@@ -1,9 +1,6 @@
+import { LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { useContext } from 'react';
 import context, { LDContext } from './context';
-
-interface LDFlagSet {
-  [key: string]: any;
-}
 
 /**
  * `useFlags` is a custom hook which returns all feature flags. It uses the `useContext` primitive
