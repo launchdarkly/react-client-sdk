@@ -8,13 +8,13 @@ exports[`withLDConsumer flags are passed down through context api 1`] = `
 
 exports[`withLDConsumer ldClient is passed down through context api 1`] = `
 <div>
-  Negative, no ldClient
+  ldClient detected
 </div>
 `;
 
 exports[`withLDConsumer only ldClient is passed down through context api 1`] = `
 <div>
   Negative, no flag
-  Negative, no ldClient
+  ldClient detected
 </div>
 `;
