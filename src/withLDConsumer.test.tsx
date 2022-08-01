@@ -33,9 +33,7 @@ describe('withLDConsumer', () => {
   });
 
   test('ldClient is passed down through context api', () => {
-    const Home = (props: HocProps) => (
-      <div>{props.ldClient ? 'ldClient detected' : 'Negative, no ldClient'}</div>
-    );
+    const Home = (props: HocProps) => <div>{props.ldClient ? 'ldClient detected' : 'Negative, no ldClient'}</div>;
     const HomeWithFlags = withLDConsumer()(Home);
     const component = create(<HomeWithFlags />);
     expect(component).toMatchSnapshot();
