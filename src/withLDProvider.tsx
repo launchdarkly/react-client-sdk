@@ -31,14 +31,12 @@ export function withLDProvider<T = {}>(
     const reactOptions = { ...defaultReactOptions, ...userReactOptions };
     const providerProps = { ...config, reactOptions };
 
-    class HoistedComponent extends React.Component<T> {
-      render() {
-        return (
-          <LDProvider {...providerProps}>
-            <WrappedComponent {...this.props} />
-          </LDProvider>
-        );
-      }
+    function HoistedComponent(props: T) {
+      return (
+        <LDProvider {...providerProps}>
+          <WrappedComponent {...props} />
+        </LDProvider>
+      );
     }
 
     hoistNonReactStatics(HoistedComponent, WrappedComponent);
