@@ -34,7 +34,11 @@ describe('withLDConsumer', () => {
 
   test('ldClient is passed down through context api', () => {
     const Home = (props: HocProps) => (
-      <div>{props.ldClient && props.ldClient.track ? 'ldClient detected' : 'Negative, no ldClient'}</div>
+      <div>
+        {props.ldClient && Object.hasOwnProperty.call(props.ldClient, 'track')
+          ? 'ldClient detected'
+          : 'Negative, no ldClient'}
+      </div>
     );
     const HomeWithFlags = withLDConsumer()(Home);
     const component = create(<HomeWithFlags />);
@@ -45,7 +49,9 @@ describe('withLDConsumer', () => {
     const Home = (props: HocProps) => (
       <div>
         {props.flags ? 'flags detected' : 'Negative, no flag'}
-        {props.ldClient && props.ldClient.track ? 'ldClient detected' : 'Negative, no ldClient'}
+        {props.ldClient && Object.hasOwnProperty.call(props.ldClient, 'track')
+          ? 'ldClient detected'
+          : 'Negative, no ldClient'}
       </div>
     );
     const HomeWithFlags = withLDConsumer({ clientOnly: true })(Home);
