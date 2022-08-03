@@ -3,6 +3,10 @@ import { AllFlagsLDClient, defaultReactOptions, LDReactOptions } from './types';
 import { fetchFlags } from './utils';
 import { version } from '../package.json';
 
+const baseLDOptions: LDOptions = {
+  sendEventsOnlyForVariation: true,
+};
+
 /**
  * Internal function to initialize the `LDClient`.
  *
@@ -22,7 +26,7 @@ const initLDClient = async (
   options?: LDOptions,
   targetFlags?: LDFlagSet,
 ): Promise<AllFlagsLDClient> => {
-  const allOptions = { wrapperName: 'react-client-sdk', wrapperVersion: version, ...options };
+  const allOptions = { wrapperName: 'react-client-sdk', wrapperVersion: version, ...baseLDOptions, ...options };
   const ldClient = ldClientInitialize(clientSideID, user, allOptions);
 
   return new Promise<AllFlagsLDClient>((resolve) => {
