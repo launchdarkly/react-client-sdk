@@ -48,6 +48,7 @@
     "@types/react-test-renderer": "^18.0.0",
     "@types/uuid": "^3.4.5",
     "jest": "^27.4.4",
+    "jest-environment-jsdom": "^27.4.4",
     "jest-environment-jsdom-global": "^3.0.0",
     "jest-junit": "^13.0.0",
     "prettier": "^1.18.2",
