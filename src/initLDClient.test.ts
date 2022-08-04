@@ -17,7 +17,11 @@ const ldClientInitialize = initialize as jest.Mock;
 const clientSideID = 'deadbeef';
 const defaultUser: LDUser = { key: 'abcdef' };
 const options: LDOptions = { bootstrap: 'localStorage' };
-const extraOptionsAddedBySdk: LDOptions = { wrapperName: 'react-client-sdk', wrapperVersion: 'mock.version' };
+const extraOptionsAddedBySdk: LDOptions = {
+  wrapperName: 'react-client-sdk',
+  wrapperVersion: 'mock.version',
+  sendEventsOnlyForVariation: true,
+};
 const expectedOptions: LDOptions = { ...options, ...extraOptionsAddedBySdk };
 const flags = { 'test-flag': false, 'another-test-flag': true };
 
@@ -88,5 +92,17 @@ describe('initLDClient', () => {
     expect(mockLDClient.variation).toHaveBeenNthCalledWith(1, 'lonely-flag', false);
     expect(mockLDClient.variation).toHaveBeenNthCalledWith(2, 'lonelier-flag', false);
     expect(flagsClient).toEqual({ flags: { lonelyFlag: true, lonelierFlag: true }, ldClient: mockLDClient });
+  });
+
+  test('may explicity set sendEventsOnlyForVariation to false', async () => {
+    const anonUser: LDUser = { anonymous: true };
+    await initLDClient(clientSideID, undefined, undefined, { ...options, sendEventsOnlyForVariation: false });
+
+    expect(ldClientInitialize.mock.calls[0]).toEqual([
+      clientSideID,
+      anonUser,
+      { ...expectedOptions, sendEventsOnlyForVariation: false },
+    ]);
+    expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
   });
 });
