@@ -10,7 +10,9 @@ import * as packageInfo from '../package.json';
  * @param user A LaunchDarkly user object
  * @param reactOptions Initialization options for the LaunchDarkly React SDK
  * @param options LaunchDarkly initialization options
- * @param targetFlags If specified, `launchdarkly-react-client-sdk` will only request and listen to these flags.
+ * @param targetFlags Set of flags that the SDK should pay attention to, as a map of keys to default values.
+ * Only these flags will appear in the flags object, and only changes to these flags will trigger a rerender.
+ * Flag keys must be in their original form as known to LaunchDarkly rather than in their camel-cased form.
  *
  * @see `ProviderConfig` for more details about the parameters
  * @return An initialized client and flags
