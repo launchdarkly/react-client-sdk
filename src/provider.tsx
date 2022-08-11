@@ -65,14 +65,16 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
     let ldClient = await this.props.ldClient;
     const reactOptions = this.getReactOptions();
     let fetchedFlags;
+    let error: Error | undefined;
     if (ldClient) {
       fetchedFlags = fetchFlags(ldClient, reactOptions, flags);
     } else {
       const initialisedOutput = await initLDClient(clientSideID, user, reactOptions, options, flags);
       fetchedFlags = initialisedOutput.flags;
       ldClient = initialisedOutput.ldClient;
+      error = initialisedOutput.error;
     }
-    this.setState({ flags: fetchedFlags, ldClient });
+    this.setState({ flags: fetchedFlags, ldClient, error });
     this.subscribeToChanges(ldClient);
   };
 

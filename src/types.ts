@@ -21,6 +21,11 @@ export interface LDReactOptions {
    * @see https://docs.launchdarkly.com/sdk/client-side/react/react-web#flag-keys
    */
   useCamelCaseFlagKeys?: boolean;
+
+  /**
+   * Callback to pass a LaunchDarkly initialization error to, if one occurs.
+   */
+  clientInitializationErrorHandler?(error: Error): void;
 }
 
 /**
@@ -121,4 +126,9 @@ export interface AllFlagsLDClient {
    * @see https://docs.launchdarkly.com/sdk/client-side/javascript
    */
   ldClient: LDClient;
+
+  /**
+   * LaunchDarkly client initialization error, if there was one.
+   */
+  error?: Error;
 }

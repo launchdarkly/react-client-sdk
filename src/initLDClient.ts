@@ -26,10 +26,24 @@ const initLDClient = async (
   const ldClient = ldClientInitialize(clientSideID, user, allOptions);
 
   return new Promise<AllFlagsLDClient>((resolve) => {
-    ldClient.on('ready', () => {
+    function cleanup() {
+      ldClient.off('ready', handleReady);
+      ldClient.off('failed', handleFailure);
+    }
+    function handleFailure(error: Error) {
+      cleanup();
+      if (reactOptions.clientInitializationErrorHandler) {
+        reactOptions.clientInitializationErrorHandler(error);
+      }
+      resolve({ flags: {}, ldClient, error });
+    }
+    function handleReady() {
+      cleanup();
       const flags = fetchFlags(ldClient, reactOptions, targetFlags);
       resolve({ flags, ldClient });
-    });
+    }
+    ldClient.on('failed', handleFailure);
+    ldClient.on('ready', handleReady);
   });
 };
 

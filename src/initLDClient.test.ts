@@ -27,8 +27,11 @@ describe('initLDClient', () => {
   beforeEach(() => {
     mockLDClient = {
       on: (e: string, cb: () => void) => {
-        cb();
+        if (e === 'ready') {
+          cb();
+        }
       },
+      off: jest.fn(),
       allFlags: () => flags,
       variation: jest.fn(() => true),
     };
@@ -88,5 +91,32 @@ describe('initLDClient', () => {
     expect(mockLDClient.variation).toHaveBeenNthCalledWith(1, 'lonely-flag', false);
     expect(mockLDClient.variation).toHaveBeenNthCalledWith(2, 'lonelier-flag', false);
     expect(flagsClient).toEqual({ flags: { lonelyFlag: true, lonelierFlag: true }, ldClient: mockLDClient });
+  });
+
+  test('returns an error', async () => {
+    const error = new Error('Out of cheese');
+    mockLDClient.on = (e: string, cb: (err: Error) => void) => {
+      if (e === 'failed') {
+        cb(error);
+      }
+    };
+
+    const flagsClient = await initLDClient(clientSideID);
+
+    expect(flagsClient).toEqual({ flags: {}, ldClient: mockLDClient, error });
+  });
+
+  test('executes error handler', async () => {
+    const error = new Error('Out of cheese');
+    mockLDClient.on = (e: string, cb: (err: Error) => void) => {
+      if (e === 'failed') {
+        cb(error);
+      }
+    };
+    const clientInitializationErrorHandler = jest.fn();
+
+    await initLDClient(clientSideID, undefined, { clientInitializationErrorHandler });
+
+    expect(clientInitializationErrorHandler).toHaveBeenCalledWith(error);
   });
 });

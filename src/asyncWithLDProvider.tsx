@@ -32,12 +32,13 @@ import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './uti
 export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
   const { clientSideID, user, flags: targetFlags, options, reactOptions: userReactOptions } = config;
   const reactOptions = { ...defaultReactOptions, ...userReactOptions };
-  const { ldClient } = await initLDClient(clientSideID, user, reactOptions, options, targetFlags);
+  const { ldClient, error } = await initLDClient(clientSideID, user, reactOptions, options, targetFlags);
 
   const LDProvider = ({ children }: { children: ReactNode }) => {
     const [ldData, setLDData] = useState({
       flags: fetchFlags(ldClient, reactOptions, targetFlags),
       ldClient,
+      error,
     });
 
     useEffect(() => {
