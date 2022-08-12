@@ -2,20 +2,44 @@ import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './uti
 import { LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { defaultReactOptions, LDReactOptions } from './types';
 
-describe('Utils', () => {
-  test('camelCaseKeys should ignore system keys', () => {
-    const bootstrap = {
-      'test-flag': true,
-      'another-test-flag': false,
-      $flagsState: {
-        'test-flag': { version: 125, variation: 0, trackEvents: true },
-        'another-test-flag': { version: 18, variation: 1 },
-      },
-      $valid: true,
-    };
+const caseTestCases = [
+  ['camelCase', 'camelCase'],
+  ['PascalCase', 'pascalCase'],
+  ['kebab-case', 'kebabCase'],
+  ['SCREAMING-KEBAB-CASE', 'screamingKebabCase'],
+  ['snake_case', 'snakeCase'],
+  ['SCREAMING_SNAKE_CASE', 'screamingSnakeCase'],
+  ['camel_Snake_Case', 'camelSnakeCase'],
+  ['Pascal_Snake_Case', 'pascalSnakeCase'],
+  ['Train-Case', 'trainCase'],
+  // we can possibly drop support for these as they are unlikely used in practice
+  ['snake_kebab-case', 'snakeKebabCase'],
+  ['dragon.case', 'dragonCase'],
+  ['SCREAMING.DRAGON.CASE', 'screamingDragonCase'],
+  ['PascalDragon.Snake_Kebab-Case', 'pascalDragonSnakeKebabCase'],
+  ['SCREAMING.DRAGON_SNAKE_KEBAB-CASE', 'screamingDragonSnakeKebabCase'],
+];
 
-    const result = camelCaseKeys(bootstrap);
-    expect(result).toEqual({ testFlag: true, anotherTestFlag: false });
+describe('Utils', () => {
+  describe('camelCaseKeys', () => {
+    test('should ignore system keys', () => {
+      const bootstrap = {
+        'test-flag': true,
+        'another-test-flag': false,
+        $flagsState: {
+          'test-flag': { version: 125, variation: 0, trackEvents: true },
+          'another-test-flag': { version: 18, variation: 1 },
+        },
+        $valid: true,
+      };
+
+      const result = camelCaseKeys(bootstrap);
+      expect(result).toEqual({ testFlag: true, anotherTestFlag: false });
+    });
+
+    test.each(caseTestCases)('should handle %s', (key, camelKey) => {
+      expect(camelCaseKeys({ [key]: false })).toEqual({ [camelKey]: false });
+    });
   });
 
   test('getFlattenedFlagsFromChangeset should return current values of all flags when no targetFlags specified', () => {

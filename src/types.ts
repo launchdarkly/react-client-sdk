@@ -69,6 +69,7 @@ export interface ProviderConfig {
   /**
    * If specified, `launchdarkly-react-client-sdk` will only request and listen to these flags.
    * Otherwise, all flags will be requested and listened to.
+   * Flag keys must be in their original form as known to LaunchDarkly rather than in their camel-cased form.
    */
   flags?: LDFlagSet;
 

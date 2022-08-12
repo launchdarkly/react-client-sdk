@@ -17,6 +17,7 @@ const wrapperOptions: LDOptions = {
  * @param reactOptions Initialization options for the LaunchDarkly React SDK
  * @param options LaunchDarkly initialization options
  * @param targetFlags If specified, `launchdarkly-react-client-sdk` will only request and listen to these flags.
+ * Flag keys must be in their original form as known to LaunchDarkly rather than in their camel-cased form.
  *
  * @see `ProviderConfig` for more details about the parameters
  * @return An initialized client and flags
