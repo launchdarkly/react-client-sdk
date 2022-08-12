@@ -67,8 +67,8 @@ export interface ProviderConfig {
   reactOptions?: LDReactOptions;
 
   /**
-   * Set of flags that the SDK should pay attention to, as a map of keys to default values.
-   * Only these flags will appear in the flags object, and only changes to these flags will trigger a rerender.
+   * If specified, `launchdarkly-react-client-sdk` will only request and listen to these flags.
+   * Otherwise, all flags will be requested and listened to.
    * Flag keys must be in their original form as known to LaunchDarkly rather than in their camel-cased form.
    */
   flags?: LDFlagSet;
