@@ -7,8 +7,8 @@ import { LDFlagKeyMap } from './types';
  */
 interface LDContext {
   /**
-   * JavaScript proxy containing all fethced flags that will trigger a LDClient#variation call
-   * on flag read in order to register a flag evaluation event in LaunchDarkly. Empty {} initially
+   * JavaScript proxy that will trigger a LDClient#variation call on flag read in order
+   * to register a flag evaluation event in LaunchDarkly. Empty {} initially
    * until flags are fetched from the LaunchDarkly servers.
    */
   flags: LDFlagSet;
