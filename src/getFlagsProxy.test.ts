@@ -50,3 +50,11 @@ test('filters to target flags', () => {
 
   expect(flags).toEqual({ fooBar: 'foobar' });
 });
+
+test('does not use proxy if option is false', () => {
+  const { flags } = getFlagsProxy(ldClient, rawFlags, { sendEventsOnFlagRead: false });
+
+  expect(flags['foo-bar']).toBe('foobar');
+
+  expect(variation).not.toHaveBeenCalled();
+});
