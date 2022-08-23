@@ -123,3 +123,10 @@ export interface AllFlagsLDClient {
    */
   ldClient: LDClient;
 }
+
+/**
+ * Mag of camelized flag key to original unmodified flag key.
+ */
+export interface LDFlagKeyMap {
+  [camelCasedKey: string]: string;
+}
