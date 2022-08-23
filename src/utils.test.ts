@@ -85,12 +85,10 @@ describe('Utils', () => {
       };
     });
 
-    test('should return variations for the target flags', () => {
+    test('should return only the target flags', () => {
       const targetFlags = { 'target-one': true, 'target-two': true, 'target-three': false };
       const flagSet = fetchFlags(mockLDClient as LDClient, targetFlags);
 
-      expect(mockLDClient.allFlags).toBeCalledTimes(0);
-      expect(mockLDClient.variation).toBeCalledTimes(3);
       expect(flagSet).toEqual({ 'target-one': true, 'target-three': false, 'target-two': true });
     });
 
@@ -98,7 +96,6 @@ describe('Utils', () => {
       const flagSet = fetchFlags(mockLDClient as LDClient, undefined);
 
       expect(mockLDClient.allFlags).toBeCalledTimes(1);
-      expect(mockLDClient.variation).toBeCalledTimes(0);
       expect(flagSet).toEqual({ 'example-flag': true, 'test-example': false });
     });
   });

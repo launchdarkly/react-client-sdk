@@ -58,18 +58,6 @@ describe('initLDClient', () => {
     expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
   });
 
-  test('initialise should call variation if flags are specified', async () => {
-    const customUser = { key: 'yus@reactjunkie.com' };
-    const targetFlags = { 'lonely-flag': false, 'lonelier-flag': false };
-
-    const flagsClient = await initLDClient(clientSideID, customUser, options, targetFlags);
-
-    expect(mockLDClient.variation).toHaveBeenCalledTimes(2);
-    expect(mockLDClient.variation).toHaveBeenNthCalledWith(1, 'lonely-flag', false);
-    expect(mockLDClient.variation).toHaveBeenNthCalledWith(2, 'lonelier-flag', false);
-    expect(flagsClient).toEqual({ flags: { 'lonely-flag': true, 'lonelier-flag': true }, ldClient: mockLDClient });
-  });
-
   test('may explicity set sendEventsOnlyForVariation to false', async () => {
     const anonUser: LDUser = { anonymous: true };
     await initLDClient(clientSideID, undefined, { ...options, sendEventsOnlyForVariation: false });
