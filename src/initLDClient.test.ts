@@ -9,13 +9,11 @@ jest.mock('launchdarkly-js-client-sdk', () => {
 jest.mock('../package.json', () => ({ version: 'mock.version' }));
 
 import { initialize, LDClient, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
-import { LDReactOptions } from './types';
 import initLDClient from './initLDClient';
 
 const ldClientInitialize = initialize as jest.Mock;
 
 const clientSideID = 'deadbeef';
-const defaultUser: LDUser = { key: 'abcdef' };
 const options: LDOptions = { bootstrap: 'localStorage' };
 const extraOptionsAddedBySdk: LDOptions = {
   wrapperName: 'react-client-sdk',
