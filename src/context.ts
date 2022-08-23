@@ -14,7 +14,7 @@ interface LDContext {
   flags: LDFlagSet;
 
   /**
-   * Non-proxy copy of flags.
+   * Un-proxied un-camelized copy of flags.
    */
   _flags: LDFlagSet;
 

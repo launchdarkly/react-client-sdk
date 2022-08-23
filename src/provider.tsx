@@ -1,9 +1,10 @@
 import React, { Component, PropsWithChildren } from 'react';
-import { LDClient, LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
+import { LDClient, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { EnhancedComponent, ProviderConfig, defaultReactOptions } from './types';
 import { Provider, LDContext as HocState } from './context';
 import initLDClient from './initLDClient';
 import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './utils';
+import getFlagsProxy from './getFlagsProxy';
 
 /**
  * The `LDProvider` is a component which accepts a config object which is used to
@@ -32,6 +33,8 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
 
     this.state = {
       flags: {},
+      _flags: {},
+      flagKeyMap: {},
       ldClient: undefined,
     };
 
@@ -42,6 +45,8 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
         const flags = useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap;
         this.state = {
           flags,
+          _flags: bootstrap,
+          flagKeyMap: {},
           ldClient: undefined,
         };
       }
@@ -53,9 +58,10 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
   subscribeToChanges = (ldClient: LDClient) => {
     const { flags: targetFlags } = this.props;
     ldClient.on('change', (changes: LDFlagChangeset) => {
-      const flattened: LDFlagSet = getFlattenedFlagsFromChangeset(changes, targetFlags, this.getReactOptions());
-      if (Object.keys(flattened).length > 0) {
-        this.setState(({ flags }) => ({ flags: { ...flags, ...flattened } }));
+      const reactOptions = this.getReactOptions();
+      const updates = getFlattenedFlagsFromChangeset(changes, targetFlags);
+      if (Object.keys(updates).length > 0) {
+        this.setState(({ _flags }) => getFlagsProxy(ldClient, { ..._flags, ...updates }, reactOptions, targetFlags));
       }
     });
   };
@@ -66,13 +72,13 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
     const reactOptions = this.getReactOptions();
     let fetchedFlags;
     if (ldClient) {
-      fetchedFlags = fetchFlags(ldClient, reactOptions, flags);
+      fetchedFlags = fetchFlags(ldClient, flags);
     } else {
-      const initialisedOutput = await initLDClient(clientSideID, user, reactOptions, options, flags);
+      const initialisedOutput = await initLDClient(clientSideID, user, options, flags);
       fetchedFlags = initialisedOutput.flags;
       ldClient = initialisedOutput.ldClient;
     }
-    this.setState({ flags: fetchedFlags, ldClient });
+    this.setState({ ...getFlagsProxy(ldClient, fetchedFlags, reactOptions, flags), ldClient });
     this.subscribeToChanges(ldClient);
   };
 

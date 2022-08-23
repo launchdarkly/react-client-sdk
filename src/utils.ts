@@ -1,7 +1,7 @@
 import { LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import camelCase from 'lodash.camelcase';
-import { defaultReactOptions, LDReactOptions } from './types';
 
+// Note that this is no longer used by the SDK, but is still exported for backwards comatability
 /**
  * Transforms a set of flags so that their keys are camelCased. This function ignores
  * flag keys which start with `$`.
@@ -27,21 +27,17 @@ export const camelCaseKeys = (rawFlags: LDFlagSet) => {
  * @param changes the `LDFlagChangeset` from the ldClient onchange handler.
  * @param targetFlags if targetFlags are specified, changes to other flags are ignored and not returned in the
  * flattened `LDFlagSet`
- * @param reactOptions reactOptions.useCamelCaseFlagKeys determines whether to change the flag keys to camelCase
  * @return an `LDFlagSet` with the current flag values from the LDFlagChangeset filtered by `targetFlags`. The returned
  * object may be empty `{}` if none of the targetFlags were changed.
  */
 export const getFlattenedFlagsFromChangeset = (
   changes: LDFlagChangeset,
   targetFlags: LDFlagSet | undefined,
-  reactOptions: LDReactOptions,
 ): LDFlagSet => {
   const flattened: LDFlagSet = {};
   for (const key in changes) {
     if (!targetFlags || targetFlags[key] !== undefined) {
-      // tslint:disable-next-line:no-unsafe-any
-      const flagKey = reactOptions.useCamelCaseFlagKeys ? camelCase(key) : key;
-      flattened[flagKey] = changes[key].current;
+      flattened[key] = changes[key].current;
     }
   }
 
@@ -52,17 +48,12 @@ export const getFlattenedFlagsFromChangeset = (
  * Retrieves flag values.
  *
  * @param ldClient LaunchDarkly client
- * @param reactOptions Initialization options for the LaunchDarkly React SDK
  * @param targetFlags If specified, `launchdarkly-react-client-sdk` will only request and listen to these flags.
  * Flag keys must be in their original form as known to LaunchDarkly rather than in their camel-cased form.
  *
  * @returns an `LDFlagSet` with the current flag values from LaunchDarkly filtered by `targetFlags`.
  */
-export const fetchFlags = (
-  ldClient: LDClient,
-  reactOptions: LDReactOptions = defaultReactOptions,
-  targetFlags?: LDFlagSet,
-) => {
+export const fetchFlags = (ldClient: LDClient, targetFlags?: LDFlagSet) => {
   let rawFlags: LDFlagSet = {};
 
   if (targetFlags) {
@@ -73,7 +64,7 @@ export const fetchFlags = (
     rawFlags = ldClient.allFlags();
   }
 
-  return reactOptions.useCamelCaseFlagKeys ? camelCaseKeys(rawFlags) : rawFlags;
+  return rawFlags;
 };
 
 /**

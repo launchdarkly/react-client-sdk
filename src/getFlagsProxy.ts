@@ -6,28 +6,44 @@ export default function getFlagsProxy(
   ldClient: LDClient,
   rawFlags: LDFlagSet,
   reactOptions: LDReactOptions = defaultReactOptions,
+  targetFlags?: LDFlagSet,
 ): { flags: LDFlagSet; _flags: LDFlagSet; flagKeyMap: LDFlagKeyMap } {
+  const filteredFlags = filterFlags(rawFlags, targetFlags);
   const flags: LDFlagSet = {};
   const flagKeyMap: LDFlagKeyMap = {};
   if (!reactOptions.useCamelCaseFlagKeys) {
-    Object.assign(flags, rawFlags);
+    Object.assign(flags, filteredFlags);
   } else {
-    for (const rawFlag in rawFlags) {
+    for (const rawFlag in filteredFlags) {
       // Exclude system keys
       if (rawFlag.indexOf('$') === 0) {
         continue;
       }
       const camelKey = camelCase(rawFlag);
-      flags[camelKey] = rawFlags[rawFlag];
+      flags[camelKey] = filteredFlags[rawFlag];
       flagKeyMap[camelKey] = rawFlag;
     }
   }
 
   return {
     flags: toFlagsProxy(ldClient, flags, flagKeyMap),
-    _flags: flags,
+    _flags: filteredFlags,
     flagKeyMap,
   };
+}
+
+function filterFlags(flags: LDFlagSet, targetFlags?: LDFlagSet): LDFlagSet {
+  if (targetFlags === undefined) {
+    return flags;
+  }
+
+  return Object.keys(targetFlags).reduce<LDFlagSet>((acc, key) => {
+    if (hasFlag(flags, key)) {
+      acc[key] = flags[key];
+    }
+
+    return acc;
+  }, {});
 }
 
 function hasFlag(flags: LDFlagSet, flagKey: string) {

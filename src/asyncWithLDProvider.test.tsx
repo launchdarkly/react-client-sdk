@@ -13,7 +13,7 @@ import { render } from '@testing-library/react';
 import { LDFlagChangeset, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
 import { fetchFlags } from './utils';
-import { AsyncProviderConfig, defaultReactOptions, LDReactOptions } from './types';
+import { AsyncProviderConfig, LDReactOptions } from './types';
 import { Consumer } from './context';
 import asyncWithLDProvider from './asyncWithLDProvider';
 
@@ -23,7 +23,8 @@ const App = () => <>My App</>;
 const mockInitLDClient = initLDClient as jest.Mock;
 const mockFetchFlags = fetchFlags as jest.Mock;
 const mockFlags = { testFlag: true, anotherTestFlag: true };
-let mockLDClient: { on: jest.Mock };
+const rawFlags = { 'test-flag': true, 'another-test-flag': true };
+let mockLDClient: { on: jest.Mock; off: jest.Mock; variation: jest.Mock };
 
 const renderWithConfig = async (config: AsyncProviderConfig) => {
   const LDProvider = await asyncWithLDProvider(config);
@@ -43,10 +44,14 @@ describe('asyncWithLDProvider', () => {
       on: jest.fn((e: string, cb: () => void) => {
         cb();
       }),
+      off: jest.fn(),
+      // tslint:disable-next-line: no-unsafe-any
+      variation: jest.fn((_: string, v) => v),
     };
 
     mockInitLDClient.mockImplementation(() => ({
       ldClient: mockLDClient,
+      flags: rawFlags,
     }));
 
     mockFetchFlags.mockReturnValue(mockFlags);
@@ -72,7 +77,7 @@ describe('asyncWithLDProvider', () => {
     const reactOptions: LDReactOptions = { useCamelCaseFlagKeys: false };
     await asyncWithLDProvider({ clientSideID, user, options, reactOptions });
 
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, reactOptions, options, undefined);
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, options, undefined);
   });
 
   test('subscribe to changes on mount', async () => {
@@ -100,6 +105,7 @@ describe('asyncWithLDProvider', () => {
     mockFetchFlags.mockReturnValue({ 'another-test-flag': true, 'test-flag': true });
     mockInitLDClient.mockImplementation(() => ({
       ldClient: mockLDClient,
+      flags: rawFlags,
     }));
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
       cb({ 'another-test-flag': { current: false, previous: true }, 'test-flag': { current: false, previous: true } });
@@ -107,7 +113,7 @@ describe('asyncWithLDProvider', () => {
     const receivedNode = await renderWithConfig({ clientSideID, reactOptions: { useCamelCaseFlagKeys: false } });
 
     expect(mockLDClient.on).toHaveBeenNthCalledWith(1, 'change', expect.any(Function));
-    expect(receivedNode).toHaveTextContent('{"another-test-flag":false,"test-flag":false}');
+    expect(receivedNode).toHaveTextContent('{"test-flag":false,"another-test-flag":false}');
   });
 
   test('consecutive flag changes gets stored in context correctly', async () => {
@@ -180,31 +186,31 @@ describe('asyncWithLDProvider', () => {
   });
 
   test('ldClient is initialised correctly with target flags', async () => {
-    mockFetchFlags.mockReturnValue({ devTestFlag: true, launchDoggly: true });
     mockInitLDClient.mockImplementation(() => ({
       ldClient: mockLDClient,
+      flags: rawFlags,
     }));
 
     const options: LDOptions = {};
-    const flags = { 'dev-test-flag': false, 'launch-doggly': false };
+    const flags = { 'test-flag': false };
     const receivedNode = await renderWithConfig({ clientSideID, user, options, flags });
 
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, defaultReactOptions, options, flags);
-    expect(receivedNode).toHaveTextContent('{"devTestFlag":true,"launchDoggly":true}');
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, options, flags);
+    expect(receivedNode).toHaveTextContent('{"testFlag":true}');
   });
 
   test('only updates to subscribed flags are pushed to the Provider', async () => {
-    mockFetchFlags.mockReturnValue({ testFlag: 2 });
     mockInitLDClient.mockImplementation(() => ({
       ldClient: mockLDClient,
+      flags: rawFlags,
     }));
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
-      cb({ 'test-flag': { current: 3, previous: 2 }, 'another-test-flag': { current: false, previous: true } });
+      cb({ 'test-flag': { current: false, previous: true }, 'another-test-flag': { current: false, previous: true } });
     });
     const options: LDOptions = {};
-    const subscribedFlags = { 'test-flag': 1 };
+    const subscribedFlags = { 'test-flag': true };
     const receivedNode = await renderWithConfig({ clientSideID, user, options, flags: subscribedFlags });
 
-    expect(receivedNode).toHaveTextContent('{"testFlag":3}');
+    expect(receivedNode).toHaveTextContent('{"testFlag":false}');
   });
 });
