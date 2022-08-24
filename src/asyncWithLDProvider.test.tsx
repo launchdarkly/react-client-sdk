@@ -12,7 +12,6 @@ import React from 'react';
 import { render } from '@testing-library/react';
 import { LDFlagChangeset, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
-import { fetchFlags } from './utils';
 import { AsyncProviderConfig, LDReactOptions } from './types';
 import { Consumer } from './context';
 import asyncWithLDProvider from './asyncWithLDProvider';
@@ -21,8 +20,6 @@ const clientSideID = 'deadbeef';
 const user: LDUser = { key: 'yus', name: 'yus ng' };
 const App = () => <>My App</>;
 const mockInitLDClient = initLDClient as jest.Mock;
-const mockFetchFlags = fetchFlags as jest.Mock;
-const mockFlags = { testFlag: true, anotherTestFlag: true };
 const rawFlags = { 'test-flag': true, 'another-test-flag': true };
 let mockLDClient: { on: jest.Mock; off: jest.Mock; variation: jest.Mock };
 
@@ -53,8 +50,6 @@ describe('asyncWithLDProvider', () => {
       ldClient: mockLDClient,
       flags: rawFlags,
     }));
-
-    mockFetchFlags.mockReturnValue(mockFlags);
   });
 
   afterEach(() => {
@@ -102,7 +97,6 @@ describe('asyncWithLDProvider', () => {
   });
 
   test('subscribe to changes with kebab-case', async () => {
-    mockFetchFlags.mockReturnValue({ 'another-test-flag': true, 'test-flag': true });
     mockInitLDClient.mockImplementation(() => ({
       ldClient: mockLDClient,
       flags: rawFlags,

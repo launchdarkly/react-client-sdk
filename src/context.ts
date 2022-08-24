@@ -14,11 +14,6 @@ interface LDContext {
   flags: LDFlagSet;
 
   /**
-   * Un-proxied un-camelized copy of flags.
-   */
-  _flags: LDFlagSet;
-
-  /**
    * Map of camelized flag keys to their original unmodified form. Empty if camelization option is off.
    */
   flagKeyMap: LDFlagKeyMap;
@@ -35,7 +30,7 @@ interface LDContext {
 /**
  * @ignore
  */
-const context = createContext<LDContext>({ flags: {}, _flags: {}, flagKeyMap: {} });
+const context = createContext<LDContext>({ flags: {}, flagKeyMap: {} });
 const {
   /**
    * @ignore

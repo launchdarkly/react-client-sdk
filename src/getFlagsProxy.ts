@@ -7,7 +7,7 @@ export default function getFlagsProxy(
   rawFlags: LDFlagSet,
   reactOptions: LDReactOptions = defaultReactOptions,
   targetFlags?: LDFlagSet,
-): { flags: LDFlagSet; _flags: LDFlagSet; flagKeyMap: LDFlagKeyMap } {
+): { flags: LDFlagSet; flagKeyMap: LDFlagKeyMap } {
   const filteredFlags = filterFlags(rawFlags, targetFlags);
   const flags: LDFlagSet = {};
   const flagKeyMap: LDFlagKeyMap = {};
@@ -27,7 +27,6 @@ export default function getFlagsProxy(
 
   return {
     flags: toFlagsProxy(ldClient, flags, flagKeyMap),
-    _flags: filteredFlags,
     flagKeyMap,
   };
 }

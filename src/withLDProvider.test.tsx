@@ -68,7 +68,7 @@ describe('withLDProvider', () => {
     expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, options, flags);
     expect(instance.setState).toHaveBeenCalledWith({
       flags: { devTestFlag: true, launchDoggly: true },
-      _flags: { 'dev-test-flag': true, 'launch-doggly': true },
+      unproxiedFlags: { 'dev-test-flag': true, 'launch-doggly': true },
       flagKeyMap: { devTestFlag: 'dev-test-flag', launchDoggly: 'launch-doggly' },
       ldClient: mockLDClient,
     });
@@ -82,7 +82,7 @@ describe('withLDProvider', () => {
     await instance.componentDidMount();
     expect(instance.setState).toHaveBeenCalledWith({
       flags: { testFlag: true, anotherTestFlag: true },
-      _flags: rawFlags,
+      unproxiedFlags: rawFlags,
       flagKeyMap: { testFlag: 'test-flag', anotherTestFlag: 'another-test-flag' },
       ldClient: mockLDClient,
     });
@@ -106,13 +106,11 @@ describe('withLDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
-    const callback = mockSetState.mock.calls[1][0] as (flags: LDFlagSet) => LDFlagSet;
-    const newState = callback({ _flags: rawFlags });
 
     expect(mockLDClient.on).toHaveBeenCalledWith('change', expect.any(Function));
-    expect(newState).toEqual({
+    expect(mockSetState).toHaveBeenLastCalledWith({
       flags: { anotherTestFlag: true, testFlag: false },
-      _flags: { 'test-flag': false, 'another-test-flag': true },
+      unproxiedFlags: { 'test-flag': false, 'another-test-flag': true },
       flagKeyMap: { testFlag: 'test-flag', anotherTestFlag: 'another-test-flag' },
     });
   });
@@ -126,13 +124,11 @@ describe('withLDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
-    const callback = mockSetState.mock.calls[1][0] as (flags: LDFlagSet) => LDFlagSet;
-    const newState = callback({});
 
     expect(mockLDClient.on).toHaveBeenCalledWith('change', expect.any(Function));
-    expect(newState).toEqual({
+    expect(mockSetState).toHaveBeenLastCalledWith({
       flags: { 'test-flag': false, 'another-test-flag': false },
-      _flags: { 'test-flag': false, 'another-test-flag': false },
+      unproxiedFlags: { 'test-flag': false, 'another-test-flag': false },
       flagKeyMap: {},
     });
   });

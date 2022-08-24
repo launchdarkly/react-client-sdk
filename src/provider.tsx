@@ -1,10 +1,14 @@
 import React, { Component, PropsWithChildren } from 'react';
-import { LDClient, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
+import { LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { EnhancedComponent, ProviderConfig, defaultReactOptions } from './types';
-import { Provider, LDContext as HocState } from './context';
+import { Provider, LDContext } from './context';
 import initLDClient from './initLDClient';
 import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './utils';
 import getFlagsProxy from './getFlagsProxy';
+
+interface LDHocState extends LDContext {
+  unproxiedFlags: LDFlagSet;
+}
 
 /**
  * The `LDProvider` is a component which accepts a config object which is used to
@@ -23,8 +27,8 @@ import getFlagsProxy from './getFlagsProxy';
  * within your application. This provider is used inside the `withLDProviderHOC` and can be used instead to initialize
  * the `launchdarkly-js-client-sdk`. For async initialization, check out the `asyncWithLDProvider` function
  */
-class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> implements EnhancedComponent {
-  readonly state: Readonly<HocState>;
+class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState> implements EnhancedComponent {
+  readonly state: Readonly<LDHocState>;
 
   constructor(props: ProviderConfig) {
     super(props);
@@ -33,7 +37,7 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
 
     this.state = {
       flags: {},
-      _flags: {},
+      unproxiedFlags: {},
       flagKeyMap: {},
       ldClient: undefined,
     };
@@ -42,10 +46,9 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
       const { bootstrap } = options;
       if (bootstrap && bootstrap !== 'localStorage') {
         const { useCamelCaseFlagKeys } = this.getReactOptions();
-        const flags = useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap;
         this.state = {
-          flags,
-          _flags: bootstrap,
+          flags: useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap,
+          unproxiedFlags: bootstrap,
           flagKeyMap: {},
           ldClient: undefined,
         };
@@ -60,8 +63,12 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
     ldClient.on('change', (changes: LDFlagChangeset) => {
       const reactOptions = this.getReactOptions();
       const updates = getFlattenedFlagsFromChangeset(changes, targetFlags);
+      const unproxiedFlags = {
+        ...this.state.unproxiedFlags,
+        ...updates,
+      };
       if (Object.keys(updates).length > 0) {
-        this.setState(({ _flags }) => getFlagsProxy(ldClient, { ..._flags, ...updates }, reactOptions, targetFlags));
+        this.setState({ unproxiedFlags, ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, targetFlags) });
       }
     });
   };
@@ -70,15 +77,15 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
     const { clientSideID, flags, options, user } = this.props;
     let ldClient = await this.props.ldClient;
     const reactOptions = this.getReactOptions();
-    let fetchedFlags;
+    let unproxiedFlags;
     if (ldClient) {
-      fetchedFlags = fetchFlags(ldClient, flags);
+      unproxiedFlags = fetchFlags(ldClient, flags);
     } else {
       const initialisedOutput = await initLDClient(clientSideID, user, options, flags);
-      fetchedFlags = initialisedOutput.flags;
+      unproxiedFlags = initialisedOutput.flags;
       ldClient = initialisedOutput.ldClient;
     }
-    this.setState({ ...getFlagsProxy(ldClient, fetchedFlags, reactOptions, flags), ldClient });
+    this.setState({ unproxiedFlags, ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, flags), ldClient });
     this.subscribeToChanges(ldClient);
   };
 
@@ -100,7 +107,9 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
   }
 
   render() {
-    return <Provider value={this.state}>{this.props.children}</Provider>;
+    const { flags, flagKeyMap, ldClient } = this.state;
+
+    return <Provider value={{ flags, flagKeyMap, ldClient }}>{this.props.children}</Provider>;
   }
 }
 
