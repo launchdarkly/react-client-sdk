@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ReactNode } from 'react';
-import { LDFlagChangeset } from 'launchdarkly-js-client-sdk';
+import { LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { AsyncProviderConfig, defaultReactOptions } from './types';
 import { Provider } from './context';
 import initLDClient from './initLDClient';
@@ -38,21 +38,26 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
   const LDProvider = ({ children }: { children: ReactNode }) => {
     const [ldData, setLDData] = useState({
       flags: {},
-      _flags: {},
+      unproxiedFlags: {},
       flagKeyMap: {},
     });
 
     useEffect(() => {
-      if (options?.bootstrap && options.bootstrap !== 'localStorage') {
-        setLDData(getFlagsProxy(ldClient, options.bootstrap, reactOptions, targetFlags));
-      } else {
-        setLDData(getFlagsProxy(ldClient, fetchedFlags, reactOptions, targetFlags));
-      }
+      const initialFlags =
+        options?.bootstrap && options.bootstrap !== 'localStorage' ? options.bootstrap : fetchedFlags;
+      setLDData({ unproxiedFlags: initialFlags, ...getFlagsProxy(ldClient, initialFlags, reactOptions, targetFlags) });
 
       function onChange(changes: LDFlagChangeset) {
         const updates = getFlattenedFlagsFromChangeset(changes, targetFlags);
         if (Object.keys(updates).length > 0) {
-          setLDData(({ _flags }) => getFlagsProxy(ldClient, { ..._flags, ...updates }, reactOptions, targetFlags));
+          setLDData(({ unproxiedFlags }) => {
+            const updatedUnproxiedFlags = { ...unproxiedFlags, ...updates };
+
+            return {
+              unproxiedFlags: updatedUnproxiedFlags,
+              ...getFlagsProxy(ldClient, updatedUnproxiedFlags, reactOptions, targetFlags),
+            };
+          });
         }
       }
       ldClient.on('change', onChange);
@@ -62,7 +67,9 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
       };
     }, []);
 
-    return <Provider value={{ ...ldData, ldClient }}>{children}</Provider>;
+    const { flags, flagKeyMap } = ldData;
+
+    return <Provider value={{ flags, flagKeyMap, ldClient }}>{children}</Provider>;
   };
 
   return LDProvider;

@@ -7,7 +7,7 @@ export default function getFlagsProxy(
   rawFlags: LDFlagSet,
   reactOptions: LDReactOptions = defaultReactOptions,
   targetFlags?: LDFlagSet,
-): { flags: LDFlagSet; _flags: LDFlagSet; flagKeyMap: LDFlagKeyMap } {
+): { flags: LDFlagSet; flagKeyMap: LDFlagKeyMap } {
   const filteredFlags = filterFlags(rawFlags, targetFlags);
   const flags: LDFlagSet = {};
   const flagKeyMap: LDFlagKeyMap = {};
@@ -27,7 +27,6 @@ export default function getFlagsProxy(
 
   return {
     flags: reactOptions.sendEventsOnFlagRead ? toFlagsProxy(ldClient, flags, flagKeyMap) : flags,
-    _flags: filteredFlags,
     flagKeyMap,
   };
 }
@@ -53,15 +52,14 @@ function hasFlag(flags: LDFlagSet, flagKey: string) {
 function toFlagsProxy(ldClient: LDClient, flags: LDFlagSet, flagKeyMap: LDFlagKeyMap): LDFlagSet {
   return new Proxy(flags, {
     // trap for reading a flag value that refreshes its value with `LDClient#variation` to trigger an evaluation event
-    get(target, prop) {
-      const flagKey = prop.toString();
-      const currentValue = Reflect.get(target, flagKey);
+    get(target, flagKey: string, receiver) {
+      const currentValue = Reflect.get(target, flagKey, receiver);
       if (currentValue === undefined) {
         return;
       }
       const originalFlagKey = hasFlag(flagKeyMap, flagKey) ? flagKeyMap[flagKey] : flagKey;
       const nextValue = ldClient.variation(originalFlagKey, currentValue);
-      Reflect.set(target, flagKey, nextValue);
+      Reflect.set(target, flagKey, nextValue, receiver);
 
       return nextValue;
     },
