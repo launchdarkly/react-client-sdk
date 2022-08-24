@@ -53,17 +53,16 @@ export const getFlattenedFlagsFromChangeset = (
  * @returns an `LDFlagSet` with the current flag values from LaunchDarkly filtered by `targetFlags`.
  */
 export const fetchFlags = (ldClient: LDClient, targetFlags?: LDFlagSet) => {
-  let rawFlags: LDFlagSet = {};
-
-  if (targetFlags) {
-    for (const flag in targetFlags) {
-      rawFlags[flag] = ldClient.variation(flag, targetFlags[flag]);
-    }
-  } else {
-    rawFlags = ldClient.allFlags();
+  const allFlags = ldClient.allFlags();
+  if (!targetFlags) {
+    return allFlags;
   }
 
-  return rawFlags;
+  return Object.keys(targetFlags).reduce<LDFlagSet>((acc, key) => {
+    acc[key] = Object.prototype.hasOwnProperty.call(allFlags, key) ? allFlags[key] : targetFlags[key];
+
+    return acc;
+  }, {});
 };
 
 /**
