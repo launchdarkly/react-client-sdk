@@ -1,7 +1,6 @@
 import { LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import camelCase from 'lodash.camelcase';
 
-// Note that this is no longer used by the SDK, but is still exported for backwards comatability
 /**
  * Transforms a set of flags so that their keys are camelCased. This function ignores
  * flag keys which start with `$`.
