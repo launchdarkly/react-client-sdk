@@ -1,9 +1,10 @@
 import React, { useState, useEffect, ReactNode } from 'react';
-import { LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
+import { LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { AsyncProviderConfig, defaultReactOptions } from './types';
 import { Provider } from './context';
 import initLDClient from './initLDClient';
-import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './utils';
+import { getFlattenedFlagsFromChangeset } from './utils';
+import getFlagsProxy from './getFlagsProxy';
 
 /**
  * This is an async function which initializes LaunchDarkly's JS SDK (`launchdarkly-js-client-sdk`)
@@ -32,32 +33,43 @@ import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './uti
 export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
   const { clientSideID, user, flags: targetFlags, options, reactOptions: userReactOptions } = config;
   const reactOptions = { ...defaultReactOptions, ...userReactOptions };
-  const { ldClient } = await initLDClient(clientSideID, user, reactOptions, options, targetFlags);
+  const { ldClient, flags: fetchedFlags } = await initLDClient(clientSideID, user, options, targetFlags);
 
   const LDProvider = ({ children }: { children: ReactNode }) => {
     const [ldData, setLDData] = useState({
-      flags: fetchFlags(ldClient, reactOptions, targetFlags),
-      ldClient,
+      flags: {},
+      unproxiedFlags: {},
+      flagKeyMap: {},
     });
 
     useEffect(() => {
-      if (options) {
-        const { bootstrap } = options;
-        if (bootstrap && bootstrap !== 'localStorage') {
-          const bootstrappedFlags = reactOptions.useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap;
-          setLDData((prev) => ({ ...prev, flags: bootstrappedFlags }));
+      const initialFlags =
+        options?.bootstrap && options.bootstrap !== 'localStorage' ? options.bootstrap : fetchedFlags;
+      setLDData({ unproxiedFlags: initialFlags, ...getFlagsProxy(ldClient, initialFlags, reactOptions, targetFlags) });
+
+      function onChange(changes: LDFlagChangeset) {
+        const updates = getFlattenedFlagsFromChangeset(changes, targetFlags);
+        if (Object.keys(updates).length > 0) {
+          setLDData(({ unproxiedFlags }) => {
+            const updatedUnproxiedFlags = { ...unproxiedFlags, ...updates };
+
+            return {
+              unproxiedFlags: updatedUnproxiedFlags,
+              ...getFlagsProxy(ldClient, updatedUnproxiedFlags, reactOptions, targetFlags),
+            };
+          });
         }
       }
+      ldClient.on('change', onChange);
 
-      ldClient.on('change', (changes: LDFlagChangeset) => {
-        const flattened: LDFlagSet = getFlattenedFlagsFromChangeset(changes, targetFlags, reactOptions);
-        if (Object.keys(flattened).length > 0) {
-          setLDData((prev) => ({ ...prev, flags: { ...prev.flags, ...flattened } }));
-        }
-      });
+      return function cleanup() {
+        ldClient.off('change', onChange);
+      };
     }, []);
 
-    return <Provider value={ldData}>{children}</Provider>;
+    const { flags, flagKeyMap } = ldData;
+
+    return <Provider value={{ flags, flagKeyMap, ldClient }}>{children}</Provider>;
   };
 
   return LDProvider;

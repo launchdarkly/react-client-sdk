@@ -4,6 +4,7 @@ exports[`LDProvider render app 1`] = `
 <Provider
   value={
     Object {
+      "flagKeyMap": Object {},
       "flags": Object {},
       "ldClient": undefined,
     }
