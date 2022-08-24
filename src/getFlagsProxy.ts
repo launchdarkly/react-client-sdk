@@ -26,7 +26,7 @@ export default function getFlagsProxy(
   }
 
   return {
-    flags: toFlagsProxy(ldClient, flags, flagKeyMap),
+    flags: reactOptions.sendEventsOnFlagRead ? toFlagsProxy(ldClient, flags, flagKeyMap) : flags,
     _flags: filteredFlags,
     flagKeyMap,
   };
