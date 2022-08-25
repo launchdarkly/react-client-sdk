@@ -9,21 +9,9 @@ export default function getFlagsProxy(
   targetFlags?: LDFlagSet,
 ): { flags: LDFlagSet; flagKeyMap: LDFlagKeyMap } {
   const filteredFlags = filterFlags(rawFlags, targetFlags);
-  const flags: LDFlagSet = {};
-  const flagKeyMap: LDFlagKeyMap = {};
-  if (!reactOptions.useCamelCaseFlagKeys) {
-    Object.assign(flags, filteredFlags);
-  } else {
-    for (const rawFlag in filteredFlags) {
-      // Exclude system keys
-      if (rawFlag.indexOf('$') === 0) {
-        continue;
-      }
-      const camelKey = camelCase(rawFlag);
-      flags[camelKey] = filteredFlags[rawFlag];
-      flagKeyMap[camelKey] = rawFlag;
-    }
-  }
+  const [flags, flagKeyMap = {}] = reactOptions.useCamelCaseFlagKeys
+    ? getCamelizedKeysAndFlagMap(filteredFlags)
+    : [filteredFlags];
 
   return {
     flags: reactOptions.sendEventsOnFlagRead ? toFlagsProxy(ldClient, flags, flagKeyMap) : flags,
@@ -43,6 +31,22 @@ function filterFlags(flags: LDFlagSet, targetFlags?: LDFlagSet): LDFlagSet {
 
     return acc;
   }, {});
+}
+
+function getCamelizedKeysAndFlagMap(rawFlags: LDFlagSet) {
+  const flags: LDFlagSet = {};
+  const flagKeyMap: LDFlagKeyMap = {};
+  for (const rawFlag in rawFlags) {
+    // Exclude system keys
+    if (rawFlag.indexOf('$') === 0) {
+      continue;
+    }
+    const camelKey = camelCase(rawFlag);
+    flags[camelKey] = rawFlags[rawFlag];
+    flagKeyMap[camelKey] = rawFlag;
+  }
+
+  return [flags, flagKeyMap];
 }
 
 function hasFlag(flags: LDFlagSet, flagKey: string) {

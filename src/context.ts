@@ -30,7 +30,7 @@ interface LDContext {
 /**
  * @ignore
  */
-const context = createContext<LDContext>({ flags: {}, flagKeyMap: {} });
+const context = createContext<LDContext>({ flags: {}, flagKeyMap: {}, ldClient: undefined });
 const {
   /**
    * @ignore
