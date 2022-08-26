@@ -132,7 +132,7 @@ export interface AllFlagsLDClient {
 }
 
 /**
- * Map of camelized flag key to original unmodified flag key.
+ * Map of camelized flag keys to original unmodified flag keys.
  */
 export interface LDFlagKeyMap {
   [camelCasedKey: string]: string;
