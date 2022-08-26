@@ -14,7 +14,7 @@ interface LDContext {
   flags: LDFlagSet;
 
   /**
-   * Map of camelized flag keys to their original unmodified form. Empty if camelization option is off.
+   * Map of camelized flag keys to their original unmodified form. Empty if useCamelCaseFlagKeys option is false.
    */
   flagKeyMap: LDFlagKeyMap;
 
