@@ -56,14 +56,17 @@ function hasFlag(flags: LDFlagSet, flagKey: string) {
 function toFlagsProxy(ldClient: LDClient, flags: LDFlagSet, flagKeyMap: LDFlagKeyMap): LDFlagSet {
   return new Proxy(flags, {
     // trap for reading a flag value that refreshes its value with `LDClient#variation` to trigger an evaluation event
-    get(target, flagKey: string, receiver) {
-      const currentValue = Reflect.get(target, flagKey, receiver);
+    get(target, prop, receiver) {
+      const currentValue = Reflect.get(target, prop, receiver);
+      if (typeof prop === 'symbol') {
+        return currentValue;
+      }
       if (currentValue === undefined) {
         return;
       }
-      const originalFlagKey = hasFlag(flagKeyMap, flagKey) ? flagKeyMap[flagKey] : flagKey;
+      const originalFlagKey = hasFlag(flagKeyMap, prop) ? flagKeyMap[prop] : prop;
       const nextValue = ldClient.variation(originalFlagKey, currentValue);
-      Reflect.set(target, flagKey, nextValue, receiver);
+      Reflect.set(target, prop, nextValue, receiver);
 
       return nextValue;
     },
