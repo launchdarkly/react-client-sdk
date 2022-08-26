@@ -85,18 +85,4 @@ describe('initLDClient', () => {
 
     expect(flagsClient).toEqual({ flags: {}, ldClient: mockLDClient, error });
   });
-
-  test('executes error handler', async () => {
-    const error = new Error('Out of cheese');
-    mockLDClient.on = (e: string, cb: (err: Error) => void) => {
-      if (e === 'failed') {
-        cb(error);
-      }
-    };
-    const clientInitializationErrorHandler = jest.fn();
-
-    await initLDClient(clientSideID, undefined, { clientInitializationErrorHandler });
-
-    expect(clientInitializationErrorHandler).toHaveBeenCalledWith(error);
-  });
 });

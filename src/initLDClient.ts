@@ -36,9 +36,6 @@ const initLDClient = async (
     }
     function handleFailure(error: Error) {
       cleanup();
-      if (reactOptions.clientInitializationErrorHandler) {
-        reactOptions.clientInitializationErrorHandler(error);
-      }
       resolve({ flags: {}, ldClient, error });
     }
     function handleReady() {

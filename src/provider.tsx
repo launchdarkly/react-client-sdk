@@ -109,9 +109,9 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState
   }
 
   render() {
-    const { flags, flagKeyMap, ldClient } = this.state;
+    const { flags, flagKeyMap, ldClient, error } = this.state;
 
-    return <Provider value={{ flags, flagKeyMap, ldClient }}>{this.props.children}</Provider>;
+    return <Provider value={{ flags, flagKeyMap, ldClient, error }}>{this.props.children}</Provider>;
   }
 }
 

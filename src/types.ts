@@ -23,13 +23,8 @@ export interface LDReactOptions {
   useCamelCaseFlagKeys?: boolean;
 
   /**
-   * Callback to pass a LaunchDarkly initialization error to, if one occurs.
-   */
-  clientInitializationErrorHandler?(error: Error): void;
-
-  /**
    * Whether to send flag evaluation events when a flag is read from the `flags` object
-   * retured by the `useFlags` hook. This is true by default, meaning flag evaluation
+   * returned by the `useFlags` hook. This is true by default, meaning flag evaluation
    * events will be sent by default.
    */
   sendEventsOnFlagRead?: boolean;

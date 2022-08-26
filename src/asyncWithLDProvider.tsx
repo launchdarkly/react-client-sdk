@@ -40,7 +40,6 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
       flags: {},
       unproxiedFlags: {},
       flagKeyMap: {},
-      error,
     });
 
     useEffect(() => {
@@ -70,7 +69,7 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
 
     const { flags, flagKeyMap } = ldData;
 
-    return <Provider value={{ flags, flagKeyMap, ldClient }}>{children}</Provider>;
+    return <Provider value={{ flags, flagKeyMap, ldClient, error }}>{children}</Provider>;
   };
 
   return LDProvider;
