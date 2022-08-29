@@ -15,7 +15,7 @@ jobs:
       name: npm
 
 documentation:
-  githubPages: true
+  gitHubPages: true
   title: LaunchDarkly React SDK
 
 sdk:
