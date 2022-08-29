@@ -78,14 +78,16 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState
     let ldClient = await this.props.ldClient;
     const reactOptions = this.getReactOptions();
     let unproxiedFlags;
+    let error: Error | undefined;
     if (ldClient) {
       unproxiedFlags = fetchFlags(ldClient, flags);
     } else {
       const initialisedOutput = await initLDClient(clientSideID, user, options, flags);
       unproxiedFlags = initialisedOutput.flags;
       ldClient = initialisedOutput.ldClient;
+      error = initialisedOutput.error;
     }
-    this.setState({ unproxiedFlags, ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, flags), ldClient });
+    this.setState({ unproxiedFlags, ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, flags), ldClient, error });
     this.subscribeToChanges(ldClient);
   };
 
@@ -107,9 +109,9 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState
   }
 
   render() {
-    const { flags, flagKeyMap, ldClient } = this.state;
+    const { flags, flagKeyMap, ldClient, error } = this.state;
 
-    return <Provider value={{ flags, flagKeyMap, ldClient }}>{this.props.children}</Provider>;
+    return <Provider value={{ flags, flagKeyMap, ldClient, error }}>{this.props.children}</Provider>;
   }
 }
 

@@ -29,8 +29,11 @@ describe('initLDClient', () => {
   beforeEach(() => {
     mockLDClient = {
       on: (e: string, cb: () => void) => {
-        cb();
+        if (e === 'ready') {
+          cb();
+        }
       },
+      off: jest.fn(),
       allFlags: () => flags,
       variation: jest.fn(() => true),
     };
@@ -68,5 +71,18 @@ describe('initLDClient', () => {
       { ...expectedOptions, sendEventsOnlyForVariation: false },
     ]);
     expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
+  });
+
+  test('returns an error', async () => {
+    const error = new Error('Out of cheese');
+    mockLDClient.on = (e: string, cb: (err: Error) => void) => {
+      if (e === 'failed') {
+        cb(error);
+      }
+    };
+
+    const flagsClient = await initLDClient(clientSideID);
+
+    expect(flagsClient).toEqual({ flags: {}, ldClient: mockLDClient, error });
   });
 });

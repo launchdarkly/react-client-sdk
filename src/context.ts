@@ -25,6 +25,11 @@ interface LDContext {
    * @see https://docs.launchdarkly.com/sdk/client-side/javascript
    */
   ldClient?: LDClient;
+
+  /**
+   * LaunchDarkly client initialization error, if there was one.
+   */
+  error?: Error;
 }
 
 /**

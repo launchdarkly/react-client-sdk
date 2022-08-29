@@ -24,7 +24,7 @@ export interface LDReactOptions {
 
   /**
    * Whether to send flag evaluation events when a flag is read from the `flags` object
-   * retured by the `useFlags` hook. This is true by default, meaning flag evaluation
+   * returned by the `useFlags` hook. This is true by default, meaning flag evaluation
    * events will be sent by default.
    */
   sendEventsOnFlagRead?: boolean;
@@ -129,6 +129,11 @@ export interface AllFlagsLDClient {
    * @see https://docs.launchdarkly.com/sdk/client-side/javascript
    */
   ldClient: LDClient;
+
+  /**
+   * LaunchDarkly client initialization error, if there was one.
+   */
+  error?: Error;
 }
 
 /**

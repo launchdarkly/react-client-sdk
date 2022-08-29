@@ -33,7 +33,7 @@ import getFlagsProxy from './getFlagsProxy';
 export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
   const { clientSideID, user, flags: targetFlags, options, reactOptions: userReactOptions } = config;
   const reactOptions = { ...defaultReactOptions, ...userReactOptions };
-  const { ldClient, flags: fetchedFlags } = await initLDClient(clientSideID, user, options, targetFlags);
+  const { ldClient, flags: fetchedFlags, error } = await initLDClient(clientSideID, user, options, targetFlags);
 
   const LDProvider = ({ children }: { children: ReactNode }) => {
     const [ldData, setLDData] = useState({
@@ -69,7 +69,7 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
 
     const { flags, flagKeyMap } = ldData;
 
-    return <Provider value={{ flags, flagKeyMap, ldClient }}>{children}</Provider>;
+    return <Provider value={{ flags, flagKeyMap, ldClient, error }}>{children}</Provider>;
   };
 
   return LDProvider;
