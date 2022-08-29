@@ -3,7 +3,7 @@ jest.mock('./context', () => ({ Provider: 'Provider' }));
 
 import * as React from 'react';
 import { create } from 'react-test-renderer';
-import { LDFlagChangeset, LDFlagSet, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
+import { LDFlagChangeset, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
 import withLDProvider from './withLDProvider';
 import { EnhancedComponent } from './types';
