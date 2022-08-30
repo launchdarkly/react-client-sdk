@@ -1,6 +1,6 @@
 # LaunchDarkly Client-side SDK for React
 
-[![Circle CI](https://circleci.com/gh/launchdarkly/react-client-sdk/tree/master.svg?style=svg)](https://circleci.com/gh/launchdarkly/react-client-sdk/tree/master)
+[![Circle CI](https://circleci.com/gh/launchdarkly/react-client-sdk/tree/main.svg?style=svg)](https://circleci.com/gh/launchdarkly/react-client-sdk/tree/main)
 
 ## LaunchDarkly overview
 
@@ -24,7 +24,7 @@ Please note that the React SDK has two special requirements in terms of your Lau
 
 Check out our [documentation](https://docs.launchdarkly.com) for in-depth instructions on configuring and using LaunchDarkly. You can also head straight to the [complete reference guide for this SDK](https://docs.launchdarkly.com/docs/react-sdk-reference) or our [code-generated API documentation](https://launchdarkly.github.io/react-client-sdk/).
 
-This SDK builds upon the [JavaScript SDK](https://github.com/launchdarkly/js-client-sdk), supporting all of the same functionality, but using React's Context API to provide additional conveniences. While using this SDK you may need to directly interact with the underlying JavaScript SDK. For more information on how to use the JavaScript SDK and its characteristics, see the [SDK's README](https://github.com/launchdarkly/js-client-sdk/blob/master/README.md).
+This SDK builds upon the [JavaScript SDK](https://github.com/launchdarkly/js-client-sdk), supporting all of the same functionality, but using React's Context API to provide additional conveniences. While using this SDK you may need to directly interact with the underlying JavaScript SDK. For more information on how to use the JavaScript SDK and its characteristics, see the [SDK's README](https://github.com/launchdarkly/js-client-sdk/blob/main/README.md).
 
 ## Testing
 

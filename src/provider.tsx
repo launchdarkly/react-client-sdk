@@ -1,9 +1,14 @@
 import React, { Component, PropsWithChildren } from 'react';
-import { LDClient, LDFlagSet, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
+import { LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { EnhancedComponent, ProviderConfig, defaultReactOptions } from './types';
-import { Provider, LDContext as HocState } from './context';
+import { Provider, LDContext } from './context';
 import initLDClient from './initLDClient';
 import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './utils';
+import getFlagsProxy from './getFlagsProxy';
+
+interface LDHocState extends LDContext {
+  unproxiedFlags: LDFlagSet;
+}
 
 /**
  * The `LDProvider` is a component which accepts a config object which is used to
@@ -22,8 +27,8 @@ import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './uti
  * within your application. This provider is used inside the `withLDProviderHOC` and can be used instead to initialize
  * the `launchdarkly-js-client-sdk`. For async initialization, check out the `asyncWithLDProvider` function
  */
-class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> implements EnhancedComponent {
-  readonly state: Readonly<HocState>;
+class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState> implements EnhancedComponent {
+  readonly state: Readonly<LDHocState>;
 
   constructor(props: ProviderConfig) {
     super(props);
@@ -32,6 +37,8 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
 
     this.state = {
       flags: {},
+      unproxiedFlags: {},
+      flagKeyMap: {},
       ldClient: undefined,
     };
 
@@ -39,9 +46,10 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
       const { bootstrap } = options;
       if (bootstrap && bootstrap !== 'localStorage') {
         const { useCamelCaseFlagKeys } = this.getReactOptions();
-        const flags = useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap;
         this.state = {
-          flags,
+          flags: useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap,
+          unproxiedFlags: bootstrap,
+          flagKeyMap: {},
           ldClient: undefined,
         };
       }
@@ -53,9 +61,14 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
   subscribeToChanges = (ldClient: LDClient) => {
     const { flags: targetFlags } = this.props;
     ldClient.on('change', (changes: LDFlagChangeset) => {
-      const flattened: LDFlagSet = getFlattenedFlagsFromChangeset(changes, targetFlags, this.getReactOptions());
-      if (Object.keys(flattened).length > 0) {
-        this.setState(({ flags }) => ({ flags: { ...flags, ...flattened } }));
+      const reactOptions = this.getReactOptions();
+      const updates = getFlattenedFlagsFromChangeset(changes, targetFlags);
+      const unproxiedFlags = {
+        ...this.state.unproxiedFlags,
+        ...updates,
+      };
+      if (Object.keys(updates).length > 0) {
+        this.setState({ unproxiedFlags, ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, targetFlags) });
       }
     });
   };
@@ -64,15 +77,17 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
     const { clientSideID, flags, options, user } = this.props;
     let ldClient = await this.props.ldClient;
     const reactOptions = this.getReactOptions();
-    let fetchedFlags;
+    let unproxiedFlags;
+    let error: Error | undefined;
     if (ldClient) {
-      fetchedFlags = fetchFlags(ldClient, reactOptions, flags);
+      unproxiedFlags = fetchFlags(ldClient, flags);
     } else {
-      const initialisedOutput = await initLDClient(clientSideID, user, reactOptions, options, flags);
-      fetchedFlags = initialisedOutput.flags;
+      const initialisedOutput = await initLDClient(clientSideID, user, options, flags);
+      unproxiedFlags = initialisedOutput.flags;
       ldClient = initialisedOutput.ldClient;
+      error = initialisedOutput.error;
     }
-    this.setState({ flags: fetchedFlags, ldClient });
+    this.setState({ unproxiedFlags, ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, flags), ldClient, error });
     this.subscribeToChanges(ldClient);
   };
 
@@ -94,7 +109,9 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, HocState> 
   }
 
   render() {
-    return <Provider value={this.state}>{this.props.children}</Provider>;
+    const { flags, flagKeyMap, ldClient, error } = this.state;
+
+    return <Provider value={{ flags, flagKeyMap, ldClient, error }}>{this.props.children}</Provider>;
   }
 }
 

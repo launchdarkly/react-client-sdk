@@ -21,12 +21,19 @@ export interface LDReactOptions {
    * @see https://docs.launchdarkly.com/sdk/client-side/react/react-web#flag-keys
    */
   useCamelCaseFlagKeys?: boolean;
+
+  /**
+   * Whether to send flag evaluation events when a flag is read from the `flags` object
+   * returned by the `useFlags` hook. This is true by default, meaning flag evaluation
+   * events will be sent by default.
+   */
+  sendEventsOnFlagRead?: boolean;
 }
 
 /**
  * Contains default values for the `reactOptions` object.
  */
-export const defaultReactOptions = { useCamelCaseFlagKeys: true };
+export const defaultReactOptions = { useCamelCaseFlagKeys: true, sendEventsOnFlagRead: true };
 
 /**
  * Configuration object used to initialise LaunchDarkly's JS client.
@@ -69,6 +76,7 @@ export interface ProviderConfig {
   /**
    * If specified, `launchdarkly-react-client-sdk` will only request and listen to these flags.
    * Otherwise, all flags will be requested and listened to.
+   * Flag keys must be in their original form as known to LaunchDarkly rather than in their camel-cased form.
    */
   flags?: LDFlagSet;
 
@@ -121,4 +129,16 @@ export interface AllFlagsLDClient {
    * @see https://docs.launchdarkly.com/sdk/client-side/javascript
    */
   ldClient: LDClient;
+
+  /**
+   * LaunchDarkly client initialization error, if there was one.
+   */
+  error?: Error;
+}
+
+/**
+ * Map of camelized flag keys to original unmodified flag keys.
+ */
+export interface LDFlagKeyMap {
+  [camelCasedKey: string]: string;
 }

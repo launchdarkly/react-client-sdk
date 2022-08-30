@@ -9,15 +9,17 @@ jest.mock('launchdarkly-js-client-sdk', () => {
 jest.mock('../package.json', () => ({ version: 'mock.version' }));
 
 import { initialize, LDClient, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
-import { defaultReactOptions, LDReactOptions } from './types';
 import initLDClient from './initLDClient';
 
 const ldClientInitialize = initialize as jest.Mock;
 
 const clientSideID = 'deadbeef';
-const defaultUser: LDUser = { key: 'abcdef' };
 const options: LDOptions = { bootstrap: 'localStorage' };
-const extraOptionsAddedBySdk: LDOptions = { wrapperName: 'react-client-sdk', wrapperVersion: 'mock.version' };
+const extraOptionsAddedBySdk: LDOptions = {
+  wrapperName: 'react-client-sdk',
+  wrapperVersion: 'mock.version',
+  sendEventsOnlyForVariation: true,
+};
 const expectedOptions: LDOptions = { ...options, ...extraOptionsAddedBySdk };
 const flags = { 'test-flag': false, 'another-test-flag': true };
 
@@ -27,8 +29,11 @@ describe('initLDClient', () => {
   beforeEach(() => {
     mockLDClient = {
       on: (e: string, cb: () => void) => {
-        cb();
+        if (e === 'ready') {
+          cb();
+        }
       },
+      off: jest.fn(),
       allFlags: () => flags,
       variation: jest.fn(() => true),
     };
@@ -50,43 +55,34 @@ describe('initLDClient', () => {
 
   test('initialise with custom user and options', async () => {
     const customUser = { key: 'yus@reactjunkie.com' };
-    await initLDClient(clientSideID, customUser, defaultReactOptions, options);
+    await initLDClient(clientSideID, customUser, options);
 
     expect(ldClientInitialize.mock.calls[0]).toEqual([clientSideID, customUser, expectedOptions]);
     expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
   });
 
-  test('initialise should return camelCased flags by default', async () => {
+  test('may explicity set sendEventsOnlyForVariation to false', async () => {
+    const anonUser: LDUser = { anonymous: true };
+    await initLDClient(clientSideID, undefined, { ...options, sendEventsOnlyForVariation: false });
+
+    expect(ldClientInitialize.mock.calls[0]).toEqual([
+      clientSideID,
+      anonUser,
+      { ...expectedOptions, sendEventsOnlyForVariation: false },
+    ]);
+    expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
+  });
+
+  test('returns an error', async () => {
+    const error = new Error('Out of cheese');
+    mockLDClient.on = (e: string, cb: (err: Error) => void) => {
+      if (e === 'failed') {
+        cb(error);
+      }
+    };
+
     const flagsClient = await initLDClient(clientSideID);
 
-    expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
-    expect(flagsClient).toEqual({ flags: { anotherTestFlag: true, testFlag: false }, ldClient: mockLDClient });
-  });
-
-  test('initialise should not transform keys to camel case if option is disabled', async () => {
-    const reactOptions: LDReactOptions = { useCamelCaseFlagKeys: false };
-    const flagsClient = await initLDClient(clientSideID, defaultUser, reactOptions, options);
-
-    expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
-    expect(flagsClient).toEqual({ flags: { 'another-test-flag': true, 'test-flag': false }, ldClient: mockLDClient });
-  });
-
-  test('initialise should transform keys to camel case if option is absent', async () => {
-    const flagsClient = await initLDClient(clientSideID, defaultUser, defaultReactOptions, options);
-
-    expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
-    expect(flagsClient).toEqual({ flags: { anotherTestFlag: true, testFlag: false }, ldClient: mockLDClient });
-  });
-
-  test('initialise should call variation if flags are specified', async () => {
-    const customUser = { key: 'yus@reactjunkie.com' };
-    const targetFlags = { 'lonely-flag': false, 'lonelier-flag': false };
-
-    const flagsClient = await initLDClient(clientSideID, customUser, defaultReactOptions, options, targetFlags);
-
-    expect(mockLDClient.variation).toHaveBeenCalledTimes(2);
-    expect(mockLDClient.variation).toHaveBeenNthCalledWith(1, 'lonely-flag', false);
-    expect(mockLDClient.variation).toHaveBeenNthCalledWith(2, 'lonelier-flag', false);
-    expect(flagsClient).toEqual({ flags: { lonelyFlag: true, lonelierFlag: true }, ldClient: mockLDClient });
+    expect(flagsClient).toEqual({ flags: {}, ldClient: mockLDClient, error });
   });
 });
