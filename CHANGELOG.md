@@ -2,6 +2,16 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.27.0] - 2022-08-31
+### Added:
+- `useFlags` hook is now generically typed, allowing you to assert what type your flag set will be.
+- `useLDClientError` hook for exposing client initialization failures.
+
+### Changed:
+- `sendEventsOnlyForVariation` is now set to `true` by default to prevent a flag evaluation event being generated for every flag on load.
+- `flags` object (that is either injected via props using `LDConsumer` or returned from the `useFlags` hook) will generate a flag evaluation event on flag read (using a JavaScript proxy). This can be disabled by setting `reactOptions.sendEventsOnFlagRead: false`.
+- upgraded from ES5 to ES6.
+
 ## [2.26.0] - 2022-04-27
 ### Added:
 - `LDOptions.application`, for configuration of application metadata that may be used in LaunchDarkly analytics or other product features. This does not affect feature flag evaluations.
