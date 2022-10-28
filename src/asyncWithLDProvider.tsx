@@ -35,18 +35,15 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
   const reactOptions = { ...defaultReactOptions, ...userReactOptions };
   const { ldClient, flags: fetchedFlags, error } = await initLDClient(clientSideID, user, options, targetFlags);
 
+  const initialFlags = options?.bootstrap && options.bootstrap !== 'localStorage' ? options.bootstrap : fetchedFlags;
+
   const LDProvider = ({ children }: { children: ReactNode }) => {
-    const [ldData, setLDData] = useState({
-      flags: {},
-      unproxiedFlags: {},
-      flagKeyMap: {},
-    });
+    const [ldData, setLDData] = useState(() => ({
+      unproxiedFlags: initialFlags,
+      ...getFlagsProxy(ldClient, initialFlags, reactOptions, targetFlags),
+    }));
 
     useEffect(() => {
-      const initialFlags =
-        options?.bootstrap && options.bootstrap !== 'localStorage' ? options.bootstrap : fetchedFlags;
-      setLDData({ unproxiedFlags: initialFlags, ...getFlagsProxy(ldClient, initialFlags, reactOptions, targetFlags) });
-
       function onChange(changes: LDFlagChangeset) {
         const updates = getFlattenedFlagsFromChangeset(changes, targetFlags);
         if (Object.keys(updates).length > 0) {
