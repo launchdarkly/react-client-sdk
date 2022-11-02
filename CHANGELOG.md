@@ -14,10 +14,6 @@ All notable changes to the LaunchDarkly Client-side SDK for React will be docume
 ### Changed:
 - Updated `js-client-sdk` to `2.24.0` which added support for `Inspectors` that can be used for collecting information for monitoring, analytics, and debugging.
 
-## [2.20.0] - 2022-10-18
-### Changed:
-- Updated `js-client-sdk` to `2.24.0` which added support for `Inspectors` that can be used for collecting information for monitoring, analytics, and debugging.
-
 ## [2.28.0] - 2022-10-05
 ### Changed:
 - Updated `js-client-sdk` version which removed event de-duplication functionality which was made redundant by support of summary events. This will improve the default event behavior when using experimentation.
