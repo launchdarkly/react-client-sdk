@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Consumer, LDContext } from './context';
+import { Consumer, ReactSdkContext } from './context';
 import { LDClient, LDFlagSet } from 'launchdarkly-js-client-sdk';
 
 /**
@@ -44,7 +44,7 @@ function withLDConsumer(options: ConsumerOptions = { clientOnly: false }) {
   return function withLDConsumerHoc<P>(WrappedComponent: React.ComponentType<P & LDProps>) {
     return (props: P) => (
       <Consumer>
-        {({ flags, ldClient }: LDContext) => {
+        {({ flags, ldClient }: ReactSdkContext) => {
           if (options.clientOnly) {
             return <WrappedComponent ldClient={ldClient} {...props} />;
           }

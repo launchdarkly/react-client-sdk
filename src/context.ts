@@ -3,9 +3,9 @@ import { LDClient, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { LDFlagKeyMap } from './types';
 
 /**
- * The LaunchDarkly context stored in the Provider state and passed to consumers.
+ * The sdk context stored in the Provider state and passed to consumers.
  */
-interface LDContext {
+interface ReactSdkContext {
   /**
    * JavaScript proxy that will trigger a LDClient#variation call on flag read in order
    * to register a flag evaluation event in LaunchDarkly. Empty {} initially
@@ -35,7 +35,7 @@ interface LDContext {
 /**
  * @ignore
  */
-const context = createContext<LDContext>({ flags: {}, flagKeyMap: {}, ldClient: undefined });
+const context = createContext<ReactSdkContext>({ flags: {}, flagKeyMap: {}, ldClient: undefined });
 const {
   /**
    * @ignore
@@ -47,5 +47,5 @@ const {
   Consumer,
 } = context;
 
-export { Provider, Consumer, LDContext };
+export { Provider, Consumer, ReactSdkContext };
 export default context;

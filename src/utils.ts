@@ -1,5 +1,12 @@
-import { LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
+import { LDClient, LDContext, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import camelCase from 'lodash.camelcase';
+import { ProviderConfig } from './types';
+
+/**
+ * Helper function to get the context or fallback to classic user.
+ * Safe to remove when the user property is deprecated.
+ */
+export const getContextOrUser = (config: ProviderConfig): LDContext | undefined => config.context ?? config.user;
 
 /**
  * Transforms a set of flags so that their keys are camelCased. This function ignores

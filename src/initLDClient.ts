@@ -1,4 +1,4 @@
-import { initialize as ldClientInitialize, LDFlagSet, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
+import { initialize as ldClientInitialize, LDContext, LDFlagSet, LDOptions } from 'launchdarkly-js-client-sdk';
 import { AllFlagsLDClient } from './types';
 import { fetchFlags } from './utils';
 import * as packageInfo from '../package.json';
@@ -13,7 +13,7 @@ const wrapperOptions: LDOptions = {
  * Internal function to initialize the `LDClient`.
  *
  * @param clientSideID Your project and environment specific client side ID
- * @param user A LaunchDarkly user object
+ * @param context A LaunchDarkly context object
  * @param options LaunchDarkly initialization options
  * @param targetFlags If specified, `launchdarkly-react-client-sdk` will only request and listen to these flags.
  * Flag keys must be in their original form as known to LaunchDarkly rather than in their camel-cased form.
@@ -23,11 +23,11 @@ const wrapperOptions: LDOptions = {
  */
 const initLDClient = async (
   clientSideID: string,
-  user: LDUser = { anonymous: true },
+  context: LDContext = { anonymous: true, kind: 'user' },
   options?: LDOptions,
   targetFlags?: LDFlagSet,
 ): Promise<AllFlagsLDClient> => {
-  const ldClient = ldClientInitialize(clientSideID, user, { ...wrapperOptions, ...options });
+  const ldClient = ldClientInitialize(clientSideID, context, { ...wrapperOptions, ...options });
 
   return new Promise<AllFlagsLDClient>((resolve) => {
     function cleanup() {

@@ -3,7 +3,7 @@ jest.mock('./context', () => ({ Provider: 'Provider' }));
 
 import * as React from 'react';
 import { create } from 'react-test-renderer';
-import { LDFlagChangeset, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
+import { LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
 import withLDProvider from './withLDProvider';
 import { EnhancedComponent } from './types';
@@ -42,13 +42,13 @@ describe('withLDProvider', () => {
   });
 
   test('ld client is initialised correctly', async () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = { bootstrap: {} };
-    const LaunchDarklyApp = withLDProvider({ clientSideID, user, options })(App);
+    const LaunchDarklyApp = withLDProvider({ clientSideID, context, options })(App);
     const instance = create(<LaunchDarklyApp />).root.findByType(LDProvider).instance as EnhancedComponent;
 
     await instance.componentDidMount();
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, options, undefined);
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, undefined);
   });
 
   test('ld client is initialised correctly with target flags', async () => {
@@ -56,16 +56,16 @@ describe('withLDProvider', () => {
       flags: { 'dev-test-flag': true, 'launch-doggly': true },
       ldClient: mockLDClient,
     }));
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = { bootstrap: {} };
     const flags = { 'dev-test-flag': false, 'launch-doggly': false };
-    const LaunchDarklyApp = withLDProvider({ clientSideID, user, options, flags })(App);
+    const LaunchDarklyApp = withLDProvider({ clientSideID, context, options, flags })(App);
     const instance = create(<LaunchDarklyApp />).root.findByType(LDProvider).instance as EnhancedComponent;
     instance.setState = jest.fn();
 
     await instance.componentDidMount();
 
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, options, flags);
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, flags);
     expect(instance.setState).toHaveBeenCalledWith({
       flags: { devTestFlag: true, launchDoggly: true },
       unproxiedFlags: { 'dev-test-flag': true, 'launch-doggly': true },
