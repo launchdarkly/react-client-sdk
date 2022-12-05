@@ -2,11 +2,6 @@ import { LDClient, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import getFlagsProxy from './getFlagsProxy';
 import { defaultReactOptions } from './types';
 
-// tslint:disable-next-line: no-unsafe-any
-const variation = jest.fn((k: string): string | undefined => rawFlags[k]);
-
-const ldClient = ({ variation } as unknown) as LDClient;
-
 const rawFlags: LDFlagSet = {
   'foo-bar': 'foobar',
   'baz-qux': 'bazqux',
@@ -17,7 +12,17 @@ const camelizedFlags: LDFlagSet = {
   bazQux: 'bazqux',
 };
 
+// cast as unknown first to be able to partially mock ldClient
+const ldClient = ({ variation: jest.fn((flagKey) => rawFlags[flagKey] as string) } as unknown) as LDClient;
+
 beforeEach(jest.clearAllMocks);
+
+test('native Object functions should be ignored', () => {
+  const { flags } = getFlagsProxy(ldClient, rawFlags);
+  flags.hasOwnProperty('fooBar');
+  flags.propertyIsEnumerable('bazQux');
+  expect(ldClient.variation).not.toHaveBeenCalled();
+});
 
 test('camel cases keys', () => {
   const { flags } = getFlagsProxy(ldClient, rawFlags);
@@ -31,12 +36,12 @@ test('does not camel cases keys', () => {
   expect(flags).toEqual(rawFlags);
 });
 
-test('proxy calls variation on flag read', () => {
+test('proxy calls ldClient.variation on flag read', () => {
   const { flags } = getFlagsProxy(ldClient, rawFlags);
 
   expect(flags.fooBar).toBe('foobar');
 
-  expect(variation).toHaveBeenCalledWith('foo-bar', 'foobar');
+  expect(ldClient.variation).toHaveBeenCalledWith('foo-bar', 'foobar');
 });
 
 test('returns flag key map', () => {
@@ -56,5 +61,5 @@ test('does not use proxy if option is false', () => {
 
   expect(flags['foo-bar']).toBe('foobar');
 
-  expect(variation).not.toHaveBeenCalled();
+  expect(ldClient.variation).not.toHaveBeenCalled();
 });

@@ -29,7 +29,8 @@
     "check-typescript": "tsc",
     "prepublishOnly": "npm run build",
     "prettier": "prettier --write 'src/*.@(js|ts|tsx|json|css)'",
-    "link-dev": "./link-dev.sh"
+    "link-dev": "./link-dev.sh",
+    "check": "npm i && npm run prettier && npm run lint && tsc && npm run test"
   },
   "repository": {
     "type": "git",
