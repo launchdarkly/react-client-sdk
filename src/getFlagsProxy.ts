@@ -58,17 +58,19 @@ function toFlagsProxy(ldClient: LDClient, flags: LDFlagSet, flagKeyMap: LDFlagKe
     // trap for reading a flag value using `LDClient#variation` to trigger an evaluation event
     get(target, prop, receiver) {
       const currentValue = Reflect.get(target, prop, receiver);
-      if (typeof prop === 'symbol') {
+
+      // only process flag keys and ignore symbols and native Object functions
+      if (typeof prop === 'symbol' || !hasFlag(flagKeyMap, prop)) {
         return currentValue;
       }
+
       if (currentValue === undefined) {
         return;
       }
-      const originalFlagKey = hasFlag(flagKeyMap, prop) ? flagKeyMap[prop] : prop;
-      const nextValue = ldClient.variation(originalFlagKey, currentValue);
 
-      return nextValue;
+      return ldClient.variation(flagKeyMap[prop], currentValue);
     },
+
     // disable all mutation functions to make proxy readonly
     setPrototypeOf: () => false,
     set: () => false,
