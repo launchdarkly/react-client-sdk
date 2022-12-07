@@ -24,4 +24,4 @@ documentation:
   title: LaunchDarkly React SDK
 
 sdk:
-  displayName: "React"
+  displayName: 'React'
