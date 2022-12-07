@@ -2,6 +2,23 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.0.0] - 2022-12-07
+The latest version of this SDK supports LaunchDarkly's new custom contexts feature. Contexts are an evolution of a previously-existing concept, "users." For more information please read the [JavaScript SDK's latest release notes](https://github.com/launchdarkly/js-client-sdk/releases/tag/3.0.0).
+
+For detailed information about this version, please refer to the list below. For information on how to upgrade from the previous version, please read the [migration guide](https://docs.launchdarkly.com/sdk/client-side/react/web-migration-2-to-3).
+
+### Added:
+
+- The `context` provider configuration option has been added.
+
+### Fixed:
+
+- We fixed a bug where using native Object functions on the flags proxy object results in errors. This was reported in issue [#162](https://github.com/launchdarkly/react-client-sdk/issues/162).
+
+### Deprecated:
+
+- The `user` provider configuration option has been deprecated. Please use `context` instead.
+
 ## [2.29.2] - 2022-10-28
 ### Fixed:
 - An issue with `asyncWithLDProvider` that was causing flags to be empty on first render.
