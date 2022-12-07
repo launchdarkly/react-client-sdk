@@ -1250,15 +1250,70 @@ accepts@^1.3.5, accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.7:
     mime-types "~2.1.24"
     negotiator "0.6.2"
 
+"acorn-base@npm:acorn@^7.3.1":
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
+  integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
+
+acorn-class-fields@^0.3.7:
+  version "0.3.7"
+  resolved "https://registry.yarnpkg.com/acorn-class-fields/-/acorn-class-fields-0.3.7.tgz#a35122f3cc6ad2bb33b1857e79215677fcfdd720"
+  integrity sha512-jdUWSFce0fuADUljmExz4TWpPkxmRW/ZCPRqeeUzbGf0vFUcpQYbyq52l75qGd0oSwwtAepeL6hgb/naRgvcKQ==
+  dependencies:
+    acorn-private-class-elements "^0.2.7"
+
 acorn-jsx@^5.0.0:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"
   integrity sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==
 
-acorn@^6.0.7, acorn@^6.4.1:
-  version "6.4.2"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.4.2.tgz#35866fd710528e92de10cf06016498e47e39e1e6"
-  integrity sha512-XtGIhXwF8YM8bJhGxG5kXgjkEuNGLTkoYqVE+KMR+aspr4KGYmKYg7yUe3KghyQ9yheNwLnjmzh/7+gfDBmHCQ==
+acorn-logical-assignment@^0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/acorn-logical-assignment/-/acorn-logical-assignment-0.1.4.tgz#1a143a21f022e1707b2bc82f587ae2943f0a570e"
+  integrity sha512-SeqO1iRtc/NeXo4bTkyK0hN0CIoKi/FQMN1NqhTr5UxqEn4p2wKNTZl+xzvU7i2u/k0f66YR7pNPi2ckPwYubg==
+
+acorn-numeric-separator@^0.3.6:
+  version "0.3.6"
+  resolved "https://registry.yarnpkg.com/acorn-numeric-separator/-/acorn-numeric-separator-0.3.6.tgz#af7f0abaf8e74bd9ca1117602954d0a3b75804f3"
+  integrity sha512-jUr5esgChu4k7VzesH/Nww3EysuyGJJcTEEiXqILUFKpO96PNyEXmK21M6nE0TSqGA1PeEg1MzgqJaoFsn9JMw==
+
+acorn-private-class-elements@^0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/acorn-private-class-elements/-/acorn-private-class-elements-0.2.7.tgz#b14902c705bcff267adede1c9f61c1a317ef95d2"
+  integrity sha512-+GZH2wOKNZOBI4OOPmzpo4cs6mW297sn6fgIk1dUI08jGjhAaEwvC39mN2gJAg2lmAQJ1rBkFqKWonL3Zz6PVA==
+
+acorn-private-methods@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/acorn-private-methods/-/acorn-private-methods-0.3.3.tgz#724414ce5b2fec733089d73a5cbba8f7beff75b1"
+  integrity sha512-46oeEol3YFvLSah5m9hGMlNpxDBCEkdceJgf01AjqKYTK9r6HexKs2rgSbLK81pYjZZMonhftuUReGMlbbv05w==
+  dependencies:
+    acorn-private-class-elements "^0.2.7"
+
+acorn-stage3@^3.0.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/acorn-stage3/-/acorn-stage3-3.1.0.tgz#545dea4d78c8405190463fc8e79413273e7b19f0"
+  integrity sha512-iKDUmzlsw5Rs3lOTCuq3lcOddHTn3xX9gpCfoXSXAr5E9IxqJWkECKBVcSYJZRCaiNGCGNops87AdB8I1fIl2A==
+  dependencies:
+    acorn-class-fields "^0.3.7"
+    acorn-logical-assignment "^0.1.4"
+    acorn-numeric-separator "^0.3.6"
+    acorn-private-methods "^0.3.3"
+    acorn-static-class-features "^0.2.4"
+
+acorn-static-class-features@^0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/acorn-static-class-features/-/acorn-static-class-features-0.2.4.tgz#a0f5261dd483f25196716854f2d7652a1deb39ee"
+  integrity sha512-5X4mpYq5J3pdndLmIB0+WtFd/mKWnNYpuTlTzj32wUu/PMmEGOiayQ5UrqgwdBNiaZBtDDh5kddpP7Yg2QaQYA==
+  dependencies:
+    acorn-private-class-elements "^0.2.7"
+
+acorn@^6.0.7, acorn@^6.4.1, "acorn@npm:acorn-with-stage3":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/acorn-with-stage3/-/acorn-with-stage3-1.0.2.tgz#7ab1d6aa346072f8c6b19c8ef7eb0fc26cb89756"
+  integrity sha512-9RQEyavZ1djNZJrT1QH7yu0OpgcLtlTZHMK22N1tD7O+sXnXfGCT1kbgtFtCu47Rf05ddV9XNVzqFANU2CuF1Q==
+  dependencies:
+    acorn-base "npm:acorn@^7.3.1"
+    acorn-stage3 "^3.0.0"
 
 ajv-errors@^1.0.0:
   version "1.0.1"
@@ -2655,6 +2710,11 @@ escape-string-regexp@^1.0.5:
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-1.0.5.tgz#1b61c0562190a8dff6ae3bb2cf0200ca130b86d4"
   integrity sha1-G2HAViGQqN/2rjuyzwIAyhMLhtQ=
+
+escape-string-regexp@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/escape-string-regexp/-/escape-string-regexp-4.0.0.tgz#14ba83a5d373e3d311e5afca29cf5bfad965bf34"
+  integrity sha512-TtpcNJ3XAzx3Gq8sWRzJaVajRs0uVxA2YAkdb1jm2YkPz4G6egUFAyA3n5vtEIZefPk5Wa4UXbKuS5fKkJWdgA==
 
 eslint-config-airbnb-base@^13.2.0:
   version "13.2.0"
@@ -4318,32 +4378,31 @@ language-tags@^1.0.5:
   dependencies:
     language-subtag-registry "~0.3.2"
 
-launchdarkly-js-client-sdk@2.19.2:
-  version "2.19.2"
-  resolved "https://registry.yarnpkg.com/launchdarkly-js-client-sdk/-/launchdarkly-js-client-sdk-2.19.2.tgz#e652d7169c01f191be67f1a05b4988624a521670"
-  integrity sha512-qkCtIf6RPJV2Aftxy/XjXFy5A3+XTafd+DiC9EpdzA+MPse2e542cm9+lt4tr69hT7HoPGJQk9bqZXhrSTfotg==
+launchdarkly-js-client-sdk@^3.0.0-alpha.3:
+  version "3.0.0-alpha.4"
+  resolved "https://registry.yarnpkg.com/launchdarkly-js-client-sdk/-/launchdarkly-js-client-sdk-3.0.0-alpha.4.tgz#fcea9bc37e05bb2a3373a4cddf1df7c6101edbd4"
+  integrity sha512-tJXCEx/8bwBTL+PbWHiP2QOgQ3kj4w5XS2nD1GlD6Mbm13o7lXabAQLCMpIfSytFErbBU7OuoS9+rOSPegwYeg==
   dependencies:
-    escape-string-regexp "^1.0.5"
-    launchdarkly-js-sdk-common "3.3.2"
+    escape-string-regexp "^4.0.0"
+    launchdarkly-js-sdk-common "5.0.0-alpha.5"
 
-launchdarkly-js-sdk-common@3.3.2:
-  version "3.3.2"
-  resolved "https://registry.yarnpkg.com/launchdarkly-js-sdk-common/-/launchdarkly-js-sdk-common-3.3.2.tgz#6e6166606c645b45275f154f921941ad949aa9b5"
-  integrity sha512-0445DdhkGrByaI+8f+2OcLAEazoFAkBBqItyGg5uL50kAlvLsjIF3v5d/2U8fp7OF9CGwvPdfPDWYMr3zrCrfA==
+launchdarkly-js-sdk-common@5.0.0-alpha.5:
+  version "5.0.0-alpha.5"
+  resolved "https://registry.yarnpkg.com/launchdarkly-js-sdk-common/-/launchdarkly-js-sdk-common-5.0.0-alpha.5.tgz#52fe835ad4c51e2579a3bcd6af2012a2e424280a"
+  integrity sha512-YvPAMm/El6y9pCv3yEVZy0ck5R1FRyoqjMUYRxOo73z/wqmMXuRVOY5KQMmnM6Sqvhv0lanSJK77oIpMyj0IZw==
   dependencies:
     base64-js "^1.3.0"
     fast-deep-equal "^2.0.1"
-    uuid "^3.3.2"
+    uuid "^8.0.0"
 
-launchdarkly-react-client-sdk@^2.22.1:
-  version "2.23.0"
-  resolved "https://registry.yarnpkg.com/launchdarkly-react-client-sdk/-/launchdarkly-react-client-sdk-2.23.0.tgz#02a041d1b9f64e741bd9f7439fbbe2bcec9a194d"
-  integrity sha512-HtQVfDilGZSDMLNyDV/kWWl3kSdTGzYXLh3gnCYzvN7RtYekqPVwKeZ/CrZUBOgTSRZWJxwCRPmauvYL+iSYTw==
+launchdarkly-react-client-sdk@^3.0.0-alpha.1:
+  version "3.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/launchdarkly-react-client-sdk/-/launchdarkly-react-client-sdk-3.0.0-alpha.1.tgz#666e675439426ea5fc13ff8fdc887ee1f6c5c3d7"
+  integrity sha512-A5BZcPHu5o0mLXWe/xlF7Ofl3ba8+Ocell1oTkWQOKAYXNuA4CsF9opxjLbG671fZDtjAuX3Yfud/SXKA5C71g==
   dependencies:
     hoist-non-react-statics "^3.3.2"
-    launchdarkly-js-client-sdk "2.19.2"
+    launchdarkly-js-client-sdk "^3.0.0-alpha.3"
     lodash.camelcase "^4.3.0"
-    uuid "^3.3.2"
 
 levn@^0.3.0, levn@~0.3.0:
   version "0.3.0"
@@ -6793,6 +6852,11 @@ uuid@^3.3.2, uuid@^3.4.0:
   version "3.4.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.4.0.tgz#b23e4358afa8a202fe7a100af1f5f883f02007ee"
   integrity sha512-HjSDRw6gZE5JMggctHBcjVak08+KEVhSIiDzFnT9S9aegmp85S/bReBVTb4QTFaRNptJ9kuYaNhnbNEOkbKb/A==
+
+uuid@^8.0.0:
+  version "8.3.2"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-8.3.2.tgz#80d5b5ced271bb9af6c445f21a1a04c606cefbe2"
+  integrity sha512-+NYs2QeMWy+GWFOEm9xnn6HCDp0l7QBD7ml8zLUmJ+93Q5NF0NocErnwkTkXVFNiX3/fpC6afS8Dhb/gz7R7eg==
 
 v8-compile-cache@^2.0.2, v8-compile-cache@^2.1.1:
   version "2.3.0"

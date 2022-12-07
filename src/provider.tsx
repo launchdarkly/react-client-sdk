@@ -1,12 +1,12 @@
 import React, { Component, PropsWithChildren } from 'react';
 import { LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { EnhancedComponent, ProviderConfig, defaultReactOptions } from './types';
-import { Provider, LDContext } from './context';
+import { Provider, ReactSdkContext } from './context';
 import initLDClient from './initLDClient';
-import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './utils';
+import { camelCaseKeys, fetchFlags, getContextOrUser, getFlattenedFlagsFromChangeset } from './utils';
 import getFlagsProxy from './getFlagsProxy';
 
-interface LDHocState extends LDContext {
+interface LDHocState extends ReactSdkContext {
   unproxiedFlags: LDFlagSet;
 }
 
@@ -74,7 +74,7 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState
   };
 
   initLDClient = async () => {
-    const { clientSideID, flags, options, user } = this.props;
+    const { clientSideID, flags, options } = this.props;
     let ldClient = await this.props.ldClient;
     const reactOptions = this.getReactOptions();
     let unproxiedFlags;
@@ -82,7 +82,7 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState
     if (ldClient) {
       unproxiedFlags = fetchFlags(ldClient, flags);
     } else {
-      const initialisedOutput = await initLDClient(clientSideID, user, options, flags);
+      const initialisedOutput = await initLDClient(clientSideID, getContextOrUser(this.props), options, flags);
       unproxiedFlags = initialisedOutput.flags;
       ldClient = initialisedOutput.ldClient;
       error = initialisedOutput.error;
@@ -92,8 +92,8 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState
   };
 
   async componentDidMount() {
-    const { user, deferInitialization } = this.props;
-    if (deferInitialization && !user) {
+    const { deferInitialization } = this.props;
+    if (deferInitialization && !getContextOrUser(this.props)) {
       return;
     }
 
@@ -101,9 +101,9 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState
   }
 
   async componentDidUpdate(prevProps: ProviderConfig) {
-    const { user, deferInitialization } = this.props;
-    const userJustLoaded = !prevProps.user && user;
-    if (deferInitialization && userJustLoaded) {
+    const { deferInitialization } = this.props;
+    const contextJustLoaded = !getContextOrUser(prevProps) && getContextOrUser(this.props);
+    if (deferInitialization && contextJustLoaded) {
       await this.initLDClient();
     }
   }

@@ -3,10 +3,10 @@ jest.mock('./context', () => ({ Provider: 'Provider' }));
 
 import React, { Component } from 'react';
 import { create } from 'react-test-renderer';
-import { LDClient, LDFlagChangeset, LDFlagSet, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
+import { LDClient, LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
 import { LDReactOptions, EnhancedComponent, ProviderConfig } from './types';
-import { LDContext as HocState } from './context';
+import { ReactSdkContext as HocState } from './context';
 import LDProvider from './provider';
 
 const clientSideID = 'deadbeef';
@@ -46,10 +46,9 @@ describe('LDProvider', () => {
     expect(component).toMatchSnapshot();
   });
 
-  test('ld client is initialised correctly', async () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
-    const options: LDOptions = { bootstrap: {} };
-    const props: ProviderConfig = { clientSideID, user, options };
+  test('ld client is initialised correctly with deprecated user object', async () => {
+    const user: LDContext = { key: 'yus' };
+    const props: ProviderConfig = { clientSideID, user };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
         <App />
@@ -58,13 +57,46 @@ describe('LDProvider', () => {
     const instance = create(LaunchDarklyApp).root.findByType(LDProvider).instance as EnhancedComponent;
 
     await instance.componentDidMount();
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, options, undefined);
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, undefined, undefined);
+  });
+
+  test('use context ignore user at init if both are present', async () => {
+    const user: LDContext = { key: 'deprecatedUser' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
+
+    // this should not happen in real usage. Only one of context or user should be specified.
+    // if both are specified, context will be used and user ignored.
+    const props: ProviderConfig = { clientSideID, context, user };
+    const LaunchDarklyApp = (
+      <LDProvider {...props}>
+        <App />
+      </LDProvider>
+    );
+    const instance = create(LaunchDarklyApp).root.findByType(LDProvider).instance as EnhancedComponent;
+
+    await instance.componentDidMount();
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, undefined, undefined);
+  });
+
+  test('ld client is initialised correctly', async () => {
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
+    const options: LDOptions = { bootstrap: {} };
+    const props: ProviderConfig = { clientSideID, context, options };
+    const LaunchDarklyApp = (
+      <LDProvider {...props}>
+        <App />
+      </LDProvider>
+    );
+    const instance = create(LaunchDarklyApp).root.findByType(LDProvider).instance as EnhancedComponent;
+
+    await instance.componentDidMount();
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, undefined);
   });
 
   test('ld client is used if passed in', async () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = { bootstrap: {} };
-    const ldClient = (await initLDClient(clientSideID, user, options, undefined)).ldClient;
+    const ldClient = (await initLDClient(clientSideID, context, options, undefined)).ldClient;
     mockInitLDClient.mockClear();
     const props: ProviderConfig = { clientSideID, ldClient };
     const LaunchDarklyApp = (
@@ -79,15 +111,15 @@ describe('LDProvider', () => {
   });
 
   test('ld client is used if passed in as promise', async () => {
-    const user1: LDUser = { key: 'yus', name: 'yus ng' };
-    const user2: LDUser = { key: 'launch', name: 'darkly' };
+    const context1: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
+    const context2: LDContext = { key: 'launch', kind: 'user', name: 'darkly' };
     const options: LDOptions = { bootstrap: {} };
     const ldClient: Promise<LDClient> = new Promise(async (resolve) => {
-      resolve((await initLDClient(clientSideID, user1, options, undefined)).ldClient);
+      resolve((await initLDClient(clientSideID, context1, options, undefined)).ldClient);
 
       return;
     });
-    const props: ProviderConfig = { clientSideID, ldClient, user: user2 };
+    const props: ProviderConfig = { clientSideID, ldClient, context: context2 };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
         <App />
@@ -97,18 +129,18 @@ describe('LDProvider', () => {
 
     await instance.componentDidMount();
     expect(mockInitLDClient).toBeCalledTimes(1);
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user1, options, undefined);
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context1, options, undefined);
   });
 
   test('ld client is created if passed in promise resolves as undefined', async () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = { bootstrap: {} };
     const ldClient: Promise<undefined> = new Promise(async (resolve) => {
       resolve(undefined);
 
       return;
     });
-    const props: ProviderConfig = { clientSideID, ldClient, user, options };
+    const props: ProviderConfig = { clientSideID, ldClient, context, options };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
         <App />
@@ -117,15 +149,15 @@ describe('LDProvider', () => {
     const instance = create(LaunchDarklyApp).root.findByType(LDProvider).instance as EnhancedComponent;
 
     await instance.componentDidMount();
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, options, undefined);
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, undefined);
   });
 
   test('ldClient bootstraps with empty flags', () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = {
       bootstrap: {},
     };
-    const props: ProviderConfig = { clientSideID, user, options };
+    const props: ProviderConfig = { clientSideID, context, options };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
         <App />
@@ -138,7 +170,7 @@ describe('LDProvider', () => {
   });
 
   test('ld client is bootstrapped correctly and transforms keys to camel case', () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = {
       bootstrap: {
         'test-flag': true,
@@ -150,7 +182,7 @@ describe('LDProvider', () => {
         $valid: true,
       },
     };
-    const props: ProviderConfig = { clientSideID, user, options };
+    const props: ProviderConfig = { clientSideID, context, options };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
         <App />
@@ -164,7 +196,7 @@ describe('LDProvider', () => {
   });
 
   test('ld client should not transform keys to camel case if option is disabled', () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = {
       bootstrap: {
         'test-flag': true,
@@ -174,7 +206,7 @@ describe('LDProvider', () => {
     const reactOptions: LDReactOptions = {
       useCamelCaseFlagKeys: false,
     };
-    const props: ProviderConfig = { clientSideID, user, options, reactOptions };
+    const props: ProviderConfig = { clientSideID, context, options, reactOptions };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
         <App />
@@ -188,7 +220,7 @@ describe('LDProvider', () => {
   });
 
   test('ld client should transform keys to camel case if transform option is absent', () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = {
       bootstrap: {
         'test-flag': true,
@@ -196,7 +228,7 @@ describe('LDProvider', () => {
       },
     };
     const reactOptions: LDReactOptions = {};
-    const props: ProviderConfig = { clientSideID, user, options, reactOptions };
+    const props: ProviderConfig = { clientSideID, context, options, reactOptions };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
         <App />
@@ -210,14 +242,14 @@ describe('LDProvider', () => {
   });
 
   test('ld client should transform keys to camel case if react options object is absent', () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = {
       bootstrap: {
         'test-flag': true,
         'another-test-flag': false,
       },
     };
-    const props: ProviderConfig = { clientSideID, user, options };
+    const props: ProviderConfig = { clientSideID, context, options };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
         <App />
@@ -231,11 +263,11 @@ describe('LDProvider', () => {
   });
 
   test('state.flags should be initialised to empty when bootstrapping from localStorage', () => {
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = {
       bootstrap: 'localStorage',
     };
-    const props: ProviderConfig = { clientSideID, user, options };
+    const props: ProviderConfig = { clientSideID, context, options };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
         <App />
@@ -253,10 +285,10 @@ describe('LDProvider', () => {
       flags: { 'dev-test-flag': false, 'launch-doggly': false },
       ldClient: mockLDClient,
     }));
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = { bootstrap: {} };
     const flags = { 'dev-test-flag': false, 'launch-doggly': false };
-    const props: ProviderConfig = { clientSideID, user, options, flags };
+    const props: ProviderConfig = { clientSideID, context, options, flags };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
         <App />
@@ -267,7 +299,7 @@ describe('LDProvider', () => {
 
     await instance.componentDidMount();
 
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, options, flags);
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, flags);
     expect(instance.setState).toHaveBeenCalledWith({
       flags: { devTestFlag: false, launchDoggly: false },
       unproxiedFlags: { 'dev-test-flag': false, 'launch-doggly': false },
@@ -370,8 +402,8 @@ describe('LDProvider', () => {
 
     expect(mockInitLDClient).toHaveBeenCalledTimes(0);
 
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
-    const newProps = { ...props, user };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
+    const newProps = { ...props, context };
     const UpdatedLaunchDarklyApp = (
       <LDProvider {...newProps}>
         <App />
@@ -382,7 +414,7 @@ describe('LDProvider', () => {
       await instance.componentDidUpdate(props);
     }
 
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, options, undefined);
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, undefined);
   });
 
   test('only updates to subscribed flags are pushed to the Provider', async () => {
@@ -394,9 +426,9 @@ describe('LDProvider', () => {
       cb({ 'test-flag': { current: 3, previous: 2 }, 'another-test-flag': { current: false, previous: true } });
     });
     const options: LDOptions = {};
-    const user: LDUser = { key: 'yus', name: 'yus ng' };
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const subscribedFlags = { 'test-flag': 1 };
-    const props: ProviderConfig = { clientSideID, user, options, flags: subscribedFlags };
+    const props: ProviderConfig = { clientSideID, context, options, flags: subscribedFlags };
     const LaunchDarklyApp = (
       <LDProvider {...props}>
         <App />
