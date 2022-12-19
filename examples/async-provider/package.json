@@ -26,7 +26,7 @@
   "homepage": "https://github.com/launchdarkly/js-client-sdk/tree/main/packages/launchdarkly-react-client-sdk",
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "launchdarkly-react-client-sdk": "^3.0.0-alpha.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
