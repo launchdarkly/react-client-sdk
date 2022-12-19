@@ -70,12 +70,5 @@ function toFlagsProxy(ldClient: LDClient, flags: LDFlagSet, flagKeyMap: LDFlagKe
 
       return ldClient.variation(flagKeyMap[prop], currentValue);
     },
-
-    // disable all mutation functions to make proxy readonly
-    setPrototypeOf: () => false,
-    set: () => false,
-    defineProperty: () => false,
-    deleteProperty: () => false,
-    preventExtensions: () => false,
   });
 }
