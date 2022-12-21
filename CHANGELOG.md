@@ -2,6 +2,10 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [2.29.4] - 2022-12-20
+### Fixed:
+- We removed Proxy overrides to be compatible with [proxy-polyfill](https://github.com/GoogleChrome/proxy-polyfill). This was reported in issue [#174](https://github.com/launchdarkly/react-client-sdk/issues/174).
+
 ## [2.29.3] - 2022-12-07
 ### Fixed:
 - We fixed a bug where using native Object functions on the flags proxy object results in errors. This was reported in issue [#162](https://github.com/launchdarkly/react-client-sdk/issues/162).
