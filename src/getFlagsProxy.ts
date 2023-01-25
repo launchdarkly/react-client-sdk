@@ -60,7 +60,7 @@ function toFlagsProxy(ldClient: LDClient, flags: LDFlagSet, flagKeyMap: LDFlagKe
       const currentValue = Reflect.get(target, prop, receiver);
 
       // only process flag keys and ignore symbols and native Object functions
-      if (typeof prop === 'symbol' || !hasFlag(flagKeyMap, prop)) {
+      if (typeof prop === 'symbol' || (!hasFlag(flags, prop) && !hasFlag(flagKeyMap, prop)) {
         return currentValue;
       }
 
