@@ -64,11 +64,13 @@ function toFlagsProxy(ldClient: LDClient, flags: LDFlagSet, flagKeyMap: LDFlagKe
         return currentValue;
       }
 
+      let flagName = hasFlag(flagKeyMap, prop) ? flagKeyMap[prop] : prop;
+
       if (currentValue === undefined) {
         return;
       }
 
-      return ldClient.variation(flagKeyMap[prop], currentValue);
+      return ldClient.variation(flagName, currentValue);
     },
   });
 }
