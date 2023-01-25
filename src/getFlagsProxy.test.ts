@@ -45,8 +45,7 @@ test('proxy calls ldClient.variation on flag read', () => {
 });
 
 test('proxy calls ldClient.variation on flag read when not using camel case keys', () => {
-  const { flags } = getFlagsProxy(ldClient, rawFlags,
-  { useCamelCaseFlagKeys: false, sendEventsOnFlagRead: true });
+  const { flags } = getFlagsProxy(ldClient, rawFlags, { useCamelCaseFlagKeys: false, sendEventsOnFlagRead: true });
 
   expect(flags['foo-bar']).toBe('foobar');
   expect(ldClient.variation).toHaveBeenCalledWith('foo-bar', 'foobar');
