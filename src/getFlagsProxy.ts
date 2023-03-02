@@ -9,12 +9,11 @@ export default function getFlagsProxy(
   targetFlags?: LDFlagSet,
 ): { flags: LDFlagSet; flagKeyMap: LDFlagKeyMap } {
   const filteredFlags = filterFlags(rawFlags, targetFlags);
-  const [flags, flagKeyMap = {}] = reactOptions.useCamelCaseFlagKeys
-    ? getCamelizedKeysAndFlagMap(filteredFlags)
-    : [filteredFlags];
+  const { useCamelCaseFlagKeys = true } = reactOptions;
+  const [flags, flagKeyMap = {}] = useCamelCaseFlagKeys ? getCamelizedKeysAndFlagMap(filteredFlags) : [filteredFlags];
 
   return {
-    flags: reactOptions.sendEventsOnFlagRead ? toFlagsProxy(ldClient, flags, flagKeyMap) : flags,
+    flags: reactOptions.sendEventsOnFlagRead ? toFlagsProxy(ldClient, flags, flagKeyMap, useCamelCaseFlagKeys) : flags,
     flagKeyMap,
   };
 }
@@ -53,14 +52,23 @@ function hasFlag(flags: LDFlagSet, flagKey: string) {
   return Object.prototype.hasOwnProperty.call(flags, flagKey);
 }
 
-function toFlagsProxy(ldClient: LDClient, flags: LDFlagSet, flagKeyMap: LDFlagKeyMap): LDFlagSet {
+function toFlagsProxy(
+  ldClient: LDClient,
+  flags: LDFlagSet,
+  flagKeyMap: LDFlagKeyMap,
+  useCamelCaseFlagKeys: boolean,
+): LDFlagSet {
   return new Proxy(flags, {
     // trap for reading a flag value using `LDClient#variation` to trigger an evaluation event
     get(target, prop, receiver) {
       const currentValue = Reflect.get(target, prop, receiver);
 
+      // check if flag key exists as camelCase or original case
+      const validFlagKey =
+        (useCamelCaseFlagKeys && hasFlag(flagKeyMap, prop as string)) || hasFlag(target, prop as string);
+
       // only process flag keys and ignore symbols and native Object functions
-      if (typeof prop === 'symbol' || !hasFlag(flagKeyMap, prop)) {
+      if (typeof prop === 'symbol' || !validFlagKey) {
         return currentValue;
       }
 
@@ -68,7 +76,9 @@ function toFlagsProxy(ldClient: LDClient, flags: LDFlagSet, flagKeyMap: LDFlagKe
         return;
       }
 
-      return ldClient.variation(flagKeyMap[prop], currentValue);
+      const pristineFlagKey = useCamelCaseFlagKeys ? flagKeyMap[prop] : prop;
+
+      return ldClient.variation(pristineFlagKey, currentValue);
     },
   });
 }
