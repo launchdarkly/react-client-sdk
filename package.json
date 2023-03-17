@@ -1,5 +1,6 @@
 {
   "name": "launchdarkly-react-client-sdk",
+  "browserslist": ["last 2 versions", "ie >= 11"],
   "version": "3.0.3",
   "description": "LaunchDarkly SDK for React",
   "author": "LaunchDarkly <team@launchdarkly.com>",
@@ -12,8 +13,9 @@
     "sdk",
     "bindings"
   ],
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "source": "src/index.ts",
+  "main": "dist/main.js",
+  "types": "dist/index.d.ts",
   "files": [
     "lib",
     "src",
@@ -23,7 +25,7 @@
   "scripts": {
     "test": "jest",
     "test:junit": "jest --ci --reporters=default --reporters=jest-junit",
-    "build": "rimraf lib/* && tsc && mv lib/src/* lib && rimraf lib/package.json lib/src lib/*.test.*",
+    "build": "parcel build",
     "lint": "tslint -p tsconfig.json 'src/**/*.ts*'",
     "lint:all": "npm run lint",
     "check-typescript": "tsc",
@@ -38,6 +40,8 @@
   },
   "homepage": "https://github.com/launchdarkly/react-client-sdk",
   "devDependencies": {
+    "@parcel/packager-ts": "2.8.3",
+    "@parcel/transformer-typescript-types": "2.8.3",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.0.1",
     "@types/hoist-non-react-statics": "^3.3.1",
@@ -51,10 +55,9 @@
     "jest-environment-jsdom": "^27.4.4",
     "jest-environment-jsdom-global": "^3.0.0",
     "jest-junit": "^13.0.0",
+    "parcel": "^2.8.3",
     "prettier": "^1.18.2",
     "prop-types": "^15.7.2",
-    "react": "^18.0.0",
-    "react-dom": "^18.0.0",
     "react-test-renderer": "^18.0.0",
     "rimraf": "^3.0.0",
     "ts-jest": "^27.1.1",
