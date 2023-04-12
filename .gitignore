@@ -1,4 +1,5 @@
 .DS_Store
+.parcel-cache
 **/junit.xml
 npm-debug.log
 yarn-error.log
@@ -11,3 +12,4 @@ test-types.js
 docs/build/
 yarn.lock
 package-lock.json
+.npmrc
