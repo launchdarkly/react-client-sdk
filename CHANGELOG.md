@@ -2,6 +2,16 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.0.5] - 2023-04-12
+### Added:
+- Use parcel to reduce the bundle size.
+
+### Changed:
+- Updated to `js-client-sdk` `3.1.3`.
+
+### Fixed:
+- Fixed an issue that was preventing page view/click events from being sent. (fixed by `js-client-sdk` `3.1.3`)
+
 ## [3.0.4] - 2023-03-21
 ### Changed:
 - Update `LDContext` to allow for key to be optional. This is used when making an anonymous context with a generated key.
