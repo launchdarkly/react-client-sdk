@@ -2,6 +2,10 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.0.6] - 2023-04-12
+### Fixed:
+- Rolled back parcel due to erroneous types being generated issue [197](https://github.com/launchdarkly/react-client-sdk/issues/197).
+
 ## [3.0.5] - 2023-04-12
 ### Added:
 - Use parcel to reduce the bundle size.
