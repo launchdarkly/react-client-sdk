@@ -8,7 +8,7 @@ jest.mock('launchdarkly-js-client-sdk', () => {
 });
 jest.mock('../package.json', () => ({ version: 'mock.version' }));
 
-import { initialize, LDClient, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
+import { initialize, LDClient, LDContext, LDOptions } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
 
 const ldClientInitialize = initialize as jest.Mock;
@@ -46,28 +46,36 @@ describe('initLDClient', () => {
   });
 
   test('initialise with clientSideID only', async () => {
-    const anonUser: LDUser = { anonymous: true };
+    const anonymousContext: LDContext = { anonymous: true, kind: 'user' };
     await initLDClient(clientSideID);
 
-    expect(ldClientInitialize.mock.calls[0]).toEqual([clientSideID, anonUser, extraOptionsAddedBySdk]);
+    expect(ldClientInitialize.mock.calls[0]).toEqual([clientSideID, anonymousContext, extraOptionsAddedBySdk]);
     expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
   });
 
-  test('initialise with custom user and options', async () => {
-    const customUser = { key: 'yus@reactjunkie.com' };
-    await initLDClient(clientSideID, customUser, options);
+  test('initialise with deprecated user object', async () => {
+    const user = { key: 'yus@reactjunkie.com' };
+    await initLDClient(clientSideID, user, options);
 
-    expect(ldClientInitialize.mock.calls[0]).toEqual([clientSideID, customUser, expectedOptions]);
+    expect(ldClientInitialize.mock.calls[0]).toEqual([clientSideID, user, expectedOptions]);
     expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
   });
 
-  test('may explicity set sendEventsOnlyForVariation to false', async () => {
-    const anonUser: LDUser = { anonymous: true };
+  test('initialise with context user kind and options', async () => {
+    const contextUser = { key: 'yus@reactjunkie.com', kind: 'user' };
+    await initLDClient(clientSideID, contextUser, options);
+
+    expect(ldClientInitialize.mock.calls[0]).toEqual([clientSideID, contextUser, expectedOptions]);
+    expect(mockLDClient.variation).toHaveBeenCalledTimes(0);
+  });
+
+  test('set sendEventsOnlyForVariation to false', async () => {
+    const anonymousContext: LDContext = { anonymous: true, kind: 'user' };
     await initLDClient(clientSideID, undefined, { ...options, sendEventsOnlyForVariation: false });
 
     expect(ldClientInitialize.mock.calls[0]).toEqual([
       clientSideID,
-      anonUser,
+      anonymousContext,
       { ...expectedOptions, sendEventsOnlyForVariation: false },
     ]);
     expect(mockLDClient.variation).toHaveBeenCalledTimes(0);

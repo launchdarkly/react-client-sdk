@@ -1,9 +1,9 @@
 import React, { useState, useEffect, ReactNode } from 'react';
-import { LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
+import { LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { AsyncProviderConfig, defaultReactOptions } from './types';
 import { Provider } from './context';
 import initLDClient from './initLDClient';
-import { getFlattenedFlagsFromChangeset } from './utils';
+import { getContextOrUser, getFlattenedFlagsFromChangeset } from './utils';
 import getFlagsProxy from './getFlagsProxy';
 
 /**
@@ -31,22 +31,24 @@ import getFlagsProxy from './getFlagsProxy';
  * @param config - The configuration used to initialize LaunchDarkly's JS SDK
  */
 export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
-  const { clientSideID, user, flags: targetFlags, options, reactOptions: userReactOptions } = config;
+  const { clientSideID, flags: targetFlags, options, reactOptions: userReactOptions } = config;
   const reactOptions = { ...defaultReactOptions, ...userReactOptions };
-  const { ldClient, flags: fetchedFlags, error } = await initLDClient(clientSideID, user, options, targetFlags);
+  const { ldClient, flags: fetchedFlags, error } = await initLDClient(
+    clientSideID,
+    getContextOrUser(config),
+    options,
+    targetFlags,
+  );
+
+  const initialFlags = options?.bootstrap && options.bootstrap !== 'localStorage' ? options.bootstrap : fetchedFlags;
 
   const LDProvider = ({ children }: { children: ReactNode }) => {
-    const [ldData, setLDData] = useState({
-      flags: {},
-      unproxiedFlags: {},
-      flagKeyMap: {},
-    });
+    const [ldData, setLDData] = useState(() => ({
+      unproxiedFlags: initialFlags,
+      ...getFlagsProxy(ldClient, initialFlags, reactOptions, targetFlags),
+    }));
 
     useEffect(() => {
-      const initialFlags =
-        options?.bootstrap && options.bootstrap !== 'localStorage' ? options.bootstrap : fetchedFlags;
-      setLDData({ unproxiedFlags: initialFlags, ...getFlagsProxy(ldClient, initialFlags, reactOptions, targetFlags) });
-
       function onChange(changes: LDFlagChangeset) {
         const updates = getFlattenedFlagsFromChangeset(changes, targetFlags);
         if (Object.keys(updates).length > 0) {

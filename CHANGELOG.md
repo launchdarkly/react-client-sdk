@@ -2,6 +2,65 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.0.4] - 2023-03-21
+### Changed:
+- Update `LDContext` to allow for key to be optional. This is used when making an anonymous context with a generated key.
+
+## [3.0.3] - 2023-03-01
+### Fixed:
+- Bugfix for [#180](https://github.com/launchdarkly/react-client-sdk/issues/180) where feature events are not sent when camel case is false.
+
+## [3.0.2] - 2023-02-15
+### Changed:
+- Upgrade to `js-client-sdk` version `3.1.1`. This removes usage of optional chaining (`?.`) to allow for use with older transpilers.
+
+## [3.0.1] - 2022-12-20
+### Fixed:
+- We removed unnecessary Proxy overrides to keep compatibility with [proxy-polyfill](https://github.com/GoogleChrome/proxy-polyfill). This was reported in issue [#174](https://github.com/launchdarkly/react-client-sdk/issues/174).
+
+## [3.0.0] - 2022-12-07
+The latest version of this SDK supports LaunchDarkly's new custom contexts feature. Contexts are an evolution of a previously-existing concept, "users." For more information please read the [JavaScript SDK's latest release notes](https://github.com/launchdarkly/js-client-sdk/releases/tag/3.0.0).
+
+For detailed information about this version, please refer to the list below. For information on how to upgrade from the previous version, please read the [migration guide](https://docs.launchdarkly.com/sdk/client-side/react/web-migration-2-to-3).
+
+### Added:
+
+- The `context` provider configuration option has been added.
+
+### Fixed:
+
+- We fixed a bug where using native Object functions on the flags proxy object results in errors. This was reported in issue [#162](https://github.com/launchdarkly/react-client-sdk/issues/162).
+
+### Deprecated:
+
+- The `user` provider configuration option has been deprecated. Please use `context` instead.
+
+## [2.29.2] - 2022-10-28
+### Fixed:
+- An issue with `asyncWithLDProvider` that was causing flags to be empty on first render.
+
+## [2.29.1] - 2022-10-21
+### Changed:
+- Upgraded to `js-client-sdk` version `2.24.2` which includes implementations of `jitter` and `backoff` for streaming connections. When a connection fails the retry will start at the `streamReconnectDelay` and will double on each unsuccessful consecutive connection attempt (`backoff`) to a max of 30 seconds. The delay will be adjusted from 50%-100% of the calculated delay to prevent many clients from attempting to reconnect at the same time (`jitter`).
+
+## [2.29.0] - 2022-10-18
+### Changed:
+- Updated `js-client-sdk` to `2.24.0` which added support for `Inspectors` that can be used for collecting information for monitoring, analytics, and debugging.
+
+## [2.28.0] - 2022-10-05
+### Changed:
+- Updated `js-client-sdk` version which removed event de-duplication functionality which was made redundant by support of summary events. This will improve the default event behavior when using experimentation.
+
+## [2.27.0] - 2022-08-31
+### Added:
+- `useFlags` hook is now generically typed, allowing you to assert what type your flag set will be.
+- `useLDClientError` hook for exposing client initialization failures.
+
+### Changed:
+- `sendEventsOnlyForVariation` is now set to `true` by default to prevent a flag evaluation event being generated for every flag on load.
+- `flags` object (that is either injected via props using `LDConsumer` or returned from the `useFlags` hook) will generate a flag evaluation event on flag read (using a JavaScript proxy). This can be disabled by setting `reactOptions.sendEventsOnFlagRead: false`.
+- upgraded from ES5 to ES6.
+
 ## [2.26.0] - 2022-04-27
 ### Added:
 - `LDOptions.application`, for configuration of application metadata that may be used in LaunchDarkly analytics or other product features. This does not affect feature flag evaluations.

@@ -10,14 +10,14 @@ jest.mock('./utils', () => {
 
 import React from 'react';
 import { render } from '@testing-library/react';
-import { LDFlagChangeset, LDOptions, LDUser } from 'launchdarkly-js-client-sdk';
+import { LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
 import initLDClient from './initLDClient';
 import { AsyncProviderConfig, LDReactOptions } from './types';
 import { Consumer } from './context';
 import asyncWithLDProvider from './asyncWithLDProvider';
 
 const clientSideID = 'deadbeef';
-const user: LDUser = { key: 'yus', name: 'yus ng' };
+const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
 const App = () => <>My App</>;
 const mockInitLDClient = initLDClient as jest.Mock;
 const rawFlags = { 'test-flag': true, 'another-test-flag': true };
@@ -70,9 +70,29 @@ describe('asyncWithLDProvider', () => {
   test('ldClient is initialised correctly', async () => {
     const options: LDOptions = { bootstrap: {} };
     const reactOptions: LDReactOptions = { useCamelCaseFlagKeys: false };
-    await asyncWithLDProvider({ clientSideID, user, options, reactOptions });
+    await asyncWithLDProvider({ clientSideID, context, options, reactOptions });
 
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, undefined);
+  });
+
+  test('ld client is initialised correctly with deprecated user object', async () => {
+    const user: LDContext = { key: 'deprecatedUser' };
+    const options: LDOptions = { bootstrap: {} };
+    const reactOptions: LDReactOptions = { useCamelCaseFlagKeys: false };
+    await asyncWithLDProvider({ clientSideID, user, options, reactOptions });
     expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, options, undefined);
+  });
+
+  test('use context ignore user at init if both are present', async () => {
+    const user: LDContext = { key: 'deprecatedUser' };
+    const options: LDOptions = { bootstrap: {} };
+    const reactOptions: LDReactOptions = { useCamelCaseFlagKeys: false };
+
+    // this should not happen in real usage. Only one of context or user should be specified.
+    // if both are specified, context will be used and user ignored.
+    await asyncWithLDProvider({ clientSideID, context, user, options, reactOptions });
+
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, undefined);
   });
 
   test('subscribe to changes on mount', async () => {
@@ -135,7 +155,7 @@ describe('asyncWithLDProvider', () => {
         'test-flag': true,
       },
     };
-    const receivedNode = await renderWithConfig({ clientSideID, user, options });
+    const receivedNode = await renderWithConfig({ clientSideID, context, options });
     expect(receivedNode).toHaveTextContent('{"anotherTestFlag":false,"testFlag":true}');
   });
 
@@ -147,7 +167,7 @@ describe('asyncWithLDProvider', () => {
     const options: LDOptions = {
       bootstrap: {},
     };
-    const receivedNode = await renderWithConfig({ clientSideID, user, options });
+    const receivedNode = await renderWithConfig({ clientSideID, context, options });
     expect(receivedNode).toHaveTextContent('{}');
   });
 
@@ -164,7 +184,7 @@ describe('asyncWithLDProvider', () => {
     };
     const receivedNode = await renderWithConfig({
       clientSideID,
-      user,
+      context,
       options,
       reactOptions: { useCamelCaseFlagKeys: false },
     });
@@ -175,7 +195,7 @@ describe('asyncWithLDProvider', () => {
     const options: LDOptions = {
       bootstrap: 'localStorage',
     };
-    const receivedNode = await renderWithConfig({ clientSideID, user, options });
+    const receivedNode = await renderWithConfig({ clientSideID, context, options });
     expect(receivedNode).toHaveTextContent('{"testFlag":true,"anotherTestFlag":true}');
   });
 
@@ -187,9 +207,9 @@ describe('asyncWithLDProvider', () => {
 
     const options: LDOptions = {};
     const flags = { 'test-flag': false };
-    const receivedNode = await renderWithConfig({ clientSideID, user, options, flags });
+    const receivedNode = await renderWithConfig({ clientSideID, context, options, flags });
 
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, options, flags);
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, flags);
     expect(receivedNode).toHaveTextContent('{"testFlag":true}');
   });
 
@@ -203,7 +223,7 @@ describe('asyncWithLDProvider', () => {
     });
     const options: LDOptions = {};
     const subscribedFlags = { 'test-flag': true };
-    const receivedNode = await renderWithConfig({ clientSideID, user, options, flags: subscribedFlags });
+    const receivedNode = await renderWithConfig({ clientSideID, context, options, flags: subscribedFlags });
 
     expect(receivedNode).toHaveTextContent('{"testFlag":false}');
   });

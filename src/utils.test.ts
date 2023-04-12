@@ -1,5 +1,5 @@
-import { camelCaseKeys, fetchFlags, getFlattenedFlagsFromChangeset } from './utils';
-import { LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
+import { camelCaseKeys, fetchFlags, getContextOrUser, getFlattenedFlagsFromChangeset } from './utils';
+import { LDClient, LDContext, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 
 const caseTestCases = [
   ['camelCase', 'camelCase'],
@@ -97,6 +97,36 @@ describe('Utils', () => {
 
       expect(mockLDClient.allFlags).toBeCalledTimes(1);
       expect(flagSet).toEqual({ 'example-flag': true, 'test-example': false });
+    });
+  });
+
+  describe('getContextOrUser', () => {
+    test('returns context if both context and user are provided', () => {
+      const clientSideID = 'test-id';
+      const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
+      const user: LDContext = { key: 'deprecatedUser' };
+      const result = getContextOrUser({ clientSideID, context, user });
+      expect(result).toEqual(context);
+    });
+
+    test('returns user if no context is provided', () => {
+      const clientSideID = 'test-id';
+      const user: LDContext = { key: 'deprecatedUser' };
+      const result = getContextOrUser({ clientSideID, user });
+      expect(result).toEqual(user);
+    });
+
+    test('returns context if only context is provided', () => {
+      const clientSideID = 'test-id';
+      const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
+      const result = getContextOrUser({ clientSideID, context });
+      expect(result).toEqual(context);
+    });
+
+    test('returns undefined if no context or user is provided', () => {
+      const clientSideID = 'test-id';
+      const result = getContextOrUser({ clientSideID });
+      expect(result).toBeUndefined();
     });
   });
 });
