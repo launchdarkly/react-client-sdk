@@ -169,6 +169,40 @@ describe('LDProvider', () => {
     expect(initialState.flags).toEqual({});
   });
 
+  test('ld client keeps bootstrapped flags, even when it failed to initialize', async () => {
+    const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
+    const options: LDOptions = {
+      bootstrap: {
+        'test-flag': true
+      }
+    };
+    const props: ProviderConfig = { clientSideID, context, options };
+
+    mockInitLDClient.mockImplementation(() => ({
+      error: true,
+      flags: {},
+      ldClient: mockLDClient,
+    }));
+
+    const LaunchDarklyApp = (
+      <LDProvider {...props}>
+        <App />
+      </LDProvider>
+    );
+    const instance = create(LaunchDarklyApp).root.findByType(LDProvider).instance as EnhancedComponent
+    instance.setState = jest.fn();
+    await instance?.componentDidMount()
+
+    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, undefined);
+    expect(instance.setState).toHaveBeenCalledWith({
+      error: true,
+      flags: { testFlag: true},
+      unproxiedFlags: { 'test-flag': true,},
+      flagKeyMap: { testFlag: 'test-flag'},
+      ldClient: mockLDClient,
+    });
+  });
+
   test('ld client is bootstrapped correctly and transforms keys to camel case', () => {
     const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = {
