@@ -54,7 +54,7 @@ export const getFlattenedFlagsFromChangeset = (
  * Retrieves flag values.
  *
  * @param ldClient LaunchDarkly client
- * @param targetFlags If specified, `launchdarkly-react-client-sdk` will only request and listen to these flags.
+ * @param targetFlags If specified, `launchdarkly-react-client-sdk` will only listen for changes to these flags.
  * Flag keys must be in their original form as known to LaunchDarkly rather than in their camel-cased form.
  *
  * @returns an `LDFlagSet` with the current flag values from LaunchDarkly filtered by `targetFlags`.
