@@ -2,6 +2,11 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.0.8] - 2023-07-14
+### Fixed:
+- #202 Use bootstrap values if there's an error initializing the client.
+- #208 Add `types` to `exports` field in package.json to fix typescript compilation error when using `moduleResolution: bundler`.
+
 ## [3.0.7] - 2023-07-12
 ### Changed:
 - This release introduces rollup to bundle the build output. The bundle is minified and supports both cjs and esm.
