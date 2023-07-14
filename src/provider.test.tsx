@@ -173,8 +173,8 @@ describe('LDProvider', () => {
     const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
     const options: LDOptions = {
       bootstrap: {
-        'test-flag': true
-      }
+        'test-flag': true,
+      },
     };
     const props: ProviderConfig = { clientSideID, context, options };
 
@@ -189,16 +189,16 @@ describe('LDProvider', () => {
         <App />
       </LDProvider>
     );
-    const instance = create(LaunchDarklyApp).root.findByType(LDProvider).instance as EnhancedComponent
+    const instance = create(LaunchDarklyApp).root.findByType(LDProvider).instance as EnhancedComponent;
     instance.setState = jest.fn();
-    await instance?.componentDidMount()
+    await instance?.componentDidMount();
 
     expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, undefined);
     expect(instance.setState).toHaveBeenCalledWith({
       error: true,
-      flags: { testFlag: true},
-      unproxiedFlags: { 'test-flag': true,},
-      flagKeyMap: { testFlag: 'test-flag'},
+      flags: { testFlag: true },
+      unproxiedFlags: { 'test-flag': true },
+      flagKeyMap: { testFlag: 'test-flag' },
       ldClient: mockLDClient,
     });
   });
