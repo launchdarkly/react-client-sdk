@@ -1,10 +1,22 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import { useFlags } from 'launchdarkly-react-client-sdk';
+import { useFlags, useLDClient } from 'launchdarkly-react-client-sdk';
 
 function App() {
   const { devTestFlag } = useFlags();
+  const ldClient = useLDClient();
+  const context = ldClient?.getContext();
+
+  if (context && 'kind' in context) {
+    if (context.kind === 'multi') {
+      console.log(`=== multi context`);
+    } else {
+      console.log(`=== single context: ${context.kind}`);
+    }
+  } else {
+    console.log('=== Legacy LDUser');
+  }
 
   return (
     <div className="App">
