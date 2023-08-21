@@ -3,13 +3,19 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { asyncWithLDProvider } from 'launchdarkly-react-client-sdk';
+import { asyncWithLDProvider, LDContext } from 'launchdarkly-react-client-sdk';
 
 (async () => {
   // Set clientSideID to your own Client-side ID. You can find this in
   // your LaunchDarkly portal under Account settings / Projects
+  const context: LDContext = {
+    kind: 'user',
+    key: 'test-user-1',
+  };
+
   const LDProvider = await asyncWithLDProvider({
     clientSideID: process.env.REACT_APP_LD_CLIENT_SIDE_ID ?? '',
+    context,
   });
 
   const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
