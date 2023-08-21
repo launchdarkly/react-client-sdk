@@ -146,3 +146,5 @@ export interface AllFlagsLDClient {
 export interface LDFlagKeyMap {
   [camelCasedKey: string]: string;
 }
+
+export * from 'launchdarkly-js-client-sdk';
