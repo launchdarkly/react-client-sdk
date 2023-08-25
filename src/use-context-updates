@@ -1,0 +1,15 @@
+
+export default function useContextUpdates({uuid, first_name, last_name, kind? = null}) {
+const client = useLDClient();
+
+  useEffect(() => {
+             if (uuid) {
+               client?.identify({
+                kind: kind ?? 'user',
+                 key: uuid,
+                 name: `${first_name ?? ''} ${last_name ?? ''}`,
+                 email,
+               });
+             }
+         }, [client, email, first_name, last_name, uuid]);
+};
