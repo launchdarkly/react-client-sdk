@@ -1,22 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import { useFlags } from 'launchdarkly-react-client-sdk';
+import { useLDClient } from 'launchdarkly-react-client-sdk';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
-function App() {
-  const { devTestFlag } = useFlags();
+const App: FunctionComponent = () => {
+  const ldClient = useLDClient();
+  const [userIdNumber, setUserIdNumber] = useState(0);
+
+  const onClick = () => {
+    setUserIdNumber((prev: number) => prev + 1);
+  };
+
+  useEffect(() => {
+    if (!ldClient || userIdNumber === 0) {
+      return;
+    }
+    const identifyUser = async () => {
+      const context = { kind: 'user', key: `${userIdNumber}` };
+      console.log('[LaunchDarkly] Identifying with context', JSON.stringify(context));
+      await ldClient.identify(context);
+      console.log(
+        `[LaunchDarkly] For context: ${JSON.stringify(ldClient.getContext())}, flags: ${JSON.stringify(
+          ldClient.allFlags(),
+        )}`,
+      );
+    };
+
+    identifyUser();
+  }, [userIdNumber, ldClient]);
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>{devTestFlag ? <b>Flag on</b> : <b>Flag off</b>}</p>
-        <a className="App-link" href="https://reactjs.org" target="_blank" rel="noopener noreferrer">
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      User id: {userIdNumber}
+      <div>
+        <button onClick={onClick}>Change user</button>
+      </div>
+    </>
   );
-}
+};
 
 export default App;
