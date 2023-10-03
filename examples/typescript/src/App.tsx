@@ -1,20 +1,20 @@
 import { useLDClient } from 'launchdarkly-react-client-sdk';
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
-const App: FunctionComponent = () => {
+const App = () => {
   const ldClient = useLDClient();
-  const [userIdNumber, setUserIdNumber] = useState(0);
+  const [userId, setUserId] = useState(0);
 
   const onClick = () => {
-    setUserIdNumber((prev: number) => prev + 1);
+    setUserId((prev: number) => prev + 1);
   };
 
   useEffect(() => {
-    if (!ldClient || userIdNumber === 0) {
+    if (!ldClient || userId === 0) {
       return;
     }
     const identifyUser = async () => {
-      const context = { kind: 'user', key: `${userIdNumber}` };
+      const context = { kind: 'user', key: `user-key-${userId}` };
       console.log('[LaunchDarkly] Identifying with context', JSON.stringify(context));
       await ldClient.identify(context);
       console.log(
@@ -25,11 +25,11 @@ const App: FunctionComponent = () => {
     };
 
     identifyUser();
-  }, [userIdNumber, ldClient]);
+  }, [userId, ldClient]);
 
   return (
     <>
-      User id: {userIdNumber}
+      User id: {userId}
       <div>
         <button onClick={onClick}>Change user</button>
       </div>
