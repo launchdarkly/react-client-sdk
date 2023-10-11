@@ -20,6 +20,10 @@ Refer to the [SDK documentation](https://docs.launchdarkly.com/sdk/client-side/r
 
 Please note that the React SDK has two special requirements in terms of your LaunchDarkly environment. First, in terms of the credentials for your environment that appear on your [Account Settings](https://app.launchdarkly.com/settings/projects) dashboard, the React SDK uses the "Client-side ID"-- not the "SDK key" or the "Mobile key". Second, for any feature flag that you will be using in React code, you must check the "Make this flag available to client-side SDKs" box on that flag's Settings page.
 
+### `streaming`
+
+When streaming is enabled, the SDK will get real-time updates any time you change a LaunchDarkly flag. By default, the LaunchDarkly SDK does _not_ have streaming enabled. However, this React client SDK [subscribes](https://github.com/launchdarkly/react-client-sdk/blob/main/src/provider.tsx) to the LaunchDarkly `'change'` event, which means that the default value for the `streaming` option will be `true` ([docs](https://launchdarkly.github.io/js-client-sdk/interfaces/LDOptions.html#streaming)). You can still override this behavior by setting `streaming: false` when initializing LaunchDarkly via `LDOptions`.
+
 ## Learn more
 
 Read our [documentation](https://docs.launchdarkly.com) for in-depth instructions on configuring and using LaunchDarkly. You can also head straight to the [complete reference guide for this SDK](https://docs.launchdarkly.com/docs/react-sdk-reference) or our [code-generated API documentation](https://launchdarkly.github.io/react-client-sdk/).
