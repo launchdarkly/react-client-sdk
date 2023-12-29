@@ -4,7 +4,7 @@
   "description": "Example usage of launchdarkly-react-client-sdk",
   "main": "src/server/index.js",
   "scripts": {
-    "start": "node src/server/index.js",
+    "start": "NODE_OPTIONS=--openssl-legacy-provider node src/server/index.js",
     "lint": "eslint ./src",
     "serve": "webpack-serve webpack.config.server",
     "postinstall": "cd ../../ && yarn link-dev"
@@ -27,11 +27,11 @@
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
     "express": "^4.17.3",
-    "launchdarkly-react-client-sdk": "^3.0.0-alpha.1",
+    "launchdarkly-react-client-sdk": "^3.0.10",
     "lodash": "^4.17.21",
     "prop-types": "^15.7.2",
-    "react": "^16.11.0",
-    "react-dom": "^16.11.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
     "react-router-dom": "^5.1.2",
     "styled-components": "^4.1.3"
   },

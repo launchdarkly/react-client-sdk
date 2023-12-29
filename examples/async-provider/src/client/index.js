@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import { asyncWithLDProvider } from 'launchdarkly-react-client-sdk';
 import App from '../universal/app';
@@ -9,12 +9,11 @@ import App from '../universal/app';
   // your LaunchDarkly portal under Account settings / Projects
   const LDProvider = await asyncWithLDProvider({ clientSideID: '' });
 
-  render(
+  const root = createRoot(document.getElementById('reactDiv'));
+  root.render(
     <BrowserRouter>
       <LDProvider>
         <App />
       </LDProvider>
-    </BrowserRouter>,
-    document.getElementById('reactDiv'),
-  );
+    </BrowserRouter>);
 })();
