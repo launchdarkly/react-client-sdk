@@ -41,11 +41,12 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
   );
 
   const initialFlags = options?.bootstrap && options.bootstrap !== 'localStorage' ? options.bootstrap : fetchedFlags;
+  let currentFlags = initialFlags;
 
   const LDProvider = ({ children }: { children: ReactNode }) => {
     const [ldData, setLDData] = useState(() => ({
-      unproxiedFlags: initialFlags,
-      ...getFlagsProxy(ldClient, initialFlags, reactOptions, targetFlags),
+      unproxiedFlags: currentFlags,
+      ...getFlagsProxy(ldClient, currentFlags, reactOptions, targetFlags),
     }));
 
     useEffect(() => {
@@ -54,6 +55,7 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
         if (Object.keys(updates).length > 0) {
           setLDData(({ unproxiedFlags }) => {
             const updatedUnproxiedFlags = { ...unproxiedFlags, ...updates };
+            currentFlags = updatedUnproxiedFlags;
 
             return {
               unproxiedFlags: updatedUnproxiedFlags,
