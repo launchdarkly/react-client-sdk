@@ -233,12 +233,10 @@ describe('asyncWithLDProvider', () => {
       ldClient: mockLDClient,
       flags: rawFlags,
     }));
-
     mockLDClient.on.mockImplementationOnce((e: string, cb: (c: LDFlagChangeset) => void) => {
       cb({ 'test-flag': { current: false, previous: true }, 'another-test-flag': { current: false, previous: true } });
     });
     const options: LDOptions = {};
-
     const LDProvider = await asyncWithLDProvider({ clientSideID, context, options });
 
     const { getByText: getByText1, unmount } = render(
