@@ -239,21 +239,19 @@ describe('asyncWithLDProvider', () => {
     const options: LDOptions = {};
     const LDProvider = await asyncWithLDProvider({ clientSideID, context, options });
 
-    const { getByText: getByText1, unmount } = render(
+    const { unmount } = render(
       <LDProvider>
         <Consumer>{(value) => <span>Received: {JSON.stringify(value.flags)}</span>}</Consumer>
       </LDProvider>,
     );
-    const receivedNode1 = getByText1(/^Received:/);
-    expect(receivedNode1).toHaveTextContent('{"testFlag":false,"anotherTestFlag":false}');
     unmount();
-
-    const { getByText: getByText2 } = render(
+    const { getByText } = render(
       <LDProvider>
         <Consumer>{(value) => <span>Received: {JSON.stringify(value.flags)}</span>}</Consumer>
       </LDProvider>,
     );
-    const receivedNode2 = getByText2(/^Received:/);
-    expect(receivedNode2).toHaveTextContent('{"testFlag":false,"anotherTestFlag":false}');
+    const receivedNode = getByText(/^Received:/);
+
+    expect(receivedNode).toHaveTextContent('{"testFlag":false,"anotherTestFlag":false}');
   });
 });
