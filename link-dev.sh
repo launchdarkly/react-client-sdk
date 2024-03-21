@@ -1,14 +1,14 @@
 #!/bin/bash
 
 echo "===== Installing all dependencies..."
-npm install
+npm install --force
 
 echo "===== Building react sdk"
 npm run build
 
 echo "===== Install prod dependencies"
 rm -rf node_modules
-npm install --production
+npm install --force --omit=dev
 
 echo "===== Linking to examples"
 declare -a examples=(async-provider hoc typescript deferred-initialization)
