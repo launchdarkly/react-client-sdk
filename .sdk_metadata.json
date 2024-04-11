@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "sdks": {
+    "react-client-sdk": {
+      "name": "React Web SDK",
+      "type": "client-side",
+      "languages": [
+        "JavaScript", "TypeScript"
+      ]
+    }
+  }
+}
