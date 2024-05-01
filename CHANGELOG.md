@@ -2,6 +2,18 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.2.0] - 2024-05-01
+### Added:
+- Added an optional timeout to the `waitForInitialization` method. When a timeout is specified the returned promise will be rejected after the timeout elapses if the client has not finished initializing within that time. When no timeout is specified the returned promise will not be resolved or rejected until the initialization either completes or fails.
+
+### Changed:
+- The track method now validates that the provided metricValue is a number. If a metric value is provided, and it is not a number, then a warning will be logged.
+
+- Updated the link-dev script to better support multiple platforms.
+
+### Fixed:
+- Fixed the documentation for `evaluationReasons` for the `identify` method.
+
 ## [3.1.0] - 2024-03-21
 ### Changed:
 - Redact anonymous attributes within feature events
