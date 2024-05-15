@@ -1,6 +1,6 @@
 {
   "name": "launchdarkly-react-client-sdk",
-  "version": "3.0.10",
+  "version": "3.2.0",
   "description": "LaunchDarkly SDK for React",
   "author": "LaunchDarkly <team@launchdarkly.com>",
   "license": "Apache-2.0",
@@ -83,7 +83,7 @@
   },
   "dependencies": {
     "hoist-non-react-statics": "^3.3.2",
-    "launchdarkly-js-client-sdk": "^3.2.0",
+    "launchdarkly-js-client-sdk": "^3.3.0",
     "lodash.camelcase": "^4.3.0"
   },
   "peerDependencies": {
