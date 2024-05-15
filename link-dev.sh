@@ -21,6 +21,6 @@ do
   mkdir -p examples/${example}/node_modules/launchdarkly-react-client-sdk/node_modules
   mkdir -p examples/${example}/node_modules/launchdarkly-react-client-sdk/lib
   cp package.json examples/${example}/node_modules/launchdarkly-react-client-sdk/package.json
-  cp -r node_modules/ examples/${example}/node_modules/launchdarkly-react-client-sdk/node_modules/
-  cp -r lib/ examples/${example}/node_modules/launchdarkly-react-client-sdk/lib/
+  cp -r node_modules/* examples/${example}/node_modules/launchdarkly-react-client-sdk/node_modules/
+  cp -r lib/* examples/${example}/node_modules/launchdarkly-react-client-sdk/lib/
 done
