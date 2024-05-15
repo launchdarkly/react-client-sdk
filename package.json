@@ -63,7 +63,7 @@
     "esbuild": "^0.18.11",
     "jest": "^27.4.4",
     "jest-environment-jsdom": "^27.4.4",
-    "jest-environment-jsdom-global": "^3.0.0",
+    "jest-environment-jsdom-global": "^4.0.0",
     "jest-junit": "^13.0.0",
     "prettier": "^1.18.2",
     "prop-types": "^15.7.2",
