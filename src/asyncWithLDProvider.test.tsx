@@ -227,4 +227,31 @@ describe('asyncWithLDProvider', () => {
 
     expect(receivedNode).toHaveTextContent('{"testFlag":false}');
   });
+
+  test('Provider keeps the latest flags even when it is remounted', async () => {
+    mockInitLDClient.mockImplementation(() => ({
+      ldClient: mockLDClient,
+      flags: rawFlags,
+    }));
+    mockLDClient.on.mockImplementationOnce((e: string, cb: (c: LDFlagChangeset) => void) => {
+      cb({ 'test-flag': { current: false, previous: true }, 'another-test-flag': { current: false, previous: true } });
+    });
+    const options: LDOptions = {};
+    const LDProvider = await asyncWithLDProvider({ clientSideID, context, options });
+
+    const { unmount } = render(
+      <LDProvider>
+        <Consumer>{(value) => <span>Received: {JSON.stringify(value.flags)}</span>}</Consumer>
+      </LDProvider>,
+    );
+    unmount();
+    const { getByText } = render(
+      <LDProvider>
+        <Consumer>{(value) => <span>Received: {JSON.stringify(value.flags)}</span>}</Consumer>
+      </LDProvider>,
+    );
+    const receivedNode = getByText(/^Received:/);
+
+    expect(receivedNode).toHaveTextContent('{"testFlag":false,"anotherTestFlag":false}');
+  });
 });
