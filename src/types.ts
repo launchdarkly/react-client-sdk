@@ -1,5 +1,6 @@
 import { LDClient, LDContext, LDFlagSet, LDOptions } from 'launchdarkly-js-client-sdk';
 import * as React from 'react';
+import { ReactSdkContext } from './context';
 
 /**
  * Initialization options for the LaunchDarkly React SDK. These are in addition to the options exposed
@@ -91,6 +92,14 @@ export interface ProviderConfig {
    * event, to ensure that the flags are properly set.
    */
   ldClient?: LDClient | Promise<LDClient | undefined>;
+
+  /**
+   *  The amount of time, in seconds, to wait for initialization before rejecting the promise.
+   *  Using a large timeout is not recommended. If you use a large timeout and await it, then
+   *  any network delays will cause your application to wait a long time before
+   *  continuing execution.
+   */
+  timeout?: number;
 }
 
 /**
@@ -145,6 +154,14 @@ export interface AllFlagsLDClient {
  */
 export interface LDFlagKeyMap {
   [camelCasedKey: string]: string;
+}
+
+export interface ProviderState {
+  error?: Error;
+  flagKeyMap: LDFlagKeyMap;
+  flags: LDFlagSet;
+  ldClient?: LDClient;
+  unproxiedFlags: LDFlagSet;
 }
 
 export * from 'launchdarkly-js-client-sdk';

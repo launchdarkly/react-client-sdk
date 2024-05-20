@@ -1,17 +1,35 @@
-jest.mock('./initLDClient', () => jest.fn());
+import wrapperOptions from './wrapperOptions';
+
+jest.mock('launchdarkly-js-client-sdk', () => {
+  const actual = jest.requireActual('launchdarkly-js-client-sdk');
+
+  return {
+    ...actual,
+    initialize: jest.fn(),
+  };
+});
+jest.mock('./utils', () => {
+  const originalModule = jest.requireActual('./utils');
+
+  return {
+    ...originalModule,
+    fetchFlags: jest.fn(),
+  };
+});
 jest.mock('./context', () => ({ Provider: 'Provider' }));
 
 import * as React from 'react';
 import { create } from 'react-test-renderer';
-import { LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
-import initLDClient from './initLDClient';
+import { initialize, LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
 import withLDProvider from './withLDProvider';
-import { EnhancedComponent } from './types';
+import { EnhancedComponent, ProviderState } from './types';
 import LDProvider from './provider';
+import { fetchFlags } from './utils';
 
-const clientSideID = 'deadbeef';
+const clientSideID = 'test-client-side-id';
 const App = () => <div>My App</div>;
-const mockInitLDClient = initLDClient as jest.Mock;
+const mockInitialize = initialize as jest.Mock;
+const mockFetchFlags = fetchFlags as jest.Mock;
 const rawFlags = { 'test-flag': true, 'another-test-flag': true };
 const mockLDClient = {
   on: jest.fn((e: string, cb: () => void) => {
@@ -19,16 +37,24 @@ const mockLDClient = {
   }),
   allFlags: jest.fn().mockReturnValue({}),
   variation: jest.fn(),
+  waitForInitialization: jest.fn(),
 };
 
 describe('withLDProvider', () => {
+  let options: LDOptions;
+  let previousState: ProviderState;
+
   beforeEach(() => {
-    mockInitLDClient.mockImplementation(() => ({
-      flags: rawFlags,
-      ldClient: mockLDClient,
-    }));
+    mockInitialize.mockImplementation(() => mockLDClient);
+    mockFetchFlags.mockImplementation(() => rawFlags);
     // tslint:disable-next-line: no-unsafe-any
     mockLDClient.variation.mockImplementation((_, v) => v);
+    options = { bootstrap: {}, ...wrapperOptions };
+    previousState = {
+      unproxiedFlags: {},
+      flags: {},
+      flagKeyMap: {},
+    };
   });
 
   afterEach(() => {
@@ -43,30 +69,26 @@ describe('withLDProvider', () => {
 
   test('ld client is initialised correctly', async () => {
     const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
-    const options: LDOptions = { bootstrap: {} };
     const LaunchDarklyApp = withLDProvider({ clientSideID, context, options })(App);
     const instance = create(<LaunchDarklyApp />).root.findByType(LDProvider).instance as EnhancedComponent;
 
     await instance.componentDidMount();
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, undefined);
+    expect(mockInitialize).toHaveBeenCalledWith(clientSideID, context, options);
   });
 
   test('ld client is initialised correctly with target flags', async () => {
-    mockInitLDClient.mockImplementation(() => ({
-      flags: { 'dev-test-flag': true, 'launch-doggly': true },
-      ldClient: mockLDClient,
-    }));
+    mockFetchFlags.mockImplementation(() => ({ 'dev-test-flag': true, 'launch-doggly': true }));
     const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
-    const options: LDOptions = { bootstrap: {} };
     const flags = { 'dev-test-flag': false, 'launch-doggly': false };
     const LaunchDarklyApp = withLDProvider({ clientSideID, context, options, flags })(App);
     const instance = create(<LaunchDarklyApp />).root.findByType(LDProvider).instance as EnhancedComponent;
-    instance.setState = jest.fn();
+    const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
+    const setStateFunction = mockSetState.mock.lastCall[0] as (p: ProviderState) => ProviderState;
 
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, flags);
-    expect(instance.setState).toHaveBeenCalledWith({
+    expect(mockInitialize).toHaveBeenCalledWith(clientSideID, context, options);
+    expect(setStateFunction(previousState)).toEqual({
       flags: { devTestFlag: true, launchDoggly: true },
       unproxiedFlags: { 'dev-test-flag': true, 'launch-doggly': true },
       flagKeyMap: { devTestFlag: 'dev-test-flag', launchDoggly: 'launch-doggly' },
@@ -77,10 +99,12 @@ describe('withLDProvider', () => {
   test('flags and ldClient are saved in state on mount', async () => {
     const LaunchDarklyApp = withLDProvider({ clientSideID })(App);
     const instance = create(<LaunchDarklyApp />).root.findByType(LDProvider).instance as EnhancedComponent;
-    instance.setState = jest.fn();
+    const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
-    expect(instance.setState).toHaveBeenCalledWith({
+    const setStateFunction = mockSetState.mock.lastCall[0] as (p: ProviderState) => ProviderState;
+
+    expect(setStateFunction(previousState)).toEqual({
       flags: { testFlag: true, anotherTestFlag: true },
       unproxiedFlags: rawFlags,
       flagKeyMap: { testFlag: 'test-flag', anotherTestFlag: 'another-test-flag' },
@@ -106,9 +130,10 @@ describe('withLDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
+    const setStateFunction = mockSetState.mock.lastCall[0] as (p: ProviderState) => ProviderState;
 
     expect(mockLDClient.on).toHaveBeenCalledWith('change', expect.any(Function));
-    expect(mockSetState).toHaveBeenLastCalledWith({
+    expect(setStateFunction(previousState)).toEqual({
       flags: { anotherTestFlag: true, testFlag: false },
       unproxiedFlags: { 'test-flag': false, 'another-test-flag': true },
       flagKeyMap: { testFlag: 'test-flag', anotherTestFlag: 'another-test-flag' },
@@ -124,9 +149,10 @@ describe('withLDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
+    const setStateFunction = mockSetState.mock.lastCall[0] as (p: ProviderState) => ProviderState;
 
     expect(mockLDClient.on).toHaveBeenCalledWith('change', expect.any(Function));
-    expect(mockSetState).toHaveBeenLastCalledWith({
+    expect(setStateFunction(previousState)).toEqual({
       flags: { 'test-flag': false, 'another-test-flag': false },
       unproxiedFlags: { 'test-flag': false, 'another-test-flag': false },
       flagKeyMap: {},
