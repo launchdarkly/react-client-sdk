@@ -1,10 +1,11 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import { initialize, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
-import { AsyncProviderConfig, defaultReactOptions, ProviderState } from './types';
+import { AsyncProviderConfig, defaultReactOptions } from './types';
 import { Provider } from './context';
 import { fetchFlags, getContextOrUser, getFlattenedFlagsFromChangeset } from './utils';
 import getFlagsProxy from './getFlagsProxy';
 import wrapperOptions from './wrapperOptions';
+import ProviderState from './providerState';
 
 /**
  * This is an async function which initializes LaunchDarkly's JS SDK (`launchdarkly-js-client-sdk`)

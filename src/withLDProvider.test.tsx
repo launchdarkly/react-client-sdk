@@ -22,9 +22,10 @@ import * as React from 'react';
 import { create } from 'react-test-renderer';
 import { initialize, LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
 import withLDProvider from './withLDProvider';
-import { EnhancedComponent, ProviderState } from './types';
+import { EnhancedComponent } from './types';
 import LDProvider from './provider';
 import { fetchFlags } from './utils';
+import ProviderState from './providerState';
 
 const clientSideID = 'test-client-side-id';
 const App = () => <div>My App</div>;

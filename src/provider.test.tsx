@@ -1,3 +1,5 @@
+import ProviderState from './providerState';
+
 jest.mock('launchdarkly-js-client-sdk', () => {
   const actual = jest.requireActual('launchdarkly-js-client-sdk');
 
@@ -19,7 +21,7 @@ jest.mock('./context', () => ({ Provider: 'Provider' }));
 import React, { Component } from 'react';
 import { create } from 'react-test-renderer';
 import { initialize, LDClient, LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
-import { LDReactOptions, EnhancedComponent, ProviderConfig, ProviderState } from './types';
+import { LDReactOptions, EnhancedComponent, ProviderConfig } from './types';
 import { ReactSdkContext as HocState } from './context';
 import LDProvider from './provider';
 import { fetchFlags } from './utils';

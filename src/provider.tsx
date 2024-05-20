@@ -1,10 +1,11 @@
 import React, { Component, PropsWithChildren } from 'react';
 import { initialize, LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
-import { EnhancedComponent, ProviderConfig, defaultReactOptions, LDReactOptions, ProviderState } from './types';
-import { Provider, ReactSdkContext } from './context';
+import { EnhancedComponent, ProviderConfig, defaultReactOptions, LDReactOptions } from './types';
+import { Provider } from './context';
 import { camelCaseKeys, fetchFlags, getContextOrUser, getFlattenedFlagsFromChangeset } from './utils';
 import getFlagsProxy from './getFlagsProxy';
 import wrapperOptions from './wrapperOptions';
+import ProviderState from './providerState';
 
 /**
  * The `LDProvider` is a component which accepts a config object which is used to
