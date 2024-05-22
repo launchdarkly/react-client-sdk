@@ -1,10 +1,11 @@
 import React, { useState, useEffect, ReactNode } from 'react';
-import { LDFlagChangeset } from 'launchdarkly-js-client-sdk';
+import { initialize, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
 import { AsyncProviderConfig, defaultReactOptions } from './types';
 import { Provider } from './context';
-import initLDClient from './initLDClient';
-import { getContextOrUser, getFlattenedFlagsFromChangeset } from './utils';
+import { fetchFlags, getContextOrUser, getFlattenedFlagsFromChangeset } from './utils';
 import getFlagsProxy from './getFlagsProxy';
+import wrapperOptions from './wrapperOptions';
+import ProviderState from './providerState';
 
 /**
  * This is an async function which initializes LaunchDarkly's JS SDK (`launchdarkly-js-client-sdk`)
@@ -33,29 +34,36 @@ import getFlagsProxy from './getFlagsProxy';
 export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
   const { clientSideID, flags: targetFlags, options, reactOptions: userReactOptions } = config;
   const reactOptions = { ...defaultReactOptions, ...userReactOptions };
-  const { ldClient, flags: fetchedFlags, error } = await initLDClient(
-    clientSideID,
-    getContextOrUser(config),
-    options,
-    targetFlags,
-  );
+  const context = getContextOrUser(config) ?? { anonymous: true, kind: 'user' };
+  let error: Error;
+  let fetchedFlags = {};
+
+  const ldClient = initialize(clientSideID, context, { ...wrapperOptions, ...options });
+  try {
+    await ldClient.waitForInitialization(config.timeout);
+    fetchedFlags = fetchFlags(ldClient, targetFlags);
+  } catch (e) {
+    error = e as Error;
+  }
 
   const initialFlags = options?.bootstrap && options.bootstrap !== 'localStorage' ? options.bootstrap : fetchedFlags;
 
   const LDProvider = ({ children }: { children: ReactNode }) => {
-    const [ldData, setLDData] = useState(() => ({
+    const [ldData, setLDData] = useState<ProviderState>(() => ({
       unproxiedFlags: initialFlags,
       ...getFlagsProxy(ldClient, initialFlags, reactOptions, targetFlags),
+      error,
     }));
 
     useEffect(() => {
       function onChange(changes: LDFlagChangeset) {
         const updates = getFlattenedFlagsFromChangeset(changes, targetFlags);
         if (Object.keys(updates).length > 0) {
-          setLDData(({ unproxiedFlags }) => {
-            const updatedUnproxiedFlags = { ...unproxiedFlags, ...updates };
+          setLDData((prevState) => {
+            const updatedUnproxiedFlags = { ...prevState.unproxiedFlags, ...updates };
 
             return {
+              ...prevState,
               unproxiedFlags: updatedUnproxiedFlags,
               ...getFlagsProxy(ldClient, updatedUnproxiedFlags, reactOptions, targetFlags),
             };
@@ -64,14 +72,38 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
       }
       ldClient.on('change', onChange);
 
+      function onReady() {
+        const unproxiedFlags = fetchFlags(ldClient, targetFlags);
+        setLDData((prevState) => ({
+          ...prevState,
+          unproxiedFlags,
+          ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, targetFlags),
+        }));
+      }
+
+      function onFailed(e: Error) {
+        setLDData((prevState) => ({ ...prevState, error: e }));
+      }
+
+      // Only subscribe to ready and failed if waitForInitialization timed out
+      // because we want the introduction of init timeout to be as minimal and backwards
+      // compatible as possible.
+      if (error?.name.toLowerCase().includes('timeout')) {
+        ldClient.on('failed', onFailed);
+        ldClient.on('ready', onReady);
+      }
+
       return function cleanup() {
         ldClient.off('change', onChange);
+        ldClient.off('failed', onFailed);
+        ldClient.off('ready', onReady);
       };
     }, []);
 
-    const { flags, flagKeyMap } = ldData;
+    // unproxiedFlags is for internal use only. Exclude it from context.
+    const { unproxiedFlags: _, ...rest } = ldData;
 
-    return <Provider value={{ flags, flagKeyMap, ldClient, error }}>{children}</Provider>;
+    return <Provider value={rest}>{children}</Provider>;
   };
 
   return LDProvider;
