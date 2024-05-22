@@ -16,6 +16,8 @@ publications:
 jobs:
   - docker:
       image: node:18-buster
+    env:
+      LD_RELEASE_TYPEDOC_VERSION: 0.23.28
     template:
       name: npm
 
