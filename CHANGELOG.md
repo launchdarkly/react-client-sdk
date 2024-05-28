@@ -2,6 +2,10 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.3.1] - 2024-05-28
+### Fixed:
+- Fixed a bug introduced after the init timeout change. The ldClient object was omitted from provider state, causing the useLDClient hook to return undefined.
+
 ## [3.3.0] - 2024-05-23
 ### Added:
 - Added a new optional timeout to ProviderConfig which gets passed to the underlying Javascript SDK `waitForInitialization` function.
