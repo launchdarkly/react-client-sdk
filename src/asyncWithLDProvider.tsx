@@ -52,6 +52,7 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
     const [ldData, setLDData] = useState<ProviderState>(() => ({
       unproxiedFlags: initialFlags,
       ...getFlagsProxy(ldClient, initialFlags, reactOptions, targetFlags),
+      ldClient,
       error,
     }));
 

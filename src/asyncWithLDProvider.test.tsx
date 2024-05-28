@@ -39,7 +39,14 @@ const renderWithConfig = async (config: AsyncProviderConfig) => {
   const { getByText } = render(
     <LDProvider>
       <Consumer>
-        {(value) => <span>Received: {`Flags: ${JSON.stringify(value.flags)}.\nError: ${value.error?.message}.`}</span>}
+        {(value) => (
+          <span>
+            Received:{' '}
+            {`Flags: ${JSON.stringify(value.flags)}.
+            Error: ${value.error?.message}.
+            ldClient: ${value.ldClient ? 'initialized' : 'undefined'}.`}
+          </span>
+        )}
       </Consumer>
     </LDProvider>,
   );
@@ -316,6 +323,11 @@ describe('asyncWithLDProvider', () => {
     };
     const receivedNode = await renderWithConfig({ clientSideID, context, options });
     expect(receivedNode).toHaveTextContent('{"testFlag":true,"anotherTestFlag":true}');
+  });
+
+  test('internal ldClient state should be initialised', async () => {
+    const receivedNode = await renderWithConfig({ clientSideID, context, options });
+    expect(receivedNode).toHaveTextContent('ldClient: initialized');
   });
 
   test('ldClient is initialised correctly with target flags', async () => {
