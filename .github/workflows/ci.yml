@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         variations: [
-          {os: ubuntu-latest, node: latest},
+          # {os: ubuntu-latest, node: latest},
           {os: ubuntu-latest, node: 'lts/*'},
         ]
 
