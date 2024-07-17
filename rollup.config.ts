@@ -4,7 +4,8 @@ import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 
-const plugins = [resolve(), esbuild(), json(), terser()];
+const plugins = [resolve(), esbuild({ target: 'es6' }), json(), terser()];
+
 const external = /node_modules/;
 
 export default [

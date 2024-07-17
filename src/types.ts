@@ -91,6 +91,15 @@ export interface ProviderConfig {
    * event, to ensure that the flags are properly set.
    */
   ldClient?: LDClient | Promise<LDClient | undefined>;
+
+  /**
+   *  The amount of time, in seconds, to wait for initialization before rejecting the promise.
+   *  Using a large timeout is not recommended. If you use a large timeout and await it, then
+   *  any network delays will cause your application to wait a long time before continuing
+   *  execution. This gets passed to the underlying Javascript SDK `waitForInitialization`
+   *  function.
+   */
+  timeout?: number;
 }
 
 /**

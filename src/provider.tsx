@@ -1,14 +1,11 @@
 import React, { Component, PropsWithChildren } from 'react';
-import { LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
-import { EnhancedComponent, ProviderConfig, defaultReactOptions } from './types';
-import { Provider, ReactSdkContext } from './context';
-import initLDClient from './initLDClient';
+import { initialize, LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
+import { EnhancedComponent, ProviderConfig, defaultReactOptions, LDReactOptions } from './types';
+import { Provider } from './context';
 import { camelCaseKeys, fetchFlags, getContextOrUser, getFlattenedFlagsFromChangeset } from './utils';
 import getFlagsProxy from './getFlagsProxy';
-
-interface LDHocState extends ReactSdkContext {
-  unproxiedFlags: LDFlagSet;
-}
+import wrapperOptions from './wrapperOptions';
+import ProviderState from './providerState';
 
 /**
  * The `LDProvider` is a component which accepts a config object which is used to
@@ -27,8 +24,8 @@ interface LDHocState extends ReactSdkContext {
  * within your application. This provider is used inside the `withLDProviderHOC` and can be used instead to initialize
  * the `launchdarkly-js-client-sdk`. For async initialization, check out the `asyncWithLDProvider` function
  */
-class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState> implements EnhancedComponent {
-  readonly state: Readonly<LDHocState>;
+class LDProvider extends Component<PropsWithChildren<ProviderConfig>, ProviderState> implements EnhancedComponent {
+  readonly state: Readonly<ProviderState>;
 
   constructor(props: ProviderConfig) {
     super(props);
@@ -39,7 +36,6 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState
       flags: {},
       unproxiedFlags: {},
       flagKeyMap: {},
-      ldClient: undefined,
     };
 
     if (options) {
@@ -50,7 +46,6 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState
           flags: useCamelCaseFlagKeys ? camelCaseKeys(bootstrap) : bootstrap,
           unproxiedFlags: bootstrap,
           flagKeyMap: {},
-          ldClient: undefined,
         };
       }
     }
@@ -68,28 +63,64 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState
         ...updates,
       };
       if (Object.keys(updates).length > 0) {
-        this.setState({ unproxiedFlags, ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, targetFlags) });
+        this.setState((prevState) => ({
+          ...prevState,
+          unproxiedFlags,
+          ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, targetFlags),
+        }));
       }
     });
   };
 
-  initLDClient = async () => {
-    const { clientSideID, flags, options } = this.props;
+  onFailed = (ldClient: LDClient, e: Error) => {
+    this.setState((prevState) => ({ ...prevState, error: e }));
+  };
+
+  onReady = (ldClient: LDClient, reactOptions: LDReactOptions, targetFlags?: LDFlagSet) => {
+    const unproxiedFlags = fetchFlags(ldClient, targetFlags);
+    this.setState((prevState) => ({
+      ...prevState,
+      unproxiedFlags,
+      ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, targetFlags),
+    }));
+  };
+
+  prepareLDClient = async () => {
+    const { clientSideID, flags: targetFlags, options } = this.props;
     let ldClient = await this.props.ldClient;
     const reactOptions = this.getReactOptions();
     let unproxiedFlags = this.state.unproxiedFlags;
-    let error: Error | undefined;
+    let error: Error;
+
     if (ldClient) {
-      unproxiedFlags = fetchFlags(ldClient, flags);
+      unproxiedFlags = fetchFlags(ldClient, targetFlags);
     } else {
-      const initialisedOutput = await initLDClient(clientSideID, getContextOrUser(this.props), options, flags);
-      error = initialisedOutput.error;
-      if (!error) {
-        unproxiedFlags = initialisedOutput.flags;
+      const context = getContextOrUser(this.props) ?? { anonymous: true, kind: 'user' };
+      ldClient = initialize(clientSideID, context, { ...wrapperOptions, ...options });
+
+      try {
+        await ldClient.waitForInitialization(this.props.timeout);
+        unproxiedFlags = fetchFlags(ldClient, targetFlags);
+      } catch (e) {
+        error = e as Error;
+
+        if (error?.name.toLowerCase().includes('timeout')) {
+          ldClient.on('failed', this.onFailed);
+          ldClient.on('ready', () => {
+            // tslint:disable-next-line:no-non-null-assertion
+            this.onReady(ldClient!, reactOptions, targetFlags);
+          });
+        }
       }
-      ldClient = initialisedOutput.ldClient;
     }
-    this.setState({ unproxiedFlags, ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, flags), ldClient, error });
+    this.setState((prevState) => ({
+      ...prevState,
+      unproxiedFlags,
+      // tslint:disable-next-line:no-non-null-assertion
+      ...getFlagsProxy(ldClient!, unproxiedFlags, reactOptions, targetFlags),
+      ldClient,
+      error,
+    }));
     this.subscribeToChanges(ldClient);
   };
 
@@ -99,14 +130,14 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, LDHocState
       return;
     }
 
-    await this.initLDClient();
+    await this.prepareLDClient();
   }
 
   async componentDidUpdate(prevProps: ProviderConfig) {
     const { deferInitialization } = this.props;
     const contextJustLoaded = !getContextOrUser(prevProps) && getContextOrUser(this.props);
     if (deferInitialization && contextJustLoaded) {
-      await this.initLDClient();
+      await this.prepareLDClient();
     }
   }
 

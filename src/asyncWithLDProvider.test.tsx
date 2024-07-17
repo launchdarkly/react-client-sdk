@@ -1,4 +1,11 @@
-jest.mock('./initLDClient', () => jest.fn());
+jest.mock('launchdarkly-js-client-sdk', () => {
+  const actual = jest.requireActual('launchdarkly-js-client-sdk');
+
+  return {
+    ...actual,
+    initialize: jest.fn(),
+  };
+});
 jest.mock('./utils', () => {
   const originalModule = jest.requireActual('./utils');
 
@@ -10,25 +17,37 @@ jest.mock('./utils', () => {
 
 import React from 'react';
 import { render } from '@testing-library/react';
-import { LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
-import initLDClient from './initLDClient';
+import { initialize, LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
 import { AsyncProviderConfig, LDReactOptions } from './types';
 import { Consumer } from './context';
 import asyncWithLDProvider from './asyncWithLDProvider';
+import wrapperOptions from './wrapperOptions';
+import { fetchFlags } from './utils';
 
-const clientSideID = 'deadbeef';
+const clientSideID = 'test-client-side-id';
 const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
-const App = () => <>My App</>;
-const mockInitLDClient = initLDClient as jest.Mock;
 const rawFlags = { 'test-flag': true, 'another-test-flag': true };
-let mockLDClient: { on: jest.Mock; off: jest.Mock; variation: jest.Mock };
+
+const App = () => <>My App</>;
+const mockInitialize = initialize as jest.Mock;
+const mockFetchFlags = fetchFlags as jest.Mock;
+let mockLDClient: { on: jest.Mock; off: jest.Mock; variation: jest.Mock; waitForInitialization: jest.Mock };
 
 const renderWithConfig = async (config: AsyncProviderConfig) => {
   const LDProvider = await asyncWithLDProvider(config);
 
   const { getByText } = render(
     <LDProvider>
-      <Consumer>{(value) => <span>Received: {JSON.stringify(value.flags)}</span>}</Consumer>
+      <Consumer>
+        {(value) => (
+          <span>
+            Received:{' '}
+            {`Flags: ${JSON.stringify(value.flags)}.
+            Error: ${value.error?.message}.
+            ldClient: ${value.ldClient ? 'initialized' : 'undefined'}.`}
+          </span>
+        )}
+      </Consumer>
     </LDProvider>,
   );
 
@@ -36,6 +55,9 @@ const renderWithConfig = async (config: AsyncProviderConfig) => {
 };
 
 describe('asyncWithLDProvider', () => {
+  let options: LDOptions;
+  let rejectWaitForInitialization: () => void;
+
   beforeEach(() => {
     mockLDClient = {
       on: jest.fn((e: string, cb: () => void) => {
@@ -44,12 +66,16 @@ describe('asyncWithLDProvider', () => {
       off: jest.fn(),
       // tslint:disable-next-line: no-unsafe-any
       variation: jest.fn((_: string, v) => v),
+      waitForInitialization: jest.fn(),
     };
-
-    mockInitLDClient.mockImplementation(() => ({
-      ldClient: mockLDClient,
-      flags: rawFlags,
-    }));
+    mockInitialize.mockImplementation(() => mockLDClient);
+    mockFetchFlags.mockImplementation(() => rawFlags);
+    rejectWaitForInitialization = () => {
+      const timeoutError = new Error('waitForInitialization timed out');
+      timeoutError.name = 'TimeoutError';
+      mockLDClient.waitForInitialization.mockRejectedValue(timeoutError);
+    };
+    options = { bootstrap: {}, ...wrapperOptions };
   });
 
   afterEach(() => {
@@ -67,32 +93,110 @@ describe('asyncWithLDProvider', () => {
     expect(container).toMatchSnapshot();
   });
 
+  test('provider unmounts and unsubscribes correctly', async () => {
+    const LDProvider = await asyncWithLDProvider({ clientSideID });
+    const { unmount } = render(
+      <LDProvider>
+        <App />
+      </LDProvider>,
+    );
+    unmount();
+
+    expect(mockLDClient.off).toHaveBeenCalledWith('change', expect.any(Function));
+    expect(mockLDClient.off).toHaveBeenCalledWith('failed', expect.any(Function));
+    expect(mockLDClient.off).toHaveBeenCalledWith('ready', expect.any(Function));
+  });
+
+  test('timeout error; provider unmounts and unsubscribes correctly', async () => {
+    rejectWaitForInitialization();
+    const LDProvider = await asyncWithLDProvider({ clientSideID });
+    const { unmount } = render(
+      <LDProvider>
+        <App />
+      </LDProvider>,
+    );
+    unmount();
+
+    expect(mockLDClient.off).toHaveBeenCalledWith('change', expect.any(Function));
+    expect(mockLDClient.off).toHaveBeenCalledWith('failed', expect.any(Function));
+    expect(mockLDClient.off).toHaveBeenCalledWith('ready', expect.any(Function));
+  });
+
+  test('waitForInitialization error (not timeout)', async () => {
+    mockLDClient.waitForInitialization.mockRejectedValue(new Error('TestError'));
+    const receivedNode = await renderWithConfig({ clientSideID });
+
+    expect(receivedNode).toHaveTextContent('TestError');
+    expect(mockLDClient.on).not.toHaveBeenCalledWith('ready', expect.any(Function));
+    expect(mockLDClient.on).not.toHaveBeenCalledWith('failed', expect.any(Function));
+  });
+
+  test('subscribe to ready and failed events if waitForInitialization timed out', async () => {
+    rejectWaitForInitialization();
+    const LDProvider = await asyncWithLDProvider({ clientSideID });
+    render(
+      <LDProvider>
+        <App />
+      </LDProvider>,
+    );
+
+    expect(mockLDClient.on).toHaveBeenCalledWith('ready', expect.any(Function));
+    expect(mockLDClient.on).toHaveBeenCalledWith('failed', expect.any(Function));
+  });
+
+  test('ready handler should update flags', async () => {
+    mockLDClient.on.mockImplementation((e: string, cb: () => void) => {
+      // focus only on the ready handler and ignore other change and failed.
+      if (e === 'ready') {
+        cb();
+      }
+    });
+    rejectWaitForInitialization();
+    const receivedNode = await renderWithConfig({ clientSideID });
+
+    expect(mockLDClient.on).toHaveBeenCalledWith('ready', expect.any(Function));
+    expect(receivedNode).toHaveTextContent('{"testFlag":true,"anotherTestFlag":true}');
+  });
+
+  test('failed handler should update error', async () => {
+    mockLDClient.on.mockImplementation((e: string, cb: (e: Error) => void) => {
+      // focus only on the ready handler and ignore other change and failed.
+      if (e === 'failed') {
+        cb(new Error('Test sdk failure'));
+      }
+    });
+    rejectWaitForInitialization();
+    const receivedNode = await renderWithConfig({ clientSideID });
+
+    expect(mockLDClient.on).toHaveBeenCalledWith('ready', expect.any(Function));
+    expect(receivedNode).toHaveTextContent('{}');
+    expect(receivedNode).toHaveTextContent('Error: Test sdk failure');
+  });
+
   test('ldClient is initialised correctly', async () => {
-    const options: LDOptions = { bootstrap: {} };
     const reactOptions: LDReactOptions = { useCamelCaseFlagKeys: false };
     await asyncWithLDProvider({ clientSideID, context, options, reactOptions });
 
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, undefined);
+    expect(mockInitialize).toHaveBeenCalledWith(clientSideID, context, options);
   });
 
   test('ld client is initialised correctly with deprecated user object', async () => {
     const user: LDContext = { key: 'deprecatedUser' };
-    const options: LDOptions = { bootstrap: {} };
     const reactOptions: LDReactOptions = { useCamelCaseFlagKeys: false };
     await asyncWithLDProvider({ clientSideID, user, options, reactOptions });
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, user, options, undefined);
+
+    expect(mockInitialize).toHaveBeenCalledWith(clientSideID, user, options);
   });
 
   test('use context ignore user at init if both are present', async () => {
     const user: LDContext = { key: 'deprecatedUser' };
-    const options: LDOptions = { bootstrap: {} };
     const reactOptions: LDReactOptions = { useCamelCaseFlagKeys: false };
 
     // this should not happen in real usage. Only one of context or user should be specified.
     // if both are specified, context will be used and user ignored.
     await asyncWithLDProvider({ clientSideID, context, user, options, reactOptions });
 
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, undefined);
+    expect(mockInitialize).toHaveBeenCalledWith(clientSideID, context, options);
   });
 
   test('subscribe to changes on mount', async () => {
@@ -114,13 +218,10 @@ describe('asyncWithLDProvider', () => {
 
     expect(mockLDClient.on).toHaveBeenNthCalledWith(1, 'change', expect.any(Function));
     expect(receivedNode).toHaveTextContent('{"testFlag":false,"anotherTestFlag":true}');
+    expect(receivedNode).toHaveTextContent('Error: undefined');
   });
 
   test('subscribe to changes with kebab-case', async () => {
-    mockInitLDClient.mockImplementation(() => ({
-      ldClient: mockLDClient,
-      flags: rawFlags,
-    }));
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
       cb({ 'another-test-flag': { current: false, previous: true }, 'test-flag': { current: false, previous: true } });
     });
@@ -149,7 +250,7 @@ describe('asyncWithLDProvider', () => {
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
       return;
     });
-    const options: LDOptions = {
+    options = {
       bootstrap: {
         'another-test-flag': false,
         'test-flag': true,
@@ -159,12 +260,37 @@ describe('asyncWithLDProvider', () => {
     expect(receivedNode).toHaveTextContent('{"anotherTestFlag":false,"testFlag":true}');
   });
 
+  test('undefined bootstrap', async () => {
+    mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
+      return;
+    });
+    options = { ...options, bootstrap: undefined };
+    mockFetchFlags.mockReturnValueOnce({ aNewFlag: true });
+    const receivedNode = await renderWithConfig({ clientSideID, context, options });
+
+    expect(mockFetchFlags).toHaveBeenCalledTimes(1);
+    expect(receivedNode).toHaveTextContent('{"aNewFlag":true}');
+  });
+
+  test('bootstrap used if there is a timeout', async () => {
+    mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
+      return;
+    });
+    rejectWaitForInitialization();
+    options = { ...options, bootstrap: { myBootstrap: true } };
+    const receivedNode = await renderWithConfig({ clientSideID, context, options });
+
+    expect(mockFetchFlags).not.toHaveBeenCalled();
+    expect(receivedNode).toHaveTextContent('{"myBootstrap":true}');
+    expect(receivedNode).toHaveTextContent('timed out');
+  });
+
   test('ldClient bootstraps with empty flags', async () => {
     // don't subscribe to changes to test bootstrap
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
       return;
     });
-    const options: LDOptions = {
+    options = {
       bootstrap: {},
     };
     const receivedNode = await renderWithConfig({ clientSideID, context, options });
@@ -176,7 +302,7 @@ describe('asyncWithLDProvider', () => {
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
       return;
     });
-    const options: LDOptions = {
+    options = {
       bootstrap: {
         'another-test-flag': false,
         'test-flag': true,
@@ -192,36 +318,32 @@ describe('asyncWithLDProvider', () => {
   });
 
   test('internal flags state should be initialised to all flags', async () => {
-    const options: LDOptions = {
+    options = {
       bootstrap: 'localStorage',
     };
     const receivedNode = await renderWithConfig({ clientSideID, context, options });
     expect(receivedNode).toHaveTextContent('{"testFlag":true,"anotherTestFlag":true}');
   });
 
-  test('ldClient is initialised correctly with target flags', async () => {
-    mockInitLDClient.mockImplementation(() => ({
-      ldClient: mockLDClient,
-      flags: rawFlags,
-    }));
+  test('internal ldClient state should be initialised', async () => {
+    const receivedNode = await renderWithConfig({ clientSideID, context, options });
+    expect(receivedNode).toHaveTextContent('ldClient: initialized');
+  });
 
-    const options: LDOptions = {};
+  test('ldClient is initialised correctly with target flags', async () => {
+    options = { ...wrapperOptions };
     const flags = { 'test-flag': false };
     const receivedNode = await renderWithConfig({ clientSideID, context, options, flags });
 
-    expect(mockInitLDClient).toHaveBeenCalledWith(clientSideID, context, options, flags);
+    expect(mockInitialize).toHaveBeenCalledWith(clientSideID, context, options);
     expect(receivedNode).toHaveTextContent('{"testFlag":true}');
   });
 
   test('only updates to subscribed flags are pushed to the Provider', async () => {
-    mockInitLDClient.mockImplementation(() => ({
-      ldClient: mockLDClient,
-      flags: rawFlags,
-    }));
     mockLDClient.on.mockImplementation((e: string, cb: (c: LDFlagChangeset) => void) => {
       cb({ 'test-flag': { current: false, previous: true }, 'another-test-flag': { current: false, previous: true } });
     });
-    const options: LDOptions = {};
+    options = {};
     const subscribedFlags = { 'test-flag': true };
     const receivedNode = await renderWithConfig({ clientSideID, context, options, flags: subscribedFlags });
 
