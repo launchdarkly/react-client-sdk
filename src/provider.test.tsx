@@ -216,7 +216,7 @@ describe('LDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance?.componentDidMount();
-    const setStateFunction = mockSetState.mock.lastCall[0] as (p: ProviderState) => ProviderState;
+    const setStateFunction = mockSetState.mock?.lastCall?.[0] as (p: ProviderState) => ProviderState;
 
     expect(mockInitialize).toHaveBeenCalledWith(clientSideID, context, options);
     expect(setStateFunction(previousState)).toEqual({
@@ -240,7 +240,7 @@ describe('LDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance?.componentDidMount();
-    const setStateFunction = mockSetState.mock.lastCall[0] as (p: ProviderState) => ProviderState;
+    const setStateFunction = mockSetState.mock?.lastCall?.[0] as (p: ProviderState) => ProviderState;
 
     expect(mockLDClient.on).toHaveBeenCalledWith('failed', expect.any(Function));
     expect(mockLDClient.on).toHaveBeenCalledWith('ready', expect.any(Function));
@@ -260,7 +260,7 @@ describe('LDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance?.componentDidMount();
-    const setStateFunction = mockSetState.mock.lastCall[0] as (p: ProviderState) => ProviderState;
+    const setStateFunction = mockSetState.mock?.lastCall?.[0] as (p: ProviderState) => ProviderState;
 
     expect(mockLDClient.on).not.toHaveBeenCalledWith('failed', expect.any(Function));
     expect(mockLDClient.on).not.toHaveBeenCalledWith('ready', expect.any(Function));
@@ -390,7 +390,7 @@ describe('LDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
-    const setStateFunction = mockSetState.mock.lastCall[0] as (p: ProviderState) => ProviderState;
+    const setStateFunction = mockSetState.mock?.lastCall?.[0] as (p: ProviderState) => ProviderState;
 
     expect(mockInitialize).toHaveBeenCalledWith(clientSideID, context, options);
     expect(setStateFunction(previousState)).toEqual({
@@ -412,7 +412,7 @@ describe('LDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
-    const setStateFunction = mockSetState.mock.lastCall[0] as (p: ProviderState) => ProviderState;
+    const setStateFunction = mockSetState.mock?.lastCall?.[0] as (p: ProviderState) => ProviderState;
 
     expect(setStateFunction(previousState)).toEqual({
       flags: { testFlag: true, anotherTestFlag: true },
@@ -450,7 +450,7 @@ describe('LDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
-    const setStateFunction = mockSetState.mock.lastCall[0] as (p: ProviderState) => ProviderState;
+    const setStateFunction = mockSetState.mock?.lastCall?.[0] as (p: ProviderState) => ProviderState;
 
     expect(mockLDClient.on).toHaveBeenCalledWith('change', expect.any(Function));
     expect(setStateFunction(previousState)).toEqual({
@@ -474,7 +474,7 @@ describe('LDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
-    const setStateFunction = mockSetState.mock.lastCall[0] as (p: ProviderState) => ProviderState;
+    const setStateFunction = mockSetState.mock?.lastCall?.[0] as (p: ProviderState) => ProviderState;
 
     expect(mockLDClient.on).toHaveBeenCalledWith('change', expect.any(Function));
     expect(setStateFunction(previousState)).toEqual({
@@ -531,7 +531,7 @@ describe('LDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
-    const setStateFunction = mockSetState.mock.lastCall[0] as (p: ProviderState) => ProviderState;
+    const setStateFunction = mockSetState.mock?.lastCall?.[0] as (p: ProviderState) => ProviderState;
 
     expect(setStateFunction(previousState)).toEqual({
       flags: { testFlag: 3 },
