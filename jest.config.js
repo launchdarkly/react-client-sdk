@@ -1,5 +1,5 @@
 module.exports = {
-  reporters: ['default', 'jest-junit'],
+  reporters: ['default'],
   moduleFileExtensions: ['ts', 'tsx', 'js'],
   transform: {
     '\\.(ts|tsx)$': 'ts-jest',

@@ -13,3 +13,4 @@ docs/build/
 yarn.lock
 package-lock.json
 .npmrc
+docs/

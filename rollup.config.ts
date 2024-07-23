@@ -1,11 +1,11 @@
 import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
-import filesize from 'rollup-plugin-filesize';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
 import terser from '@rollup/plugin-terser';
 
-const plugins = [resolve(), esbuild({ target: 'es6' }), json(), terser(), filesize()];
+const plugins = [resolve(), esbuild({ target: 'es6' }), json(), terser()];
+
 const external = /node_modules/;
 
 export default [
