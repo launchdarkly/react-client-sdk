@@ -6,6 +6,5 @@ module.exports = {
   },
   testRegex: '.*\\.test\\.(ts|tsx)$',
   testPathIgnorePatterns: ['/node_modules/', '/examples/'],
-  setupFilesAfterEnv: ['./setupTests.js'],
   testEnvironment: 'jest-environment-jsdom-global',
 };
