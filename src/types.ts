@@ -121,9 +121,7 @@ export type AsyncProviderConfig = Omit<ProviderConfig, 'deferInitialization'> & 
  */
 export interface EnhancedComponent extends React.Component {
   subscribeToChanges(ldClient: LDClient): void;
-  // tslint:disable-next-line:invalid-void
   componentDidMount(): Promise<void>;
-  // tslint:disable-next-line:invalid-void
   componentDidUpdate(prevProps: ProviderConfig): Promise<void>;
 }
 
@@ -152,8 +150,6 @@ export interface AllFlagsLDClient {
 /**
  * Map of camelized flag keys to original unmodified flag keys.
  */
-export interface LDFlagKeyMap {
-  [camelCasedKey: string]: string;
-}
+export type LDFlagKeyMap = Record<string, string>;
 
 export * from 'launchdarkly-js-client-sdk';

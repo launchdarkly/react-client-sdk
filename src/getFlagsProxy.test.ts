@@ -19,8 +19,8 @@ beforeEach(jest.clearAllMocks);
 
 test('native Object functions should be ignored', () => {
   const { flags } = getFlagsProxy(ldClient, rawFlags);
-  flags.hasOwnProperty('fooBar');
-  flags.propertyIsEnumerable('bazQux');
+  Object.prototype.hasOwnProperty.call(flags, 'fooBar');
+  Object.prototype.propertyIsEnumerable.call(flags, 'bazQux');
   expect(ldClient.variation).not.toHaveBeenCalled();
 });
 

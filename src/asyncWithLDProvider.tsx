@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ReactNode } from 'react';
-import { initialize, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
+import { initialize, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { AsyncProviderConfig, defaultReactOptions } from './types';
 import { Provider } from './context';
 import { fetchFlags, getContextOrUser, getFlattenedFlagsFromChangeset } from './utils';
@@ -8,7 +8,6 @@ import wrapperOptions from './wrapperOptions';
 import ProviderState from './providerState';
 
 // Extend the expect with additional methods.
-// tslint:disable-next-line:no-import-side-effect
 import '@testing-library/jest-dom';
 
 /**

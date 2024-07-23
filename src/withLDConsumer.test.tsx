@@ -11,7 +11,6 @@ jest.mock('./context', () => {
   }
 
   return {
-    // tslint:disable-next-line:no-null-undefined-union
     Consumer(props: ConsumerChildren) {
       return props.children({ flags: { testFlag: true }, ldClient: { track: jest.fn() } });
     },

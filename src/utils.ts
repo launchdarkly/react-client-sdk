@@ -20,7 +20,7 @@ export const camelCaseKeys = (rawFlags: LDFlagSet) => {
   for (const rawFlag in rawFlags) {
     // Exclude system keys
     if (rawFlag.indexOf('$') !== 0) {
-      flags[camelCase(rawFlag)] = rawFlags[rawFlag]; // tslint:disable-line:no-unsafe-any
+      flags[camelCase(rawFlag)] = rawFlags[rawFlag];
     }
   }
 
@@ -76,7 +76,6 @@ export const fetchFlags = (ldClient: LDClient, targetFlags?: LDFlagSet) => {
  * @deprecated The `camelCaseKeys.camelCaseKeys` property will be removed in a future version,
  * please update your code to use the `camelCaseKeys` function directly.
  */
-// tslint:disable-next-line deprecation
 camelCaseKeys.camelCaseKeys = camelCaseKeys;
 
 export default { camelCaseKeys, getFlattenedFlagsFromChangeset, fetchFlags };

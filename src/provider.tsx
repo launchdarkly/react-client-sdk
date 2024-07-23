@@ -72,7 +72,7 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, ProviderSt
     });
   };
 
-  onFailed = (ldClient: LDClient, e: Error) => {
+  onFailed = (_ldClient: LDClient, e: Error) => {
     this.setState((prevState) => ({ ...prevState, error: e }));
   };
 
@@ -107,7 +107,7 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, ProviderSt
         if (error?.name.toLowerCase().includes('timeout')) {
           ldClient.on('failed', this.onFailed);
           ldClient.on('ready', () => {
-            // tslint:disable-next-line:no-non-null-assertion
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             this.onReady(ldClient!, reactOptions, targetFlags);
           });
         }
@@ -116,7 +116,7 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, ProviderSt
     this.setState((prevState) => ({
       ...prevState,
       unproxiedFlags,
-      // tslint:disable-next-line:no-non-null-assertion
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       ...getFlagsProxy(ldClient!, unproxiedFlags, reactOptions, targetFlags),
       ldClient,
       error,
