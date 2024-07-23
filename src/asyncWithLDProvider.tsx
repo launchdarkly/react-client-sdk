@@ -7,6 +7,9 @@ import getFlagsProxy from './getFlagsProxy';
 import wrapperOptions from './wrapperOptions';
 import ProviderState from './providerState';
 
+// Extend the expect with additional methods.
+import '@testing-library/jest-dom'
+
 /**
  * This is an async function which initializes LaunchDarkly's JS SDK (`launchdarkly-js-client-sdk`)
  * and awaits it so all flags and the ldClient are ready before the consumer app is rendered.
