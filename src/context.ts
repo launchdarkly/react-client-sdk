@@ -3,7 +3,7 @@ import { LDClient, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { LDFlagKeyMap } from './types';
 
 /**
- * The sdk context stored in the Provider state and passed to consumers.
+ * The sdk LDReactContext stored in the Provider state and passed to consumers.
  */
 interface ReactSdkContext {
   /**
@@ -35,7 +35,7 @@ interface ReactSdkContext {
 /**
  * @ignore
  */
-const context = createContext<ReactSdkContext>({ flags: {}, flagKeyMap: {}, ldClient: undefined });
+const LDReactContext = createContext<ReactSdkContext>({ flags: {}, flagKeyMap: {}, ldClient: undefined });
 const {
   /**
    * @ignore
@@ -45,7 +45,7 @@ const {
    * @ignore
    */
   Consumer,
-} = context;
+} = LDReactContext;
 
 export { Provider, Consumer, ReactSdkContext };
-export default context;
+export default LDReactContext;

@@ -6,10 +6,11 @@ import useFlags from './useFlags';
 import useLDClient from './useLDClient';
 import useLDClientError from './useLDClientError';
 import { camelCaseKeys } from './utils';
-
+import LDReactContext from './context'
 export * from './types';
 
 export {
+  LDReactContext,
   LDProvider,
   asyncWithLDProvider,
   camelCaseKeys,
