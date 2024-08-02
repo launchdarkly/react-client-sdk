@@ -1,3 +1,15 @@
+import React from 'react';
+import '@testing-library/dom';
+import '@testing-library/jest-dom';
+import { render } from '@testing-library/react';
+import { initialize, LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
+import { AsyncProviderConfig, LDReactOptions } from './types';
+import { Consumer } from './context';
+import asyncWithLDProvider from './asyncWithLDProvider';
+import wrapperOptions from './wrapperOptions';
+import { fetchFlags } from './utils';
+
+
 jest.mock('launchdarkly-js-client-sdk', () => {
   const actual = jest.requireActual('launchdarkly-js-client-sdk');
 
@@ -14,15 +26,6 @@ jest.mock('./utils', () => {
     fetchFlags: jest.fn(),
   };
 });
-
-import React from 'react';
-import { render } from '@testing-library/react';
-import { initialize, LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
-import { AsyncProviderConfig, LDReactOptions } from './types';
-import { Consumer } from './context';
-import asyncWithLDProvider from './asyncWithLDProvider';
-import wrapperOptions from './wrapperOptions';
-import { fetchFlags } from './utils';
 
 const clientSideID = 'test-client-side-id';
 const context: LDContext = { key: 'yus', kind: 'user', name: 'yus ng' };
