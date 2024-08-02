@@ -1,5 +1,5 @@
 import React, { useState, useEffect, ReactNode } from 'react';
-import { initialize, LDClient, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
+import { initialize, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { AsyncProviderConfig, defaultReactOptions } from './types';
 import { Provider } from './context';
 import { fetchFlags, getContextOrUser, getFlattenedFlagsFromChangeset } from './utils';
