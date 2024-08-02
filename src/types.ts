@@ -85,10 +85,13 @@ export interface ProviderConfig {
   flags?: LDFlagSet;
 
   /**
-   * Optionally, the ldClient can be initialised outside of the provider
-   * and passed in, instead of being initialised by the provider.
+   * Optionally, the ldClient can be initialized outside of the provider
+   * and passed in, instead of being initialized by the provider.
+   *
    * Note: it should only be passed in when it has emitted the 'ready'
-   * event, to ensure that the flags are properly set.
+   * event when using withLDProvider, to ensure that the flags are properly set.
+   * If using with asyncWithLDProvider, then it will wait internally, so
+   * it is not required that the client have emitted the 'ready' event.
    */
   ldClient?: LDClient | Promise<LDClient | undefined>;
 
