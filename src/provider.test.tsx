@@ -16,13 +16,21 @@ jest.mock('./utils', () => {
     fetchFlags: jest.fn(),
   };
 });
-jest.mock('./context', () => ({ Provider: 'Provider' }));
+jest.mock('./context', () => {
+  const originalModule = jest.requireActual('./context');
+
+  return {
+    ...originalModule,
+    Provider: 'Provider',
+  };
+});
 
 import React, { Component } from 'react';
+import { render } from '@testing-library/react';
 import { create } from 'react-test-renderer';
 import { initialize, LDClient, LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
 import { LDReactOptions, EnhancedComponent, ProviderConfig } from './types';
-import { ReactSdkContext as HocState } from './context';
+import { ReactSdkContext as HocState, reactSdkContextFactory } from './context';
 import LDProvider from './provider';
 import { fetchFlags } from './utils';
 import wrapperOptions from './wrapperOptions';
@@ -126,7 +134,7 @@ describe('LDProvider', () => {
 
   test('ld client is used if passed in', async () => {
     options = { ...options, bootstrap: {} };
-    const ldClient = (mockLDClient as unknown) as LDClient;
+    const ldClient = mockLDClient as unknown as LDClient;
     mockInitialize.mockClear();
     const props: ProviderConfig = { clientSideID, ldClient };
     const LaunchDarklyApp = (
@@ -144,7 +152,7 @@ describe('LDProvider', () => {
     const context2: LDContext = { key: 'launch', kind: 'user', name: 'darkly' };
     options = { ...options, bootstrap: {} };
     const ldClient = new Promise<LDClient>((resolve) => {
-      resolve((mockLDClient as unknown) as LDClient);
+      resolve(mockLDClient as unknown as LDClient);
 
       return;
     });
@@ -536,5 +544,44 @@ describe('LDProvider', () => {
       unproxiedFlags: { 'test-flag': 3 },
       flagKeyMap: { testFlag: 'test-flag' },
     });
+  });
+
+  test('custom context is provided to consumer', async () => {
+    const CustomContext = reactSdkContextFactory();
+    const customLDClient = {
+      on: jest.fn((_: string, cb: () => void) => {
+        cb();
+      }),
+      off: jest.fn(),
+      allFlags: jest.fn().mockReturnValue({ 'context-test-flag': true }),
+      variation: jest.fn((_: string, v) => v),
+      waitForInitialization: jest.fn(),
+    };
+    const props: ProviderConfig = {
+      clientSideID,
+      ldClient: customLDClient as unknown as LDClient,
+      reactOptions: {
+        reactContext: CustomContext,
+      },
+    };
+    const originalUtilsModule = jest.requireActual('./utils');
+    mockFetchFlags.mockImplementation(originalUtilsModule.fetchFlags);
+
+    const LaunchDarklyApp = (
+      <LDProvider {...props}>
+        <CustomContext.Consumer>
+          {({ flags }) => {
+            return (
+              <span>
+                flag is {flags.contextTestFlag === undefined ? 'undefined' : JSON.stringify(flags.contextTestFlag)}
+              </span>
+            );
+          }}
+        </CustomContext.Consumer>
+      </LDProvider>
+    );
+
+    const { findByText } = render(LaunchDarklyApp);
+    expect(await findByText('flag is true')).not.toBeNull();
   });
 });
