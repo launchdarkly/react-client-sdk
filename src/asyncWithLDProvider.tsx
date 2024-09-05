@@ -1,7 +1,6 @@
 import React, { useState, useEffect, ReactNode } from 'react';
 import { initialize, LDFlagChangeset } from 'launchdarkly-js-client-sdk';
 import { AsyncProviderConfig, defaultReactOptions } from './types';
-import { Provider } from './context';
 import { fetchFlags, getContextOrUser, getFlattenedFlagsFromChangeset } from './utils';
 import getFlagsProxy from './getFlagsProxy';
 import wrapperOptions from './wrapperOptions';
@@ -104,7 +103,9 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
     // unproxiedFlags is for internal use only. Exclude it from context.
     const { unproxiedFlags: _, ...rest } = ldData;
 
-    return <Provider value={rest}>{children}</Provider>;
+    const { reactContext } = reactOptions;
+
+    return <reactContext.Provider value={rest}>{children}</reactContext.Provider>;
   };
 
   return LDProvider;

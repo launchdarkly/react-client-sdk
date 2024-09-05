@@ -13,7 +13,7 @@ const camelizedFlags: LDFlagSet = {
 };
 
 // cast as unknown first to be able to partially mock ldClient
-const ldClient = ({ variation: jest.fn((flagKey) => rawFlags[flagKey] as string) } as unknown) as LDClient;
+const ldClient = { variation: jest.fn((flagKey) => rawFlags[flagKey] as string) } as unknown as LDClient;
 
 beforeEach(jest.clearAllMocks);
 

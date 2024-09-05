@@ -2,13 +2,12 @@ import React from 'react';
 import '@testing-library/dom';
 import '@testing-library/jest-dom';
 import { render } from '@testing-library/react';
-import { initialize, LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
+import { initialize, LDClient, LDContext, LDFlagChangeset, LDOptions } from 'launchdarkly-js-client-sdk';
 import { AsyncProviderConfig, LDReactOptions } from './types';
-import { Consumer } from './context';
+import { Consumer, reactSdkContextFactory } from './context';
 import asyncWithLDProvider from './asyncWithLDProvider';
 import wrapperOptions from './wrapperOptions';
 import { fetchFlags } from './utils';
-
 
 jest.mock('launchdarkly-js-client-sdk', () => {
   const actual = jest.requireActual('launchdarkly-js-client-sdk');
@@ -350,5 +349,121 @@ describe('asyncWithLDProvider', () => {
     const receivedNode = await renderWithConfig({ clientSideID, context, options, flags: subscribedFlags });
 
     expect(receivedNode).toHaveTextContent('{"testFlag":false}');
+  });
+
+  test('custom context is provided to consumer', async () => {
+    const CustomContext = reactSdkContextFactory();
+    const customLDClient = {
+      on: jest.fn((_: string, cb: () => void) => {
+        cb();
+      }),
+      off: jest.fn(),
+      allFlags: jest.fn().mockReturnValue({ 'context-test-flag': true }),
+      variation: jest.fn((_: string, v) => v),
+      waitForInitialization: jest.fn(),
+    };
+    const config: AsyncProviderConfig = {
+      clientSideID,
+      ldClient: customLDClient as unknown as LDClient,
+      reactOptions: {
+        reactContext: CustomContext,
+      },
+    };
+    const originalUtilsModule = jest.requireActual('./utils');
+    mockFetchFlags.mockImplementation(originalUtilsModule.fetchFlags);
+
+    const LDProvider = await asyncWithLDProvider(config);
+    const LaunchDarklyApp = (
+      <LDProvider>
+        <CustomContext.Consumer>
+          {({ flags }) => {
+            return (
+              <span>
+                flag is {flags.contextTestFlag === undefined ? 'undefined' : JSON.stringify(flags.contextTestFlag)}
+              </span>
+            );
+          }}
+        </CustomContext.Consumer>
+      </LDProvider>
+    );
+
+    const { findByText } = render(LaunchDarklyApp);
+    expect(await findByText('flag is true')).not.toBeNull();
+
+    const receivedNode = await renderWithConfig({ clientSideID });
+    expect(receivedNode).not.toHaveTextContent('{"contextTestFlag":true}');
+  });
+
+  test('multiple providers', async () => {
+    const customLDClient1 = {
+      on: jest.fn((_: string, cb: () => void) => {
+        cb();
+      }),
+      off: jest.fn(),
+      allFlags: jest.fn().mockReturnValue({ 'context1-test-flag': true }),
+      variation: jest.fn((_: string, v) => v),
+      waitForInitialization: jest.fn(),
+    };
+    const customLDClient2 = {
+      on: jest.fn((_: string, cb: () => void) => {
+        cb();
+      }),
+      off: jest.fn(),
+      allFlags: jest.fn().mockReturnValue({ 'context2-test-flag': true }),
+      variation: jest.fn((_: string, v) => v),
+      waitForInitialization: jest.fn(),
+    };
+    const originalUtilsModule = jest.requireActual('./utils');
+    mockFetchFlags.mockImplementation(originalUtilsModule.fetchFlags);
+
+    const CustomContext1 = reactSdkContextFactory();
+    const LDProvider1 = await asyncWithLDProvider({
+      clientSideID,
+      ldClient: customLDClient1 as unknown as LDClient,
+      reactOptions: {
+        reactContext: CustomContext1,
+      },
+    });
+    const CustomContext2 = reactSdkContextFactory();
+    const LDProvider2 = await asyncWithLDProvider({
+      clientSideID,
+      ldClient: customLDClient2 as unknown as LDClient,
+      reactOptions: {
+        reactContext: CustomContext2,
+      },
+    });
+    const safeValue = (val?: boolean) => (val === undefined ? 'undefined' : JSON.stringify(val));
+    const LaunchDarklyApp = (
+      <LDProvider1>
+        <LDProvider2>
+          <CustomContext1.Consumer>
+            {({ flags }) => {
+              return (
+                <>
+                  <span>consumer 1, flag 1 is {safeValue(flags.context1TestFlag)}</span>
+                  <span>consumer 1, flag 2 is {safeValue(flags.context2TestFlag)}</span>
+                </>
+              );
+            }}
+          </CustomContext1.Consumer>
+          <CustomContext2.Consumer>
+            {({ flags }) => {
+              return (
+                <>
+                  <span>consumer 2, flag 1 is {safeValue(flags.context1TestFlag)}</span>
+                  <span>consumer 2, flag 2 is {safeValue(flags.context2TestFlag)}</span>
+                </>
+              );
+            }}
+          </CustomContext2.Consumer>
+        </LDProvider2>
+      </LDProvider1>
+    );
+
+    const { findByText } = render(LaunchDarklyApp);
+    expect(await findByText('consumer 1, flag 1 is true')).not.toBeNull();
+    expect(await findByText('consumer 1, flag 2 is undefined')).not.toBeNull();
+    expect(await findByText('consumer 2, flag 1 is undefined')).not.toBeNull();
+    expect(await findByText('consumer 2, flag 2 is true')).not.toBeNull();
   });
 });
