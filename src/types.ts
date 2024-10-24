@@ -155,6 +155,6 @@ export interface AllFlagsLDClient {
  */
 export type LDFlagKeyMap = Record<string, string>;
 
-export { LDProps } from './withLDConsumer';
+export { type LDProps } from './withLDConsumer';
 
 export * from 'launchdarkly-js-client-sdk';
