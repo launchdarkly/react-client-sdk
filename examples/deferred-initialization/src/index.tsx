@@ -1,10 +1,8 @@
 import React from 'react';
-// tslint:disable-next-line:no-submodule-imports
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// tslint:disable-next-line:no-import-side-effect
 import './index.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

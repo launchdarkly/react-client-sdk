@@ -1,7 +1,6 @@
 import React from 'react';
 import { useFlags } from 'launchdarkly-react-client-sdk';
 
-// tslint:disable-next-line:no-import-side-effect
 import './App.css';
 
 function Welcome() {
