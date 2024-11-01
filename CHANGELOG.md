@@ -2,6 +2,14 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.6.0](https://github.com/launchdarkly/react-client-sdk/compare/launchdarkly-react-client-sdk-v3.5.0...launchdarkly-react-client-sdk-v3.6.0) (2024-11-01)
+
+
+### Features
+
+* Support for providing custom contexts ([#313](https://github.com/launchdarkly/react-client-sdk/issues/313)) ([a8b52f4](https://github.com/launchdarkly/react-client-sdk/commit/a8b52f48b0fa92ee83ace93ae631d5431ccb54ea))
+* **typescript:** export the LDProps interface for access in application code ([#321](https://github.com/launchdarkly/react-client-sdk/issues/321)) ([7a084c5](https://github.com/launchdarkly/react-client-sdk/commit/7a084c5c4b2fc84ba7c8b23c0a8bed29a3d944da))
+
 ## [3.5.0](https://github.com/launchdarkly/react-client-sdk/compare/launchdarkly-react-client-sdk-v3.4.0...launchdarkly-react-client-sdk-v3.5.0) (2024-10-18)
 
 
