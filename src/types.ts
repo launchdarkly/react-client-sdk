@@ -165,6 +165,8 @@ export interface AllFlagsLDClient {
  */
 export type LDFlagKeyMap = Record<string, string>;
 
+export { type LDProps } from './withLDConsumer';
+
 /**
  * The sdk context stored in the Provider state and passed to consumers.
  */
