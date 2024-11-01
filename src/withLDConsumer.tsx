@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Consumer, ReactSdkContext } from './context';
 import { LDClient, LDFlagSet } from 'launchdarkly-js-client-sdk';
+import { defaultReactOptions, ReactSdkContext } from './types';
 
 /**
  * Controls the props the wrapped component receives from the `LDConsumer` HOC.
@@ -11,6 +11,8 @@ export interface ConsumerOptions {
    * and nothing else.
    */
   clientOnly: boolean;
+
+  reactContext?: React.Context<ReactSdkContext>;
 }
 
 /**
@@ -42,8 +44,10 @@ export interface LDProps {
  */
 function withLDConsumer(options: ConsumerOptions = { clientOnly: false }) {
   return function withLDConsumerHoc<P>(WrappedComponent: React.ComponentType<P & LDProps>) {
+    const ReactContext = options.reactContext ?? defaultReactOptions.reactContext;
+
     return (props: P) => (
-      <Consumer>
+      <ReactContext.Consumer>
         {({ flags, ldClient }: ReactSdkContext) => {
           if (options.clientOnly) {
             return <WrappedComponent ldClient={ldClient} {...props} />;
@@ -51,7 +55,7 @@ function withLDConsumer(options: ConsumerOptions = { clientOnly: false }) {
 
           return <WrappedComponent flags={flags} ldClient={ldClient} {...props} />;
         }}
-      </Consumer>
+      </ReactContext.Consumer>
     );
   };
 }
