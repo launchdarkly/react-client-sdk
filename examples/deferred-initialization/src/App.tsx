@@ -3,7 +3,6 @@ import logo from './logo.svg';
 import Welcome from './welcome';
 import { LDProvider, LDContext } from 'launchdarkly-react-client-sdk';
 
-// tslint:disable-next-line:no-import-side-effect
 import './App.css';
 
 const clientSideID = process.env.REACT_APP_LD_CLIENT_SIDE_ID ?? '';

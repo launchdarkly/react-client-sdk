@@ -6,6 +6,7 @@ import useFlags from './useFlags';
 import useLDClient from './useLDClient';
 import useLDClientError from './useLDClientError';
 import { camelCaseKeys } from './utils';
+import { reactSdkContextFactory } from './context';
 
 export * from './types';
 
@@ -13,6 +14,7 @@ export {
   LDProvider,
   asyncWithLDProvider,
   camelCaseKeys,
+  reactSdkContextFactory,
   useFlags,
   useLDClient,
   useLDClientError,
