@@ -3,6 +3,7 @@
 **/junit.xml
 npm-debug.log
 yarn-error.log
+pnpm-debug.log
 node_modules
 dist
 lib
@@ -12,5 +13,6 @@ test-types.js
 docs/build/
 yarn.lock
 package-lock.json
+pnpm-lock.yaml
 .npmrc
 docs/
