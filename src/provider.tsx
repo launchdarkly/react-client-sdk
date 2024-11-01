@@ -1,7 +1,6 @@
 import React, { Component, PropsWithChildren } from 'react';
 import { initialize, LDClient, LDFlagChangeset, LDFlagSet } from 'launchdarkly-js-client-sdk';
 import { EnhancedComponent, ProviderConfig, defaultReactOptions, LDReactOptions } from './types';
-import { Provider } from './context';
 import { camelCaseKeys, fetchFlags, getContextOrUser, getFlattenedFlagsFromChangeset } from './utils';
 import getFlagsProxy from './getFlagsProxy';
 import wrapperOptions from './wrapperOptions';
@@ -144,7 +143,13 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, ProviderSt
   render() {
     const { flags, flagKeyMap, ldClient, error } = this.state;
 
-    return <Provider value={{ flags, flagKeyMap, ldClient, error }}>{this.props.children}</Provider>;
+    const { reactContext } = this.getReactOptions();
+
+    return (
+      <reactContext.Provider value={{ flags, flagKeyMap, ldClient, error }}>
+        {this.props.children}
+      </reactContext.Provider>
+    );
   }
 }
 
