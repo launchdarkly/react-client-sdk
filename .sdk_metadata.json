@@ -6,7 +6,8 @@
       "type": "client-side",
       "languages": [
         "JavaScript", "TypeScript"
-      ]
+      ],
+      "wrapperNames": ["react-client-sdk"]
     }
   }
 }
