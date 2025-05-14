@@ -85,7 +85,7 @@
   },
   "dependencies": {
     "hoist-non-react-statics": "^3.3.2",
-    "launchdarkly-js-client-sdk": "3.7.0",
+    "launchdarkly-js-client-sdk": "^3.7.0",
     "lodash.camelcase": "^4.3.0"
   },
   "peerDependencies": {
