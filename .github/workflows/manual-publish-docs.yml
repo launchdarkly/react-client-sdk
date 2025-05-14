@@ -1,0 +1,29 @@
+name: Manual Publish Docs
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-package:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Documentation
+        run: npm run doc
+
+      - id: publish-docs
+        name: Publish Documentation
+        uses: ./.github/actions/publish-docs
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
