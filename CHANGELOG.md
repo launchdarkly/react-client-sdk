@@ -2,6 +2,13 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.8.0](https://github.com/launchdarkly/react-client-sdk/compare/launchdarkly-react-client-sdk-v3.7.0...launchdarkly-react-client-sdk-v3.8.0) (2025-05-28)
+
+
+### Features
+
+* Add support for per-context summary events. ([#358](https://github.com/launchdarkly/react-client-sdk/issues/358)) ([42c132e](https://github.com/launchdarkly/react-client-sdk/commit/42c132ec509caa996acf7bae179aa179cd3c7e3f))
+
 ## [3.7.0](https://github.com/launchdarkly/react-client-sdk/compare/launchdarkly-react-client-sdk-v3.6.1...launchdarkly-react-client-sdk-v3.7.0) (2025-05-14)
 
 
