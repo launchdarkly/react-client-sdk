@@ -456,10 +456,18 @@ describe('LDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
-    const setStateFunction = mockSetState.mock?.lastCall?.[0] as (p: ProviderState) => ProviderState;
+
+    // Each set of the state depends on the previous state, so to re-create the final state, we need to call the
+    // setState function for each call.
+    let finalState = previousState;
+
+    for(const call of mockSetState.mock.calls) {
+      const setStateFunction = call[0] as (p: ProviderState) => ProviderState;
+      finalState = setStateFunction(finalState);
+    }
 
     expect(mockLDClient.on).toHaveBeenCalledWith('change', expect.any(Function));
-    expect(setStateFunction(previousState)).toEqual({
+    expect(finalState).toMatchObject({
       flags: { anotherTestFlag: true, testFlag: false },
       unproxiedFlags: { 'another-test-flag': true, 'test-flag': false },
       flagKeyMap: { anotherTestFlag: 'another-test-flag', testFlag: 'test-flag' },
@@ -480,10 +488,18 @@ describe('LDProvider', () => {
     const mockSetState = jest.spyOn(instance, 'setState');
 
     await instance.componentDidMount();
-    const setStateFunction = mockSetState.mock?.lastCall?.[0] as (p: ProviderState) => ProviderState;
+
+    // Each set of the state depends on the previous state, so to re-create the final state, we need to call the
+    // setState function for each call.
+    let finalState = previousState;
+
+    for (const call of mockSetState.mock.calls) {
+      const setStateFunction = call[0] as (p: ProviderState) => ProviderState;
+      finalState = setStateFunction(finalState);
+    }
 
     expect(mockLDClient.on).toHaveBeenCalledWith('change', expect.any(Function));
-    expect(setStateFunction(previousState)).toEqual({
+    expect(finalState).toMatchObject({
       flagKeyMap: {},
       unproxiedFlags: { 'another-test-flag': false, 'test-flag': false },
       flags: { 'another-test-flag': false, 'test-flag': false },

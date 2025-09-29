@@ -48,7 +48,6 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, ProviderSt
         };
       }
     }
-    this.setState(this.state);
   }
 
   getReactOptions = () => ({ ...defaultReactOptions, ...this.props.reactOptions });
