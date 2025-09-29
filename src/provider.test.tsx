@@ -506,6 +506,38 @@ describe('LDProvider', () => {
     });
   });
 
+  test('handles deletion of flags', async () => {
+    mockLDClient.on.mockImplementation((_e: string, cb: (c: LDFlagChangeset) => void) => {
+      cb({ 'another-test-flag': { current: undefined, previous: true }, 'test-flag': { current: false, previous: true } });
+    });
+    const props: ProviderConfig = { clientSideID, reactOptions: { useCamelCaseFlagKeys: false } };
+    const LaunchDarklyApp = (
+      <LDProvider {...props}>
+        <App />
+      </LDProvider>
+    );
+    const instance = create(LaunchDarklyApp).root.findByType(LDProvider).instance as EnhancedComponent;
+    const mockSetState = jest.spyOn(instance, 'setState');
+
+    await instance.componentDidMount();
+
+    // Each set of the state depends on the previous state, so to re-create the final state, we need to call the
+    // setState function for each call.
+    let finalState = previousState;
+
+    for (const call of mockSetState.mock.calls) {
+      const setStateFunction = call[0] as (p: ProviderState) => ProviderState;
+      finalState = setStateFunction(finalState);
+    }
+
+    expect(mockLDClient.on).toHaveBeenCalledWith('change', expect.any(Function));
+    expect(finalState).toMatchObject({
+      flagKeyMap: {},
+      unproxiedFlags: { 'test-flag': false },
+      flags: { 'test-flag': false },
+    });
+  });
+
   test(`if props.deferInitialization is true, ld client will only initialize once props.user is defined`, async () => {
     options = { ...options, bootstrap: {} };
     const props: ProviderConfig = { clientSideID, deferInitialization: true, options };
