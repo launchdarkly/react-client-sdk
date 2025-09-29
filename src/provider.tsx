@@ -48,6 +48,7 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, ProviderSt
         };
       }
     }
+    this.setState(this.state);
   }
 
   getReactOptions = () => ({ ...defaultReactOptions, ...this.props.reactOptions });
@@ -57,16 +58,19 @@ class LDProvider extends Component<PropsWithChildren<ProviderConfig>, ProviderSt
     ldClient.on('change', (changes: LDFlagChangeset) => {
       const reactOptions = this.getReactOptions();
       const updates = getFlattenedFlagsFromChangeset(changes, targetFlags);
-      const unproxiedFlags = {
-        ...this.state.unproxiedFlags,
-        ...updates,
-      };
+
       if (Object.keys(updates).length > 0) {
-        this.setState((prevState) => ({
-          ...prevState,
-          unproxiedFlags,
-          ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, targetFlags),
-        }));
+        this.setState((prevState: ProviderState) => {
+          const unproxiedFlags = {
+            ...prevState.unproxiedFlags,
+            ...updates,
+          };
+          return {
+            ...prevState,
+            unproxiedFlags,
+            ...getFlagsProxy(ldClient, unproxiedFlags, reactOptions, targetFlags),
+          }
+        });
       }
     });
   };
