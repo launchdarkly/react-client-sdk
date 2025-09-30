@@ -2,6 +2,20 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.9.0](https://github.com/launchdarkly/react-client-sdk/compare/launchdarkly-react-client-sdk-v3.8.1...launchdarkly-react-client-sdk-v3.9.0) (2025-09-30)
+
+
+### Features
+
+* Add experimental debug override functionality. ([63dd495](https://github.com/launchdarkly/react-client-sdk/commit/63dd495f9e393daf24597f9806b7b8ef010a434c))
+* Add experimental debug override functionality. ([4c4f3a3](https://github.com/launchdarkly/react-client-sdk/commit/4c4f3a3b9c62f715f5ec57bac25245a2b5a3a2f2))
+* Add experimental debug override functionality. ([#362](https://github.com/launchdarkly/react-client-sdk/issues/362)) ([63dd495](https://github.com/launchdarkly/react-client-sdk/commit/63dd495f9e393daf24597f9806b7b8ef010a434c))
+
+
+### Bug Fixes
+
+* Fix a race condition when handling multiple flag updates. ([#365](https://github.com/launchdarkly/react-client-sdk/issues/365)) ([8d46bbd](https://github.com/launchdarkly/react-client-sdk/commit/8d46bbdda97ec045ea132fd997ad50a3a840338c))
+
 ## [3.8.1](https://github.com/launchdarkly/react-client-sdk/compare/launchdarkly-react-client-sdk-v3.8.0...launchdarkly-react-client-sdk-v3.8.1) (2025-05-30)
 
 
