@@ -1,0 +1,14 @@
+name: Dependency Scan
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  dependency-scan:
+    uses: launchdarkly/gh-actions/.github/workflows/dependency-scan.yml@main
+    with:
+      types: 'nodejs'
+    secrets: inherit
