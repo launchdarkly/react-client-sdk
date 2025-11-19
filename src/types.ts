@@ -4,7 +4,12 @@ import defaultReactContext from './context';
 
 /**
  * Initialization options for the LaunchDarkly React SDK. These are in addition to the options exposed
- * by [[LDOptions]] which are common to both the JavaScript and React SDKs.
+ * by {@link LDOptions} which are common to both the JavaScript and React SDKs.
+ * 
+ * @remarks
+ * This SDK defaults the `sendEventsOnlyForVariation` value from the `LDOptions` to `true`
+ * due to previous limitations. If you want to send all events, then you should override
+ * this default.
  */
 export interface LDReactOptions {
   /**
