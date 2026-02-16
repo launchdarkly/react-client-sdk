@@ -46,6 +46,20 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
     error = e as Error;
   }
 
+
+  let val = "";
+  val = "a";
+  switch(val) {
+    case "a":
+      break;
+
+    case "b":
+      break;
+
+    default:
+      break;
+  }
+
   const initialFlags = options?.bootstrap && options.bootstrap !== 'localStorage' ? options.bootstrap : fetchedFlags;
 
   const LDProvider = ({ children }: { children: ReactNode }) => {
