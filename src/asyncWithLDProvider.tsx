@@ -38,6 +38,19 @@ export default async function asyncWithLDProvider(config: AsyncProviderConfig) {
   let error: Error;
   let fetchedFlags = {};
 
+  let val = "";
+  val = "a";
+  switch(val) {
+    case "a":
+      break;
+
+    case "b":
+      break;
+
+    default:
+      break;
+  }
+
   const ldClient = (await config.ldClient) ?? initialize(clientSideID, context, { ...wrapperOptions, ...options });
   try {
     await ldClient.waitForInitialization(config.timeout);
