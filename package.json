@@ -26,8 +26,8 @@
     "!**/__snapshots__"
   ],
   "scripts": {
-    "test": "jest",
-    "test:junit": "jest --ci --reporters=default",
+    "test": "jest --coverage",
+    "test:junit": "jest --ci --reporters=default --coverage",
     "clean": "rimraf lib/*",
     "rb": "rollup -c --configPlugin typescript",
     "rbw": "npm run rb --watch",
