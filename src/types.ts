@@ -1,10 +1,20 @@
-import { LDClient, LDContext, LDFlagSet, LDOptions } from 'launchdarkly-js-client-sdk';
+import { LDClient, LDContext, LDFlagSet, LDOptions as CommonLDOptions } from 'launchdarkly-js-client-sdk';
 import * as React from 'react';
 import defaultReactContext from './context';
 
+export interface LDOptions extends CommonLDOptions {
+  /**
+   * Whether analytics events should be sent only when you call variation (true), or also when you
+   * call allFlags (false).
+   *
+   * By default, this is true.
+   */
+  sendEventsOnlyForVariation?: boolean
+}
+
 /**
  * Initialization options for the LaunchDarkly React SDK. These are in addition to the options exposed
- * by [[LDOptions]] which are common to both the JavaScript and React SDKs.
+ * by {@link LDOptions} which are common to both the JavaScript and React SDKs.
  */
 export interface LDReactOptions {
   /**
