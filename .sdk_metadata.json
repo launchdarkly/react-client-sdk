@@ -7,7 +7,10 @@
       "languages": [
         "JavaScript", "TypeScript"
       ],
-      "wrapperNames": ["react-client-sdk"]
+      "wrapperNames": ["react-client-sdk"],
+      "releases": {
+        "tag-prefix": "launchdarkly-react-client-sdk-"
+      }
     }
   }
 }
