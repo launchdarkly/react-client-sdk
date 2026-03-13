@@ -25,7 +25,7 @@
         "privateAttrs": { "introduced": "2.9" },
         "relayProxyProxy": { "introduced": "2.20.2" },
         "secureMode": { "introduced": "2.18" },
-        "track": { "introduced": "1.0" },
+        "track": { "introduced": "2.9" },
         "variationDetail": { "introduced": "2.21" }
       }
     }
