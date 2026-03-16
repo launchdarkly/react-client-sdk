@@ -23,7 +23,7 @@
         "perContextSummaryEvents": { "introduced": "3.8" },
         "pluginSupport": { "introduced": "3.7" },
         "privateAttrs": { "introduced": "2.9" },
-        "relayProxyProxy": { "introduced": "2.20.2" },
+        "relayProxyProxy": { "introduced": "2.9" },
         "secureMode": { "introduced": "2.18" },
         "track": { "introduced": "2.9" },
         "variationDetail": { "introduced": "2.21" }
