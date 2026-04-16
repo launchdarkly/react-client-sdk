@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "declaration": true,
+    "declarationDir": "lib/types",
+    "emitDeclarationOnly": true,
+    "sourceMap": false,
+    "sourceRoot": null,
+    "noEmit": false
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "lib", "dist", "example", "**/*.test.ts", "**/*.test.tsx"]
+}
