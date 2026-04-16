@@ -72,7 +72,7 @@
     "prop-types": "^15.7.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-test-renderer": "^18.0.0",
+    "react-test-renderer": "^19.2.4",
     "rimraf": "^6.0.1",
     "rollup": "^4.19.0",
     "rollup-plugin-esbuild": "^6.1.1",
