@@ -13,12 +13,12 @@
     "bindings"
   ],
   "exports": {
-    "types": "./lib/index.d.ts",
+    "types": "./lib/types/index.d.ts",
     "require": "./lib/cjs/index.js",
     "import": "./lib/esm/index.js"
   },
   "main": "./lib/cjs/index.js",
-  "types": "./lib/index.d.ts",
+  "types": "./lib/types/index.d.ts",
   "files": [
     "lib",
     "src",
@@ -29,7 +29,7 @@
     "test": "jest",
     "test:junit": "jest --ci --reporters=default",
     "clean": "rimraf lib/*",
-    "rb": "rollup -c --configPlugin typescript",
+    "rb": "rollup -c --configPlugin typescript && tsc -p tsconfig.build.json",
     "rbw": "npm run rb --watch",
     "build": "npm run clean && npm run rb",
     "lint": "eslint ./src",
@@ -75,7 +75,6 @@
     "react-test-renderer": "^18.0.0",
     "rimraf": "^6.0.1",
     "rollup": "^4.19.0",
-    "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.1",
     "ts-jest": "^29.2.2",
     "tslib": "^2.8.1",
