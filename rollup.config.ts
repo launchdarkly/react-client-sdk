@@ -1,4 +1,3 @@
-import dts from 'rollup-plugin-dts';
 import esbuild from 'rollup-plugin-esbuild';
 import json from '@rollup/plugin-json';
 import resolve from '@rollup/plugin-node-resolve';
@@ -32,13 +31,5 @@ export default [
     ],
     plugins,
     external,
-  },
-  {
-    input: 'src/index.ts',
-    plugins: [dts(), json()],
-    output: {
-      file: 'lib/index.d.ts',
-      format: 'es',
-    },
   },
 ];
