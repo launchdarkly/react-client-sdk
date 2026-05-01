@@ -1,3 +1,10 @@
+# Use [@launchdarkly/react-sdk](https://www.npmjs.com/package/@launchdarkly/react-sdk) instead of this package.
+
+The `launchdarkly-react-client-sdk` project has been renamed `@launchdarkly/react-sdk` and all future releases will be made from the
+[new repository](https://github.com/launchdarkly/js-core/tree/main/packages/sdk/react). Please consider upgrading and filing issues
+and requests in that repository's [issue tracker](https://github.com/launchdarkly/js-core/issues?q=is%3Aissue+is%3Aopen+label%3A%22package%3A+sdk%2Freact%22+sort%3Aupdated-desc).
+# ☝️☝️☝️☝️☝️☝️
+
 # LaunchDarkly Client-side SDK for React
 
 [![Circle CI](https://circleci.com/gh/launchdarkly/react-client-sdk/tree/main.svg?style=svg)](https://circleci.com/gh/launchdarkly/react-client-sdk/tree/main)
