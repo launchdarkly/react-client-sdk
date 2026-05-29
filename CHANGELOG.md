@@ -2,6 +2,14 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.9.2](https://github.com/launchdarkly/react-client-sdk/compare/launchdarkly-react-client-sdk-v3.9.1...launchdarkly-react-client-sdk-v3.9.2) (2026-05-29)
+
+
+### Bug Fixes
+
+* bump js-client-sdk ([b7e36dc](https://github.com/launchdarkly/react-client-sdk/commit/b7e36dc34f77867f6ee93cfb2492bf7b3656704a))
+* bump js-client-sdk ([#395](https://github.com/launchdarkly/react-client-sdk/issues/395)) ([6da483b](https://github.com/launchdarkly/react-client-sdk/commit/6da483b96180ff99ccee89d02ed33dbaf76f66ef))
+
 ## [3.9.1](https://github.com/launchdarkly/react-client-sdk/compare/launchdarkly-react-client-sdk-v3.9.0...launchdarkly-react-client-sdk-v3.9.1) (2026-05-01)
 
 
