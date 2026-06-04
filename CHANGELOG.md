@@ -2,6 +2,14 @@
 
 All notable changes to the LaunchDarkly Client-side SDK for React will be documented in this file. For the source code for versions 2.13.0 and earlier, see the corresponding tags in the [js-client-sdk](https://github.com/launchdarkly/js-client-sdk) repository; this code was previously in a monorepo package there. See also the [JavaScript SDK changelog](https://github.com/launchdarkly/js-client-sdk/blob/main/CHANGELOG.md), since the React SDK inherits all of the underlying functionality of the JavaScript SDK; this file covers only changes that are specific to the React interface. This project adheres to [Semantic Versioning](http://semver.org).
 
+## [3.9.3](https://github.com/launchdarkly/react-client-sdk/compare/launchdarkly-react-client-sdk-v3.9.2...launchdarkly-react-client-sdk-v3.9.3) (2026-06-04)
+
+
+### Bug Fixes
+
+* upgrade @rollup/plugin-terser to fix serialize-javascript vulnerability ([1570433](https://github.com/launchdarkly/react-client-sdk/commit/157043368304cc0949cd92a2908f1c6fb13ed04c))
+* upgrade @rollup/plugin-terser to fix serialize-javascript vulnerability ([#398](https://github.com/launchdarkly/react-client-sdk/issues/398)) ([b5a4c27](https://github.com/launchdarkly/react-client-sdk/commit/b5a4c27963491118d79c5babab29c6c9e3a284ad))
+
 ## [3.9.2](https://github.com/launchdarkly/react-client-sdk/compare/launchdarkly-react-client-sdk-v3.9.1...launchdarkly-react-client-sdk-v3.9.2) (2026-05-29)
 
 
