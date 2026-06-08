@@ -5,6 +5,6 @@ module.exports = {
     '\\.(ts|tsx)$': 'ts-jest',
   },
   testRegex: '.*\\.test\\.(ts|tsx)$',
-  testPathIgnorePatterns: ['/node_modules/', '/examples/'],
+  testPathIgnorePatterns: ['/node_modules/'],
   testEnvironment: 'jest-environment-jsdom-global',
 };
