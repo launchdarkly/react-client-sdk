@@ -4,9 +4,9 @@
   "description": "Example usage of launchdarkly-react-client-sdk",
   "main": "src/server/index.js",
   "scripts": {
-    "start": "NODE_OPTIONS=--openssl-legacy-provider node src/server/index.js",
+    "build": "NODE_OPTIONS=--openssl-legacy-provider webpack --config webpack.config.client.js && NODE_OPTIONS=--openssl-legacy-provider webpack --config webpack.config.server.js",
+    "start": "npm run build && node dist/serverBundle.js",
     "lint": "eslint ./src",
-    "serve": "webpack-serve webpack.config.server",
     "postinstall": "cd ../../ && yarn link-dev"
   },
   "repository": {
@@ -53,11 +53,9 @@
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-react": "^7.11.1",
-    "universal-hot-reload": "^3.3.4",
     "webpack": "^4.39.3",
     "webpack-cli": "^3.3.7",
-    "webpack-node-externals": "^1.7.2",
-    "webpack-serve": "^3.1.1"
+    "webpack-node-externals": "^1.7.2"
   },
   "resolutions": {
     "acorn": "npm:acorn-with-stage3"
