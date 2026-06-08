@@ -59,6 +59,8 @@
     "webpack-serve": "^2.0.3"
   },
   "resolutions": {
-    "acorn": "npm:acorn-with-stage3"
+    "acorn": "npm:acorn-with-stage3",
+    "node-forge": "^1.4.0",
+    "tmp": "^0.2.6"
   }
 }
