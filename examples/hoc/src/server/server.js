@@ -1,7 +1,7 @@
 import Express from 'express';
 import React from 'react';
 import { renderToString } from 'react-dom/server';
-import { StaticRouter } from 'react-router-dom';
+import { StaticRouter } from 'react-router-dom/server';
 import App from '../universal/app';
 
 const PORT = 3000;
@@ -19,7 +19,7 @@ app.use((req, res) => {
                       </head>
                       <body>
                         <div id="reactDiv">${renderToString(
-                          <StaticRouter location={req.url} context={{}}>
+                          <StaticRouter location={req.url}>
                             <App />
                           </StaticRouter>,
                         )}</div>
