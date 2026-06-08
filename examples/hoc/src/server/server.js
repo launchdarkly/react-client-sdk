@@ -23,7 +23,7 @@ app.use((req, res) => {
                             <App />
                           </StaticRouter>,
                         )}</div>
-                        <script type="application/javascript" src="http://localhost:3002/dist/bundle.js"></script>
+                        <script type="application/javascript" src="/dist/bundle.js"></script>
                       </body>
                     </html>`;
 

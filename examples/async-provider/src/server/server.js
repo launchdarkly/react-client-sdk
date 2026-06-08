@@ -15,7 +15,7 @@ app.use((req, res) => {
                       </head>
                       <body>
                         <div id="reactDiv"></div>
-                        <script type="application/javascript" src="http://localhost:3002/dist/bundle.js"></script>
+                        <script type="application/javascript" src="/dist/bundle.js"></script>
                       </body>
                     </html>`;
 

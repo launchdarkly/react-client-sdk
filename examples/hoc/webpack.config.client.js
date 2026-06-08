@@ -1,14 +1,12 @@
 const path = require('path');
 
-const WebpackServeUrl = 'http://localhost:3002';
-
 module.exports = {
   mode: 'development',
   devtool: 'source-map',
   entry: ['@babel/polyfill', './src/client/index'],
   output: {
     path: path.resolve('dist'),
-    publicPath: `${WebpackServeUrl}/dist/`, // MUST BE FULL PATH!
+    publicPath: '/dist/',
     filename: 'bundle.js',
   },
   module: {
