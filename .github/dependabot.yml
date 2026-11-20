@@ -1,28 +1,28 @@
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directories:
+      - '/'
+      - '/.github/actions/*'
     schedule:
-      interval: "daily"
-    # Dependency quarantine: only adopt releases that are at least 7 days old.
+      interval: 'monthly'
     cooldown:
       default-days: 7
-    # Restrict version updates to the current major version. Security updates are
-    # exempt (update-types does not affect security updates), so Dependabot may
-    # still bump a major version when required to resolve a vulnerability.
+      exclude:
+        - 'launchdarkly/*'
     ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
-  - package-ecosystem: "npm"
-    directory: "/"
+    - dependency-name: '*'
+      update-types: ['version-update:semver-major']
+
+  - package-ecosystem: 'npm'
+    directory: '/'
     schedule:
-      interval: "daily"
-    # Dependency quarantine: only adopt releases that are at least 7 days old.
+      interval: 'monthly'
     cooldown:
       default-days: 7
-    # Restrict version updates to the current major version. Security updates are
-    # exempt (update-types does not affect security updates), so Dependabot may
-    # still bump a major version when required to resolve a vulnerability.
+      exclude:
+        - 'launchdarkly*'
+        - '@launchdarkly/*'
     ignore:
-      - dependency-name: "*"
-        update-types: ["version-update:semver-major"]
+    - dependency-name: '*'
+      update-types: ['version-update:semver-major']
