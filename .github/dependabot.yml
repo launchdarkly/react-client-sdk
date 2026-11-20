@@ -11,5 +11,18 @@ updates:
       exclude:
         - 'launchdarkly/*'
     ignore:
-      - dependency-name: '*'
-        update-types: ['version-update:semver-major']
+    - dependency-name: '*'
+      update-types: ['version-update:semver-major']
+
+  - package-ecosystem: 'npm'
+    directory: '/'
+    schedule:
+      interval: 'monthly'
+    cooldown:
+      default-days: 7
+      exclude:
+        - 'launchdarkly*'
+        - '@launchdarkly/*'
+    ignore:
+    - dependency-name: '*'
+      update-types: ['version-update:semver-major']
