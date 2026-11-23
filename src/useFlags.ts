@@ -1,4 +1,4 @@
-import { LDFlagSet } from 'launchdarkly-js-client-sdk';
+import { LDFlagSet, LDFlagValue } from 'launchdarkly-js-client-sdk';
 import React, { useContext } from 'react';
 import { defaultReactOptions, ReactSdkContext } from './types';
 
@@ -12,9 +12,10 @@ import { defaultReactOptions, ReactSdkContext } from './types';
  *
  * @return All the feature flags configured in your LaunchDarkly project
  */
-const useFlags = <T extends LDFlagSet = LDFlagSet>(reactContext?: React.Context<ReactSdkContext>): T => {
+function useFlags<T extends Record<string, LDFlagValue> = LDFlagSet>(reactContext?: React.Context<ReactSdkContext>): T {
   const { flags } = useContext<ReactSdkContext>(reactContext ?? defaultReactOptions.reactContext);
 
   return flags as T;
-};
+}
+
 export default useFlags;
